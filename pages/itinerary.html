@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+      integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link rel="stylesheet" href="renderstyle.css" />
+    <title>Document</title>
+  </head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Gideon+Roman&display=swap');
+    </style>    
+
+  <body>
+    
+    <div id="preloader">
+      <div class="preloader-container">
+        <dotlottie-player src="https://lottie.host/1b24d8b6-7485-47c9-b7a6-02ad287d0c73/RAP8hEuQC8.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+        <p class="preloader-text">Creating your Itinerary</p>
+      </div>
+    </div>
+      
+    <div class="p-container">
+      <div class="leftie">
+
+      </div>
+
+      <div class="pardhan" style="border: 1px dashed #676767;">
+        <div class="a4-container">
+          <div
+            class="main-container"
+            style="
+              height: 400px;
+              background: url(images/Group\ 76277.png);
+              background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+            "
+          >
+            <div class="left-half">
+              <img
+                src="your-image.jpg"
+                class="additional-image"
+                id="main-image"
+              />
+            </div>
+  
+            <div class="right-half">
+              <div class="top-right" style="display: flex ; flex-direction: column;">
+                
+                  <img src="images/logo.jpg" alt="" style="width: 140px ; height: 50px; " />
+               
+                <div class="agent-det" style="margin-left: 10px">
+                  <i class="ri-mail-line"></i> rabagem802@finghy.com <br />
+                  <i class="ri-phone-fill"></i> (206) 342-8631
+                </div>
+              </div>
+  
+              <div class="bottom-right" style="margin-top: 10px">
+                <p
+                  class="heading"
+                  style="
+                    font-size: 30px;
+                    font-family: Abril Fatface, serif;
+                    font-weight: 300;
+                  "
+                ></p>
+
+                <div class="dates" style="display: flex; justify-content: flex-start; ">
+
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- some pkg info -->
+          <div
+            class="content-container"
+            style="
+              border: 1px dashed #676767;
+              background-color: #f7f6f6;
+              padding: 20px;
+              margin-top: 10px;
+            "
+          >
+            <p class="second-content"></p>
+          </div>
+  
+          <div
+          id = "agento" 
+            class="travel-agent "
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              background-color: #397888;
+              color: white;
+              padding: 20px;
+              margin-top: 55px;
+              height: 100px;
+            "
+          >
+            <div style="width: 50%; margin-left: 45px; font-size: 28px">
+              travel <br />
+              agent
+            </div>
+  
+            <img
+              src="images/suitcase.png"
+              alt=""
+              style="
+                width: 55px;
+                margin-right: 25px;
+                z-index: 1;
+                margin-top: 45px;
+              "
+            />
+            <img
+              src="images/lady-gaga.png"
+              alt="Image"
+              style="
+                height: 200px;
+                margin-left: 10px;
+                margin-right: 10px;
+                z-index: 1;
+              "
+            />
+            <div style="width: 50%; margin-left: 50px; font-size: 18px">
+              Agency Name: <br />
+              xyz travels
+            </div>
+          </div>
+  
+          <div style="text-align: right; margin-top: 10px; padding-right: 15px">
+            Connect with me on <br />
+            <i class="ri-mail-line"></i> rabagem802@finghy.com <br />
+            <i class="ri-phone-fill"></i> (206) 342-8631
+          </div>
+  
+          <div class="highlights" style="margin-top: 45px">
+            <div
+              class="highlight-heading"
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: #397888;
+                height: 100px;
+                color: white;
+                padding: 10px;
+                margin-bottom: 0;
+              "
+            >
+              <h2 style="margin: 0">Trip Highlights</h2>
+              <img
+                src="images/camera.png"
+                alt="Image"
+                style="width: 100px; height: 100px; z-index: 1"
+              />
+            </div>
+  
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+                margin-bottom: 0;
+              "
+            >
+              <img
+                src="images/Group 76756.png"
+                alt="Trip Highlights Image"
+                style="width: 280px; margin-right: 20px; margin-bottom: 10px;  object-fit: cover;"
+              />
+              <div style="padding-right: 15px">
+                <ul
+                  style="
+                    list-style-type: none;
+                    margin-top: 10px;
+                    padding-left: 0;
+                    color: #717171;
+                    font-weight: 500;
+                  "
+                ></ul>
+              </div>
+            </div>
+          </div>
+  
+          <div class="highlights" id = "itineraryo">
+            <div
+              class="highlight-heading"
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: #397888;
+                height: 100px;
+                color: white;
+                padding: 10px;
+                margin-bottom: 0;
+              "
+            >
+              <h2 style="margin: 0">Tour Itinerary</h2>
+              <img
+                src="images/map.png"
+                alt="Image"
+                style="width: 100px; height: 100px; z-index: 1"
+              />
+            </div>
+          </div>
+  
+          <!-- here itinerary-details will be binded -->
+          <div class="itinerary" style="margin-top: 25px; position: relative;">
+            <div class="itinerary-item">
+              <span class="itinerary-badge"><span uk-icon="check"></span></span>
+              <img
+                src="images/calender.png"
+                alt="Arrival Image"
+                class="itinerary-image"
+                style="height: 40px; width: 40px"
+              />
+              <div class="itinerary-details">
+                <div class="flex-container">
+                  <div class="image-container">
+                    <img
+                      src="images/date-arrow.png"
+                      alt="Image"
+                      style="width: 200px"/>
+                   
+                  </div>
+                  <div class="title-box"></div>
+                </div>
+              </div>
+            </div>
+            <div class="trip-details">
+              <div class="timeline">
+                <div class="circle"></div>
+              </div>
+  
+              <div class="border-box">
+                <p><strong></strong></p>
+              </div>
+            </div>
+  
+            <div class="itinerary-item">
+              <span class="itinerary-badge"><span uk-icon="check"></span></span>
+              <img
+                src="images/calender.png"
+                alt="Arrival Image"
+                class="itinerary-image"
+                style="height: 40px; width: 40px"
+              />
+              <div class="itinerary-details">
+                <div class="flex-container">
+                  <div class="image-container">
+                    <img
+                      src="images/date-arrow.png"
+                      alt="Image"
+                      style="width: 200px"
+                    />
+                    <div class="image-content"></div>
+                  </div>
+                  <div class="title-box"></div>
+                </div>
+              </div>
+            </div>
+            <div class="trip-details">
+              <div class="timeline">
+                <div class="circle"></div>
+              </div>
+              <div class="border-box"></div>
+              <div class="timeline">
+                <div class="circle"></div>
+              </div>
+              <div class="border-box"></div>
+            </div>
+          </div>
+  
+          <div></div>
+          
+          <div class="container" id ="incexc" style="padding: 45px; background-color: #397888; margin-top: 25px">
+  
+            <div class="first-box " style="margin-right: 5px; width: 50%;">
+              <h3 style="width: 100%;">See what’s included in the trip</h3>
+              <div class="box">
+                <ul>
+                  <li><span class="tick-mark">&#10003;</span></li>
+                </ul>
+              </div>
+            </div>
+  
+            <div class="second-box "  style="margin-right: 5px; width: 50%;">
+              <h3 style="width: 100%;">See what’s not included in the trip</h3>
+              <div class="box">
+                <ul>
+                  <li><span class="tick-mark">&#10003;</span></li>
+                </ul>
+              </div>
+            </div>
+  
+          </div>
+  
+          <div
+            class="will-stay"
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              background-color: #397888;
+              height: 80px;
+              color: white;
+              padding: 20px;
+              margin-bottom: 0;
+              margin-top: 25px;
+            "
+          >
+            <h2 style="margin: 0">Where you will stay</h2>
+            <img
+              src="images/map.png"
+              alt="Image"
+              style="width: 100px; height: 100px; z-index: 1"
+            />
+          </div>
+          <!-- here hotel details are binded -->
+          <div
+            class="container-custom" id = "hotelo"
+            style="margin-top: 25px; padding: 10px; position: relative"
+          >
+        </div>
+  
+          <div class="custom-container" id = "rateso">
+            <div class="heading-box">
+              <h5>Tour Date</h5>
+              <h5>Room Type</h5>
+              <h5>Room Category</h5>
+              <h5>Twin/Triple Sharing</h5>
+              <h5>Single Occupancy</h5>
+            </div>
+            <div class="content-box" style="height: 11px">
+              <!-- Content goes here -->
+            </div>
+          </div>
+          <div class="add-rate">
+            <button>Add Rate</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="rightie">
+        <button id="downloadBtn" onclick="downloadPDF()">Download</button>
+        <div class="download-box">
+
+          <div class="gif-container" style="width: 100%; display: flex; justify-content: center;">
+            <dotlottie-player src="https://lottie.host/a6b83397-f6a1-4237-b67b-42e1de18b221/OrcAXZrNYf.json" background="transparent" speed="1" style="width: 100px;" loop autoplay></dotlottie-player>
+          </div>
+         
+        </div>
+        
+        <div class="sidebar-content">
+          <span style="font-size: large; font-weight: 800;">Your Itinerary is Ready</span>
+          <p>Click on the download button and save your Itinerary!</p>
+        </div>
+       
+      </div>
+      
+      <div class="nav">
+        <button onclick="scrollToSection('agento')">
+          <span class="nav-icon">&#x1F6EB;</span> 
+          Travel Agent
+        </button>
+        <button onclick="scrollToSection('itineraryo')">
+          <span class="nav-icon">&#x1F4C5;</span> 
+          Tour Itineraries
+        </button>
+        <button onclick="scrollToSection('incexc')">
+          <span class="nav-icon">&#x2611;</span> 
+          Inclusions & Exclusions
+        </button>
+        <button onclick="scrollToSection('hotelo')">
+          <span class="nav-icon">&#x1F3E8;</span> 
+          Hotel Details
+        </button>
+        <button onclick="scrollToSection('rateso')">
+          <span class="nav-icon">&#x1F4B8;</span> 
+          Rates
+        </button>
+      </div>
+      
+      
+      
+
+     
+
+      <button id="scrollToTopBtn" title="Go to top">
+    <dotlottie-player src="https://lottie.host/69831dfa-6325-4bd2-88f8-a91e7d41dc28/Wz52ZrCWrl.json" background="transparent" speed="1" style="width: 60px; " loop autoplay></dotlottie-player>
+      </button>
+      
+    </div>
+
+    <script src="renderscript.js"></script>
+  </body>
+</html>
