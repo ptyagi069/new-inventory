@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id = "changeit"> PACKAGE TITLE </title>
+    <style>
+#loader {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .loader-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+    background-color: #2c3e50;
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 400;
+        }
+        h1 {
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Form styles */
+        .form-div {
+            
+    max-width: 500px;
+    margin: 10% auto;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-div h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 600;
+    font-size: 28px;
+}
+
+#uploadForm label {
+    display: block;
+    margin-bottom: 10px;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #555;
+}
+#message {
+    width: 400px; /* Set the desired width */
+    height: 150px; /* Set the desired initial height */
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    resize: none; /* Prevent manual resizing */
+    overflow: auto; /* Add scrollbars when necessary */
+}
+#uploadForm input[type="file"],
+#uploadForm textarea {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 16px;
+    color: #333;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+#uploadForm input[type="file"]:focus,
+#uploadForm textarea:focus {
+    outline: none;
+}
+
+#uploadForm input[type="submit"] {
+       
+
+    color: #fff;
+     background-color: #2c3e50;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#uploadForm input[type="submit"]:hover {
+    background-color: #385067;
+}
+        /* File List Styles */
+        #fileList {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .file-item {
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-icon {
+            width: 70px;
+            height: 70px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .file-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .chat-container {
+           width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-message {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .chat-message img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .chat-message .message-content {
+            width: 200px;
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-message .file-name {
+            font-size: 14px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <span id="navbarTitle"></span>
+    </nav>
+    <div id="loader">
+        <div class="loader-spinner"></div>
+    </div>
+    <div class="container" style="display: flex; justify-content: space-around; width: 100%;">
+        <div class="form-div" style="margin-top:  10%;">
+            <h1>Add a File</h1>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <label for="file">Choose a file:</label>
+                <input type="file" id="file" name="file" required><br>
+
+                <label for="message">Add a message:</label>
+                <textarea id="message" name="message" required></textarea><br>
+
+                <div class="submit-btn-div" style="width: 100%; text-align: center;">
+                    <input type="submit" value="Upload">
+                </div>
+            </form>
+        </div>
+        <div id="response" style="display: none;"></div>
+        <div class="chat-container">
+            <h1>Uploaded Files</h1>
+            <div id="fileList" ></div>
+        </div>
+    </div>
+
+    <script>
+        const pkgTitle = localStorage.getItem('selectedPackageTitle').toString();
+        document.getElementById('navbarTitle').textContent = pkgTitle;
+        document.getElementById('changeit').textContent = pkgTitle;
+        const pkgID = parseInt(localStorage.getItem('selectedPackageID'));
+        const pkgName = localStorage.getItem('sselectedPackageTitle');
+        
+        console.log(pkgID);
+
+         document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            document.getElementById('loader').style.display = 'block';
+
+            const formData = new FormData();
+            formData.append('file', document.getElementById('file').files[0]);
+            formData.append('message', document.getElementById('message').value);
+            formData.append('pkgID', pkgID);
+
+            try {
+                const response = await fetch('http://localhost:3000/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to upload file');
+                } else {
+                    const result = await response.json();
+                    console.log(result);
+                    window.location.reload();
+                }
+            } catch (error) {
+                console.error('Error:', error.message);
+                document.getElementById('response').innerText = 'Error: ' + error.message;
+            } finally {
+                document.getElementById('loader').style.display = 'none';
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', async function() {
+    // Retrieve package ID from local storage and convert to integer
+    const pkgID = parseInt(localStorage.getItem('selectedPackageID'));
+
+    // Fetch files for the package ID from the API
+    try {
+        const response = await fetch(`http://localhost:3000/files/${pkgID}`);
+        if (!response.ok) {
+            throw new Error('Failed to retrieve files');
+        }
+        const data = await response.json();
+        const files = data.files;
+        const fileList = document.getElementById('fileList');
+
+        // Check if there are no files
+        if (files.length === 0) {
+            const noFilesMessage = document.createElement('p');
+            noFilesMessage.textContent = 'NO FILES PRESENT FOR THIS PACKAGE';
+            fileList.appendChild(noFilesMessage);
+        } else {
+            // Display the files
+            files.forEach(file => {
+                const chatMessage = document.createElement('div');
+                chatMessage.className = 'chat-message';
+
+                // Construct image URL with server domain
+                const imageUrl = `http://localhost:3000${file.filepath.replace(/^\.\//, '/')}`;
+
+                // Create an icon with onclick event to view or download the file
+                const fileIcon = document.createElement('img');
+                fileIcon.src = 'documents.png'; // Replace with your file icon image
+                fileIcon.className = 'file-icon';
+                fileIcon.title = file.message; // Show message as tooltip
+                fileIcon.addEventListener('click', function() {
+                    window.open(imageUrl, '_blank').focus(); // Download the file
+                });
+
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+
+                const messageText = document.createElement('p');
+                messageText.textContent = file.message;
+
+                const fileName = document.createElement('p');
+                fileName.className = 'file-name';
+                fileName.textContent = file.filepath.split('/').pop();
+
+                messageContent.appendChild(messageText);
+                messageContent.appendChild(fileName);
+
+                chatMessage.appendChild(fileIcon);
+                chatMessage.appendChild(messageContent);
+
+                fileList.appendChild(chatMessage);
+            });
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
+        alert('Failed to retrieve files');
+    }
+});
+
+   </script>
+</body>
+</html>

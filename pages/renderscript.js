@@ -12,12 +12,10 @@ window.addEventListener('load', function() {
 
 async function fetchAndUpdateContent() {
   try {
-    const storedData = localStorage.getItem("travelFormData");
-    if (storedData) {
-      const formData = JSON.parse(storedData);
-      const pkgID = formData.packageID;
-      const packageInfoApiUrl = `https://mobileapi.cultureholidays.com/api/Holidays/PacKageInfo?PKG_ID=${pkgID}`;
-      const packageImagesApiUrl = `https://mobileapi.cultureholidays.com/api/Holidays/PackageImages?PKG_ID=${pkgID}`;
+    const pkgID = parseInt(localStorage.getItem('selectedPackageID'));
+    if (pkgID) {
+      const packageInfoApiUrl = `https://devapi.cultureholidays.com/api/Holidays/PacKageInfo?PKG_ID=${pkgID}`;
+      const packageImagesApiUrl = `https://devapi.cultureholidays.com/api/Holidays/PackageImages?PKG_ID=${pkgID}`;
       const packageInfoResponse = await fetch(packageInfoApiUrl);
       const packageInfo = await packageInfoResponse.json();
       const packageImagesResponse = await fetch(packageImagesApiUrl);
@@ -80,11 +78,12 @@ async function fetchAndUpdateContent() {
 
 async function fetchAndUpdateItinerary() {
   try {
-    const storedData = localStorage.getItem("travelFormData");
-    if (storedData) {
+    const pkgID = parseInt(localStorage.getItem('selectedPackageID'));
+
+    if (pkgID) {
       const formData = JSON.parse(storedData);
-      const pkgID = formData.packageID;
-      const packageItineraryApiUrl = `https://mobileapi.cultureholidays.com/api/Holidays/PacKageItieneary?PKG_ID=${pkgID}`;
+      // const pkgID = formData.packageID;
+      const packageItineraryApiUrl = `https://devapi.cultureholidays.com/api/Holidays/PacKageItieneary?PKG_ID=${pkgID}`;
 
       const packageItineraryResponse = await fetch(packageItineraryApiUrl);
       const packageItinerary = await packageItineraryResponse.json();
@@ -166,11 +165,12 @@ async function fetchAndUpdateItinerary() {
 
 async function fetchAndUpdateInclusionsExclusions() {
   try {
-    const storedData = localStorage.getItem("travelFormData");
-    if (storedData) {
-      const formData = JSON.parse(storedData);
-      const pkgID = formData.packageID;
-      const inclusionExclusionApiUrl = `https://mobileapi.cultureholidays.com/api/Holidays/PacKageInclusionAndExclusion?PKG_ID=${pkgID}`;
+    const pkgID = parseInt(localStorage.getItem('selectedPackageID'));
+
+    if (pkgID) {
+      // const formData = JSON.parse(storedData);
+      // const pkgID = formData.packageID;
+      const inclusionExclusionApiUrl = `https://devapi.cultureholidays.com/api/Holidays/PacKageInclusionAndExclusion?PKG_ID=${pkgID}`;
 
       const inclusionExclusionResponse = await fetch(inclusionExclusionApiUrl);
       const inclusionExclusionData = await inclusionExclusionResponse.json();
@@ -211,11 +211,12 @@ async function fetchAndUpdateInclusionsExclusions() {
 
 async function fetchAndUpdateHotelDetails() {
   try {
-    const storedData = localStorage.getItem("travelFormData");
-    if (storedData) {
-      const formData = JSON.parse(storedData);
+    const pkgID = parseInt(localStorage.getItem('selectedPackageID'));
+
+    if (pkgID) {
+      // const formData = JSON.parse(storedData);
       const pkgID = formData.packageID;
-      const hotelDetailsApiUrl = `https://mobileapi.cultureholidays.com/api/Holidays/PacKageHotel?PKG_ID=${pkgID}`;
+      const hotelDetailsApiUrl = `https://devapi.cultureholidays.com/api/Holidays/PacKageHotel?PKG_ID=${pkgID}`;
 
       const hotelDetailsResponse = await fetch(hotelDetailsApiUrl);
       const hotelDetails = await hotelDetailsResponse.json();
@@ -272,13 +273,15 @@ async function fetchAndUpdateHotelDetails() {
 
 async function downloadPDF() {
   const a4Container = document.querySelector('.a4-container');
+            const pkgID = parseInt(localStorage.getItem('selectedPackageID'));
 
   try {
-    const storedData = localStorage.getItem("travelFormData");
-    if (storedData) {
-      const formData = JSON.parse(storedData);
-      const pkgID = formData.packageID;
-      const packageInfoApiUrl = `https://mobileapi.cultureholidays.com/api/Holidays/PacKageInfo?PKG_ID=${pkgID}`;
+    const pkgID = parseInt(localStorage.getItem('selectedPackageID'));
+
+    if (pkgID) {
+      // const formData = JSON.parse(storedData);
+      // const pkgID = formData.packageID;
+      const packageInfoApiUrl = `https://devapi.cultureholidays.com/api/Holidays/PacKageInfo?PKG_ID=${pkgID}`;
       const packageInfoResponse = await fetch(packageInfoApiUrl);
       const packageInfo = await packageInfoResponse.json();
 
@@ -308,7 +311,6 @@ async function downloadPDF() {
 
 let scrollToTopBtn = document.getElementById("scrollToTopBtn");
 
-// Show or hide the button based on scroll position
 window.onscroll = function() {
   scrollFunction();
 };
@@ -320,7 +322,7 @@ function scrollFunction() {
     scrollToTopBtn.style.display = "none";
   }
 }
-// the moment this button will be clicked scrolled to the top
+
 scrollToTopBtn.addEventListener("click", function() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
