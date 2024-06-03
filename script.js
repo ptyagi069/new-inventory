@@ -242,6 +242,7 @@ async function displayPackageDetails(pkg_ID, pkg_TITLE) {
 
   const packageDetailsContainer = document.getElementById("packageDetails");
   const filteredPackagesContainer = document.getElementById("filteredPackages");
+  packageDetailsContainer.style.textAlign = 'center';
 
   if (packageInfo.length > 0) {
     displayitineraryitems(pkg_ID);
@@ -249,7 +250,7 @@ async function displayPackageDetails(pkg_ID, pkg_TITLE) {
     fetchInclusionsExclusions(pkg_ID);
     const pkg = packageInfo[0];
     packageDetailsContainer.innerHTML = `
-            <h3 class="package-title">${pkg_TITLE}</h3>
+            <h1 class="package-title">${pkg_TITLE}</h1>
             <div class="package-content">${pkg.inF_DESCRIPTION}</div>
         `;
   } else {
@@ -257,7 +258,7 @@ async function displayPackageDetails(pkg_ID, pkg_TITLE) {
     displayHotelDetails(pkg_ID);
     fetchInclusionsExclusions(pkg_ID);
     packageDetailsContainer.innerHTML = `
-        <h3 class="package-title">${pkg_TITLE}</h3>
+        <h1 class="package-title">${pkg_TITLE}</h1>
         <div class="package-content">NO DATA FOUND</div>
     `;
   }
@@ -415,103 +416,122 @@ async function displaySupplierRateTable(pkg_ID) {
     const response = await fetch(
       `https://devapi.cultureholidays.com/GetSupplierRate?PKG_ID=${pkg_ID}`
     );
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const supplierRateData = await response.json();
-
     const supplierRateTableContainer = document.getElementById(
       "supplierRateTableContainer"
     );
     supplierRateTableContainer.innerHTML = ""; // Clear previous items
 
-    if (supplierRateData && supplierRateData.length > 0) {
-      const table = document.createElement("table");
-      table.classList.add("table");
+    const table = document.createElement("table");
+    table.classList.add("table");
 
-      const thead = document.createElement("thead");
-      const headerRow = document.createElement("tr");
-      const headers = [
-        "Minimum No. of PAX",
-        "Date Range",
-        "Single Occupancy",
-        "Double Occupancy",
-        "Extra Bed",
-        "Download",
-      ];
-      headers.forEach((headerText) => {
-        const th = document.createElement("th");
-        th.textContent = headerText;
-        headerRow.appendChild(th);
-      });
-      thead.appendChild(headerRow);
-      table.appendChild(thead);
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    const headers = [
+      "Minimum No. of PAX",
+      "Date Range",
+      "Single Occupancy",
+      "Double Occupancy",
+      "Extra Bed",
+      "Download",
+    ];
+    headers.forEach((headerText) => {
+      const th = document.createElement("th");
+      th.textContent = headerText;
+      headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
 
-      // Create table body
-      const tbody = document.createElement("tbody");
-      supplierRateData.forEach((rate) => {
-        const row = document.createElement("tr");
+    // Create table body
+    const tbody = document.createElement("tbody");
 
-        const noOfPaxCell = document.createElement("td");
-        noOfPaxCell.textContent = rate.noOfPax;
-        row.appendChild(noOfPaxCell);
+    if (response.ok) {
+      const supplierRateData = await response.json();
+      if (supplierRateData && supplierRateData.length > 0) {
+        supplierRateData.forEach((rate) => {
+          const row = document.createElement("tr");
 
-        const dateRangeCell = document.createElement("td");
-        dateRangeCell.textContent = `${rate.date_from} - ${rate.date_To}`;
-        row.appendChild(dateRangeCell);
+          const noOfPaxCell = document.createElement("td");
+          noOfPaxCell.textContent = rate.noOfPax;
+          row.appendChild(noOfPaxCell);
 
-        const singleOccCell = document.createElement("td");
-        singleOccCell.textContent = rate.singleOcc;
-        row.appendChild(singleOccCell);
+          const dateRangeCell = document.createElement("td");
+          dateRangeCell.textContent = `${rate.date_from} - ${rate.date_To}`;
+          row.appendChild(dateRangeCell);
 
-        const doubleOccCell = document.createElement("td");
-        doubleOccCell.textContent = rate.doubleOcc;
-        row.appendChild(doubleOccCell);
+          const singleOccCell = document.createElement("td");
+          singleOccCell.textContent = rate.singleOcc;
+          row.appendChild(singleOccCell);
 
-        const extraBedCell = document.createElement("td");
-        extraBedCell.textContent = rate.extraBed;
-        row.appendChild(extraBedCell);
+          const doubleOccCell = document.createElement("td");
+          doubleOccCell.textContent = rate.doubleOcc;
+          row.appendChild(doubleOccCell);
 
-        const downloadRateCell = document.createElement("td");
-        if (rate.remarks) {
-          const downloadLink = document.createElement("a");
-          downloadLink.href = `https://cmx.cultureholidays.com${rate.remarks.replace(
-            "..",
-            ""
-          )}`;
-          downloadLink.textContent = "Download";
-          downloadLink.target = "_blank"; // Open the link in a new tab
-          downloadRateCell.appendChild(downloadLink);
-        } else {
-          downloadRateCell.textContent = "N/A";
-        }
-        row.appendChild(downloadRateCell);
+          const extraBedCell = document.createElement("td");
+          extraBedCell.textContent = rate.extraBed;
+          row.appendChild(extraBedCell);
 
-        tbody.appendChild(row);
-      });
-      table.appendChild(tbody);
+          const downloadRateCell = document.createElement("td");
+          if (rate.remarks) {
+            const downloadLink = document.createElement("a");
+            downloadLink.href = `https://cmx.cultureholidays.com${rate.remarks.replace(
+              "..",
+              ""
+            )}`;
+            downloadLink.textContent = "Download";
+            downloadLink.target = "_blank"; // Open the link in a new tab
+            downloadRateCell.appendChild(downloadLink);
+          } else {
+            downloadRateCell.textContent = "N/A";
+          }
+          row.appendChild(downloadRateCell);
 
-      supplierRateTableContainer.appendChild(table);
+          tbody.appendChild(row);
+        });
+      } else {
+        const noDataRow = document.createElement("tr");
+        const emptyDataCell = document.createElement("td");
+        emptyDataCell.colSpan = 6; // Span all columns
+        emptyDataCell.textContent = "N/A";
+        noDataRow.appendChild(emptyDataCell);
+        tbody.appendChild(noDataRow);
+      }
     } else {
-      const noDataMessage = document.createElement("h3");
-      noDataMessage.textContent =
-        "No supplier rate data found for the given package ID.";
-      supplierRateTableContainer.appendChild(noDataMessage);
+      const errorRow = document.createElement("tr");
+      const errorCell = document.createElement("td");
+      errorCell.colSpan = 6; // Span all columns
+      errorCell.textContent = "N/A";
+      errorRow.appendChild(errorCell);
+      tbody.appendChild(errorRow);
     }
+
+    table.appendChild(tbody);
+    supplierRateTableContainer.appendChild(table);
+
   } catch (error) {
     const supplierRateTableContainer = document.getElementById(
       "supplierRateTableContainer"
     );
     supplierRateTableContainer.innerHTML = "";
 
-    const errorMessage = document.createElement("h3");
-    errorMessage.textContent =
-      "No supplier rate data found.";
-    supplierRateTableContainer.appendChild(errorMessage);
-    // console.error("No supplier rate data found:", error);
+    const errorRow = document.createElement("tr");
+    const errorCell = document.createElement("td");
+    errorCell.colSpan = 6; // Span all columns
+    errorCell.textContent = "N/A";
+    errorRow.appendChild(errorCell);
+    const tbody = document.createElement("tbody");
+    tbody.appendChild(errorRow);
+
+    const table = document.createElement("table");
+    table.classList.add("table");
+    table.appendChild(tbody);
+
+    supplierRateTableContainer.appendChild(table);
+    // console.error("Error fetching supplier rate data:", error);
   }
 }
+
+
 
 document
   .getElementById("downloadItineraryButton")

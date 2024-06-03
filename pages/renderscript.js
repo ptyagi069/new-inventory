@@ -39,6 +39,7 @@ function processPackageInfo(packageInfo) {
   if (packageInfo && packageInfo.length > 0) {
     const packageDetails = packageInfo[0];
     const headingElement = document.querySelector(".heading");
+    
     if (headingElement) {
       headingElement.innerHTML = packageDetails.inF_TITLE;
     }
@@ -72,8 +73,6 @@ function processPackageImages(packageImages) {
     }
   }
 }
-
-
 async function fetchAndUpdateItinerary() {
   try {
     const pkgID = parseInt(localStorage.getItem('selectedPackageID'));
@@ -266,14 +265,13 @@ document.getElementById('rateForm').addEventListener('submit', async function(ev
       const contentBox = document.querySelector('.content-box');
       const newRow = document.createElement('div');
       newRow.innerHTML = `
-        <p>${formDate} - ${toDate}</p>
         <p>${noOfPax}</p>
-        <p>${markup}</p>
-        <p>${doubleOcc}</p>
+        <p>${formDate} <br> to  <br> ${toDate}</p>
         <p>${singleOcc}</p>
+        <p>${doubleOcc}</p>
+        <p>${extraBed}</p>
       `;
       contentBox.appendChild(newRow);
-
       document.getElementById('rateForm').reset();
       document.getElementById('rateFormContainer').style.display = 'none';
     } else {
@@ -290,25 +288,24 @@ async function downloadPDF() {
   const pkgID = parseInt(localStorage.getItem('selectedPackageID'));
   try {
     if (pkgID) {
-      const packageInfoApiUrl = `https://devapi.cultureholidays.com/api/Holidays/PacKageInfo?PKG_ID=${pkgID}`;
-      const packageInfoResponse = await fetch(packageInfoApiUrl);
-      const packageInfo = await packageInfoResponse.json();
+     const selectedPackageTitle = localStorage.getItem('selectedPackageTitle');
+      if (selectedPackageTitle) {
 
-      if (packageInfo && packageInfo.length > 0) {
-        const packageName = packageInfo[0].packageName;
         const options = {
           margin: [1, -3, 2, 2],
-          filename: `${packageName}.pdf`,
-          enableLinks: true,
+          filename: `${selectedPackageTitle}.pdf`,
           image: { type: 'jpeg', quality: 0.98, useCORS: true },
           html2canvas: { scale: 2, logging: true, useCORS: true },
           jsPDF: { unit: 'mm', orientation: 'portrait' },
           pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
         };
+        console.log("Options:", options);
+
         html2pdf()
           .from(a4Container)
           .set(options)
           .save();
+        console.log("PDF Saved");
       } else {
         console.error("No package info found for the given PKG_ID.");
       }
@@ -317,6 +314,7 @@ async function downloadPDF() {
     console.error('Error generating PDF:', error);
   }
 }
+
 
 let scrollToTopBtn = document.getElementById("scrollToTopBtn");
 

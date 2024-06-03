@@ -14,7 +14,7 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+    <!-- <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
@@ -36,7 +36,7 @@
 
       </div>
 
-      <div class="pardhan" style="border: 1px dashed #676767;">
+      <div class="pardhan" style="border: 1px dashed #676767; height: auto;">
         <div class="a4-container">
           <div
             class="main-container"
@@ -49,7 +49,7 @@
           >
             <div class="left-half">
               <img
-                src = ""
+                src = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/832px-No-Image-Placeholder.svg.png"
                 class="additional-image"
                 id="main-image"
               />
@@ -237,40 +237,44 @@
           >
         </div>
   
-          <div class="custom-container" id = "rateso">
-            <div class="heading-box">
-              <h5>Minimum No. of PAX</h5>
-              <h5>Date Range</h5>
-              <h5>Single Occupancy</h5>
-              <h5>Double Occupancy</h5>
-              <h5>Extra Bed</h5>
-            </div>
-            <div class="content-box" style="height: 11px">
-              <!-- Content goes here -->
-            </div>
+        <div class="custom-container" id="rateso" style="height: auto">
+          <div class="heading-box">
+            <h5 >Minimum No. of PAX</h5>
+            <h5 >Date Range</h5>
+            <h5 >Single Occupancy</h5>
+            <h5 >Double Occupancy</h5>
+            <h5 >Extra Bed</h5>
           </div>
-          <div class="add-rate">
-            <button id="addRateButton">Add Rate</button>
+          <div class="content-box" style="height: 11px">
+            <!-- Content goes here -->
           </div>
+        </div>
+
+        <div class="add-rate" style="height: 50px; margin-top: 90px;">
+          <button id="addRateButton">Add Rate</button>
+        </div>  
+         
           <div class="form-container" id="rateFormContainer" style="display: none;">
             <form id="rateForm">
               <label for="noOfPax">Number of Pax:</label>
-              <input type="number" id="noOfPax" name="noOfPax" required>
+              <input type="number" id="noOfPax" name="noOfPax" required><br>
               <label for="formDate">Start Date:</label>
-              <input type="date" id="formDate" name="formDate" required>
+              <input type="date" id="formDate" name="formDate" required><br>
               <label for="toDate">End Date:</label>
-              <input type="date" id="toDate" name="toDate" required>
+              <input type="date" id="toDate" name="toDate" required><br>
               <label for="singleOcc">Single Occupancy:</label>
-              <input type="number" id="singleOcc" name="singleOcc" required>
+              <input type="number" id="singleOcc" name="singleOcc" required><br>
               <label for="doubleOcc">Double Occupancy:</label>
-              <input type="number" id="doubleOcc" name="doubleOcc" required>
+              <input type="number" id="doubleOcc" name="doubleOcc" required><br>
               <label for="extraBed">Extra Bed:</label>
-              <input type="number" id="extraBed" name="extraBed" required>
+              <input type="number" id="extraBed" name="extraBed" required><br>
               <label for="markup">Markup:</label>
-              <input type="number" id="markup" name="markup" required>
+              <input type="number" id="markup" name="markup" required><br>
               <button type="submit">Submit</button>
             </form>
           </div>
+          
+          
         </div>
       </div>
 
@@ -288,14 +292,9 @@
           <span style="font-size: large; font-weight: 800;">Your Itinerary is Ready</span>
           <p>Click on the download button and save your Itinerary!</p>
         </div>
-       
       </div>
       
       <div class="nav">
-        <!-- <button onclick="scrollToSection('agento')">
-          <span class="nav-icon">&#x1F6EB;</span> 
-          Travel Agent
-        </button> -->
         <button onclick="scrollToSection('itineraryo')">
           <span class="nav-icon">&#x1F4C5;</span> 
           Tour Itineraries
@@ -312,7 +311,9 @@
           <span class="nav-icon">&#x1F4B8;</span> 
           Rates
         </button>
+        
       </div>
+    
 
       <button id="scrollToTopBtn" title="Go to top">
     <dotlottie-player src="https://lottie.host/69831dfa-6325-4bd2-88f8-a91e7d41dc28/Wz52ZrCWrl.json" background="transparent" speed="1" style="width: 60px; " loop autoplay></dotlottie-player>
