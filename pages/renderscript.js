@@ -65,7 +65,7 @@ function processPackageImages(packageImages) {
   if (packageImages && packageImages.length > 0) {
     const firstImageUrl = packageImages[0].pkG_IMG_NAME;
     console.log(firstImageUrl);
-    const finalimgurl = 'https://cultureholidays.com' + firstImageUrl.replace('../', '/');
+    const finalimgurl = 'https://cms.tripoculture.com' + firstImageUrl.replace('../', '/');
 
     const additionalImageElement = document.querySelector(".additional-image");
     if (additionalImageElement) {
