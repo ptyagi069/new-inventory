@@ -205,6 +205,10 @@ function displayFilteredPackages(packages, filterDay) {
     div.classList.add("package");
     div.innerHTML = `
                     <h4>${pkg.pkG_TITLE}</h4>
+<<<<<<< HEAD
+=======
+                   
+>>>>>>> a31ff75b638618a5c84646ed58d5e49b6ac98d5a
                 `;
     div.addEventListener("click", () => {
       localStorage.setItem("selectedPackageID", pkg.pkG_ID);
@@ -532,7 +536,7 @@ async function displaySupplierRateTable(pkg_ID) {
 document
   .getElementById("downloadItineraryButton")
   .addEventListener("click", () => {
-    window.open("https://ptyagi069.github.io/new-inventory/itinerary.html", "_blank");
+    window.open("https://ptyagi069.github.io/new-inventory/pages/itinerary.html", "_blank");
   });
 
 populateButtons();
