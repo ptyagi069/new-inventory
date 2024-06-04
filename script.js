@@ -206,8 +206,7 @@ function displayFilteredPackages(packages, filterDay) {
     div.classList.add("package");
     div.innerHTML = `
                     <h4>${pkg.pkG_TITLE}</h4>
-                    <p>Category: ${pkg.pkG_CATEGORY_NAME}</p>
-                    <p>Price: ${pkg.pkG_OFFERPRICE}</p>
+                   
                 `;
     div.addEventListener("click", () => {
       localStorage.setItem("selectedPackageID", pkg.pkG_ID);
