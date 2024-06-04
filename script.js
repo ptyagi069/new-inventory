@@ -536,7 +536,7 @@ async function displaySupplierRateTable(pkg_ID) {
 document
   .getElementById("downloadItineraryButton")
   .addEventListener("click", () => {
-    window.open("../pages/itinerary.html", "_blank");
+    window.open("https://ptyagi069.github.io/pages/itinerary.html", "_blank");
   });
 
 populateButtons();
