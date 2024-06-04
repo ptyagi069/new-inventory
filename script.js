@@ -20,7 +20,7 @@ async function populateButtons() {
         .forEach((btn) => btn.classList.remove("selected"));
       button.classList.add("selected");
       displayCountries(regionName, data);
-      filteredPackagesContainer.style.display = "block";
+      filteredPackagesContainer.style.display = "flex";
       pkginfo.style.display = "none";
       // resetDisplay();
     });
@@ -180,7 +180,7 @@ function displayPackages(packages) {
         .forEach((btn) => btn.classList.remove("selected"));
       button.classList.add("selected");
       displayFilteredPackages(packages, day);
-      filteredPackagesContainer.style.display = "block";
+      filteredPackagesContainer.style.display = "flex";
       pkginfo.style.display = "none";
       // resetDisplay();
     });
@@ -200,19 +200,15 @@ function displayFilteredPackages(packages, filterDay) {
   const filteredPackages = filterDay
     ? packages.filter((pkg) => pkg.pkG_NOOFDAY === filterDay)
     : packages;
-
   filteredPackages.forEach((pkg) => {
     const div = document.createElement("div");
     div.classList.add("package");
     div.innerHTML = `
                     <h4>${pkg.pkG_TITLE}</h4>
-                    <p>Category: ${pkg.pkG_CATEGORY_NAME}</p>
-                    <p>Price: ${pkg.pkG_OFFERPRICE}</p>
                 `;
     div.addEventListener("click", () => {
       localStorage.setItem("selectedPackageID", pkg.pkG_ID);
       localStorage.setItem("selectedPackageTitle", pkg.pkG_TITLE);
-      console.log(pkg.pkg_ID);
       displayPackageDetails(pkg.pkG_ID, pkg.pkG_TITLE);
       filteredPackagesContainer.style.display = "none";
       pkginfo.style.display = "flex";
