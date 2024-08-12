@@ -245,7 +245,7 @@
             formData.append('pkgID', pkgID);
 
             try {
-                const response = await fetch('http://localhost:3000/upload', {
+                const response = await fetch('http://invapi.cultureholidays.com/upload', {
                     method: 'POST',
                     body: formData
                 });
@@ -270,7 +270,7 @@
 
     // Fetch files for the package ID from the API
     try {
-        const response = await fetch(`http://localhost:3000/files/${pkgID}`);
+        const response = await fetch(`http://invapi.cultureholidays.com/files/${pkgID}`);
         if (!response.ok) {
             throw new Error('Failed to retrieve files');
         }
@@ -290,7 +290,7 @@
                 chatMessage.className = 'chat-message';
 
                 // Construct image URL with server domain
-                const imageUrl = `http://localhost:3000${file.filepath.replace(/^\.\//, '/')}`;
+                const imageUrl = `http://invapi.cultureholidays.com${file.filepath.replace(/^\.\//, '/')}`;
 
                 // Create an icon with onclick event to view or download the file
                 const fileIcon = document.createElement('img');

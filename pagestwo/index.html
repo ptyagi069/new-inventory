@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Itinerary_Two</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+      integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+      <div class="container1" style="display: flex;">
+        <div
+        class="container"
+        style="
+          width: 100%;
+          padding: 30px;
+          display: flex;
+          justify-content: space-evenly;
+        "
+      >
+      <div id="popupContainer" class="popup-container">
+          <div class="popup">
+            <h2>Select Hotel Rating</h2>
+            <div class="rating-options">
+              <button id="fiveStarOption">5-Star Hotels</button>
+              <button id="fourStarOption">4-Star Hotels</button>
+            </div>
+          </div>
+        </div>
+        <div class="pardhan" style="border: 2px solid black;">
+          <div
+            class="espresso"
+            id="sanu"
+            style="width: 210mm; height: fit-content; background-color: white"
+          >
+            <div
+              class="topmost-container"
+              style="
+                background-image: url(assets/1.png);
+                height: 400px;
+                padding: 40px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                background-size: cover;
+                background-position: center;
+                gap: 118px;
+              "
+            >
+              <div
+                class="topmost-upper"
+                style="display: flex; justify-content: space-between"
+              >
+                <img
+                  id = "kompani-logo"
+                  src="assets/placeholderlogo.png"
+                  alt=""
+                  style="width: 180px; height: 75px"
+                />
+              </div>
+              <div
+                class="topmost-lower"
+                style="
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  margin-top: 10px;
+                "
+              >
+                <p contenteditable="true"
+                  class="Occasion"
+                  id="pkgname"
+                  style="line-height: 68px; font-size: 30px; font-weight: 500"
+                ></p>
+              </div>
+            </div>
+  
+            <div
+              class="second-layer-container"
+              style="
+                width: 100%;
+                background-color: #3620ed;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                padding-left: 40px;
+                padding-right: 40px;
+                display: flex;
+                justify-content: space-between;
+              "
+            >
+              <div class="left-box" style="color: white" contenteditable="true">
+                <h2 id ="trip-duratomo" style="font-weight: 200">
+                  Trip Duration : 0 Nights | 0 Days
+                </h2>
+  
+                <h2 style="font-weight: 300; margin-top: 10px">Cities Covered</h2>
+
+                <div id="cities" class = "places">
+
+                </div>
+              </div>
+               <div
+                class="right-box"
+                style="
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start;
+                  justify-content: flex-start;
+                "
+              >
+              <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; padding-left: 30px;" contenteditable="true">
+                <div id="qrCodeContainer" >
+                </div>
+                <p style="color: rgb(255, 255, 255);">Book Now</p>
+           
+            </div>
+              </div> 
+            </div>
+  
+            <div
+              class="agent-detail-container"
+              style="display: flex; justify-content: space-between"
+              contenteditable="true"
+            >
+              <div
+                class="left-box-agent-details"
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start;
+                  justify-content: space-between;
+                "
+              >
+                <h3 contenteditable="true"> Trip Inclusions :</h3>
+  
+                <div
+                  class="tipsi"
+                  style="
+                    display: flex;
+                    justify-content: space-around;
+                    gap: 25px;
+                    margin-top: 20px;
+                  "
+                  
+                >
+                  <div class="icon-label">
+                    <div class="icon-circle">
+                      <i class="ri-car-line"></i>
+                    </div>
+                    <p>Transfers</p>
+                  </div>
+  
+                  <div class="icon-label">
+                    <div class="icon-circle">
+                      <i class="ri-restaurant-2-line"></i>
+                    </div>
+                    <p>Meals</p>
+                  </div>
+  
+                  <div class="icon-label">
+                    <div class="icon-circle">
+                      <i class="ri-camera-3-line"></i>
+                    </div>
+                    <p>SightSeeing</p>
+                  </div>
+  
+                  <div class="icon-label">
+                    <div class="icon-circle">
+                      <i class="ri-hotel-line"></i>
+                    </div>
+                    <p>Hotel</p>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="right-box-agent-details" style="border-left:  1px solid rgb(39, 38, 38);padding-left: 80px;" contenteditable="true">
+                <h3>Agency Details:</h3>
+  
+                <h1 style="font-weight: 300; margin-top: 30px" id = "company-name-stg">xyz Travels</h1>
+                <h5 style="font-weight: 400; " id="phone-stg"> 11111111111</h5>
+                <h5 style="font-weight: 400;" id="email-stg">11111111111@gmail.com</h5>
+              </div>
+            </div>
+  
+            <div
+              class="trip-overview-heading"
+              style="
+                width: 100%;
+                background-image: url(assets/1.png);
+                color: white;
+                height: 250px;
+                padding: 40px;
+                background-size: cover;
+                background-position: center;
+              "
+              contenteditable="true"
+            >
+              <h1 style="margin-top: 15%">Trip Overview</h1>
+            </div>
+            <div
+              class="trip-overview"
+              style="width: 100%; background-color: #f5f1f1; padding: 40px"
+              contenteditable="true"
+            >
+              <p id="tripdesc"></p>
+            </div>
+  
+            <div
+              class="trip-highlights"
+              style="width: 100%; display: flex; overflow: hidden"
+            >
+              <div
+              contenteditable="true"
+                class="leftie"
+                style="
+                  background-color: #3620ed;
+                  padding-left: 40px;
+                  padding-top: 60px;
+                  padding-right: 20px;
+                  color: white;
+                  width: 80%;
+                "
+              >
+                <h2 style="margin-bottom: 40px; font-weight: normal">
+                  Trip Highlights
+                </h2>
+  
+                <div class="jsr" id="inf_desc" style="color: white !important;" contenteditable="true"> </div>
+              </div>
+              <div class="rightie" style="background-color: #fbcd85; width: 20%">
+                <img
+                  src="assets/suitcase.png"
+                  alt=""
+                  style="
+                    width: 359px;
+                    z-index: 10;
+                    margin-left: -80px;
+                    height: 492px;
+                  "
+                />
+              </div>
+            </div>
+  
+            <div class="itinerary" contenteditable="true" style="background-color: white">
+              <div
+                class="top-portion-itinerary"
+                style="width: 100%; padding: 40px"
+                id = "mosi"
+              >
+                <h1>Tour Itinerary</h1>
+                <div
+                  class="timings"
+                  style="
+                    display: flex;
+                    gap: 40px;
+                    margin-top: 15px;
+                    font-size: 20px;
+                  "
+                >
+                <p class="date-range-element">
+  <i class="ri-calendar-2-line"></i> Loading dates...
+</p>
+                  <p id="daycount"><i class="ri-sun-fill"></i></p>
+                </div>
+              </div>
+  
+              <div class="all-days" style="width: 100%; margin-top: 20px;" ></div>
+  
+              <!-- index.html -->
+              <div class="inc-exc" style="display: flex" contenteditable="true">
+                <div
+                  class="inc"
+                  style="
+                    width: 50%;
+                    background-color: #3620ed;
+                    padding: 40px;
+                    color: white;
+                  "
+                >
+                  <h2 style="margin-bottom: 30px">Trip Inclusions</h2>
+                  <div id="inclusionDetails" style="font-size: small;"></div>
+                </div>
+  
+                <div
+                  class="exc"
+                  style="width: 50%; background-color: #cadafa; padding: 40px"
+                >
+                  <h2 style="margin-bottom: 30px">Trip Exclusions</h2>
+                  <div id="exclusionDetails" style="font-size: small;"></div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="hotel-details" style="margin-top: 20px" contenteditable="true">
+              <div
+                class="top-part"
+                style="background-color: #fbfbfb; display: flex"
+              >
+                <div class="lefto" style="width: 60%; padding: 40px">
+                  <h1 style="font-weight: 400">
+                    Hotel <br />
+                    Accomodations
+                  </h1>
+                  <p style="font-size: 16px; color: rgb(112, 111, 111)">
+                    Your hotel details are as follows.
+                  </p>
+                </div>
+                <div
+                  class="righto"
+                  style="
+                    width: 40%;
+                    background-image: url(assets/hotel.jpeg);
+                    object-fit: contain;
+                    background-size: cover;
+                  "
+                ></div>
+              </div>
+              <div class="bottom-part" id = "hotelContainer">
+                 </div>
+
+
+                 <div class="costing-table" style="margin-top: 25px;">
+                  <div class="table">
+                      <div class="table-header">
+                          <div class="table-cell">Tour Date</div>
+                          <div class="table-cell">Room Category</div>
+                          <div class="table-cell">Twin/Triple Occupancy</div>
+                          <div class="table-cell">Single Occupancy</div>
+                      </div>
+                      <div class="table-row">
+                          <div class="table-cell" id ="tour-date-table"></div>
+                          <div class="table-cell" id  = "room_category_tbl">Standard</div>
+                          <div class="table-cell">
+                              <div class="price-container">
+                                  <span class="dollar-sign">$</span>
+                                  <input type="number" class="price-input" id="twin-triple" value="" disabled>
+                              </div>
+                          </div>
+                          <div class="table-cell">
+                              <div class="price-container">
+                                  <span class="dollar-sign">$</span>
+                                  <input type="number" class="price-input" id="single" value="" disabled>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <button class="edit-btn" id = "price-btn-dis"   onclick="toggleEdit()" style="margin-left: 15px; margin-bottom: 15px;">Edit Rate</button>
+              </div>
+
+
+
+
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="righties">
+          <button id="download-pdf" class = "downloadBtn">Download</button>
+          <div class="download-box">
+  
+            <div class="gif-container" style="width: 100%; display: flex; justify-content: center;">
+              <dotlottie-player src="https://lottie.host/a6b83397-f6a1-4237-b67b-42e1de18b221/OrcAXZrNYf.json" background="transparent" speed="1" style="width: 100px;" loop autoplay></dotlottie-player>
+            </div>
+           
+          </div>
+          
+          <div class="sidebar-content">
+            <span style="font-size: large; font-weight: 800;">Your Itinerary is Ready</span>
+            <p>Click on the download button and save your Itinerary!</p>
+          </div>
+
+         <div class="bg-changer" style="display: flex; flex-direction: column;">
+          <h3>Top Image:</h3>
+          <div id="thumbnailsContainer1" style="display: flex; flex-wrap: wrap; justify-content: center; margin-top: 20px;">
+            
+          </div>
+          <h3>Second Image:</h3>
+          <div id="thumbnailsContainer2" style="display: flex; flex-wrap: wrap; justify-content: center; margin-top: 20px;">
+            
+          </div>
+          
+         </div>
+          
+         
+        </div>
+        
+      </div>
+      
+      <button id="scrollToTopBtn" title="Go to top">
+        <dotlottie-player src="https://lottie.host/69831dfa-6325-4bd2-88f8-a91e7d41dc28/Wz52ZrCWrl.json" background="transparent" speed="1" style="width: 60px; " loop autoplay></dotlottie-player>
+          </button>
+    
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+      integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+      integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+      integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+    <script src="script.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="style.css">
+   <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+    rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+      integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>Itinerary First</title>
+
+</head>
+<body>
+        <div class="outer-container" style="display: flex; justify-content: space-evenly;">
+            <div class="momim" style="border: 2px solid black;">
+                <div class="a4-container" style="width: 210mm;" id = "sanu">
+                    <div class="main-container" style=" height: fit-content;display: flex; height: 380px;">  
+                        <div class="leftside" style="width:40%; padding-left: 40px; padding-right: 40px; padding-top: 8px; background-image: url(images/image.png); object-fit: contain; background-position: center;" >
+                                <img src="" alt="" style="width: 100%;  height: 100%;    border-top-left-radius: 50%; border-top-right-radius: 50%; object-fit: cover;" id = "topmostimage">
+                        </div>
+                        <div class="rightside" style="width:40%; padding: 20px;">
+                            <div contenteditable="true" class="top-right-content " style="display: flex; justify-content: stretch;">
+                                <img  id = "kompani-logo"  src="images/logo.jpg" alt="" style="width: 30%; height: 30%;"> 
+                                <div contenteditable="true" class="contactie"  style="display: flex ; flex-direction: column; align-items: flex-end;">
+                                    
+                                  <div  contenteditable="true" class="email" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                    <i class="ri-mail-fill"></i>   <p class ="emails" id = "email-stg">  </p>
+                                  </div>
+                                    <div  contenteditable="true" class="phone" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                        <i class="ri-phone-fill"></i> <p class = "phones" id = "phone-stg">  </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 contenteditable="true"  class="trip-heading" id = "pkgname" style="margin-top: 60px; font-size: 35px; color: rgb(100, 98, 98);">
+                        </div>
+                    </div>
+                  <div class="content-container"
+                        style="background: rgba(217, 217, 217, 0.38); padding: 20px; ">
+                        <p class="second-content" id = "pkgdesc" contenteditable="true">
+                           N/A
+                        </p>
+                    </div>
+                
+                    <div class="travel-agent " contenteditable="true"   
+                        style="display: flex; justify-content: space-between; align-items: center; background-color: #397888; color: white; padding: 20px; margin-top: 55px; height: 100px;">
+                        <div style="width: 50%; margin-left: 45px; font-size: 28px;" contenteditable="true">
+                            travel <br> agent
+                        </div>
+                        <img src="images/suitcase.png" alt="" style="width: 55px; margin-right: 25px; z-index: 1; margin-top: 45px;">
+                        <img src="images/lady-gaga.png" alt="Image"
+                            style="height: 200px; margin-left: 10px; margin-right: 10px; z-index: 1;">
+                        <div style="width: 50%; margin-left: 50px; font-size: 18px;" contenteditable="true">
+                           <p id = "agency-name" style="font-size: 25px; ">xyz</p>
+                        </div>
+                    </div>
+                
+                    <div style="display: flex;
+                    margin-top: 10px;
+                    padding-right: 10px;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;">
+                     
+                        <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; padding-left: 30px;">
+                            <div id="qrCodeContainer" >
+                            </div>
+                            <p  contenteditable="true" style="color: blue;">Book Now</p>
+                       
+                        </div>
+                       
+                      <div style="display: flex;  flex-direction: column; align-items: flex-end; gap: 10px; justify-content: space-evenly;" contenteditable="true">
+                        Connect with me on 
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                           
+                           <i class="ri-mail-line"></i> <p class = "emails" id = "email-stg-2"></p>
+                          </div> 
+                          <br>
+                          <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                           <i class="ri-phone-fill"></i> <p class="phones" id = "phone-stg-2"> </p>
+                          </div>
+                      </div>
+                        
+                    </div>
+                    <div class="highlights" style="margin-top: 45px;">
+                        <div class="highlight-heading"
+                            style="display: flex; align-items: center; justify-content: space-between; background-color: #397888; height: 80px; color: white; padding: 10px; margin-bottom: 0;">
+                            <h2 contenteditable="true" style="margin: 0;">Trip Highlights</h2>
+                            <img src="images/camera.png" alt="Image" style="width: 100px; height: 100px; z-index: 1;">
+                        </div>
+                
+                        <div style="display: flex; align-items: center; margin-bottom: 0;">
+                            <img src="images/Group 76756.png" alt="Trip Highlights Image"
+                                style="width: 280px; margin-right: 20px; margin-bottom: 0;">
+                            <div id="infdesc" contenteditable="true">
+                
+                               
+                            </div>
+                        </div>
+                
+                    </div>
+                    <div class="highlights" contenteditable="true">
+                        <div class="highlight-heading" contenteditable="true"
+                            style="display: flex; align-items: center; justify-content: space-between; background-color: #397888; height: 80px; color: white; padding: 10px; margin-bottom: 0;">
+                            <h2 style="margin: 0;">Tour Itinerary</h2>
+                            <img src="images/map.png" alt="Image" style="width: 100px; height: 100px; z-index: 1;">
+                        </div>
+                
+                    </div>
+                    <div class="itinerary" style="margin-top: 25px;" contenteditable="true">
+                
+                       <div class="day">
+                        
+                        <div class="itinerary-item">
+                            <span class="itinerary-badge"><span uk-icon="check"></span></span>
+                            <img src="images/calender.png" alt="Arrival Image" class="itinerary-image"
+                                style="height: 40px; width: 40px;">
+                            <div class="itinerary-details" contenteditable="true">
+                                <div class="flex-container">
+                                    <div class="image-container">
+                                        <img src="images/date-arrow.png" alt="Image" style="width: 200px;">
+                                        <div class="image-content"></div>
+                                    </div>
+                                    <div class="title-box" contenteditable="true"></div>
+                                </div>
+                            </div>
+                
+                        </div>
+                        <div class="trip-details" contenteditable="true">
+                            <div class="timeline">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="border-box">
+                                <div> </div>
+                                <div> </div>
+                                <div></div>
+                            </div>
+                            <div class="timeline" contenteditable="true">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="border-box" contenteditable="true">
+                                <p><strong></strong></p>
+                            </div>
+                        </div>
+                       </div>
+                     
+                    </div>
+                    <div class="container" style="padding: 45px; background-color: #397888; margin-top: 25px;">
+                        <div class="first-box">
+                            <h2 contenteditable="true">See what’s included in the trip</h2>
+                            <div class="box" contenteditable="true">
+                                <ul class="inclusion-list" style="font-size: small;">
+                                    <!-- Inclusion items will be dynamically added here -->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="second-box">
+                            <h2 contenteditable="true">See what’s not included in the trip</h2>
+                            <div class="box" contenteditable="true">
+                                <ul class="exclusion-list" style="font-size: small;">
+                                    <!-- Exclusion items will be dynamically added here -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="will-stay" contenteditable="true"
+                        style="display: flex; align-items: center; justify-content: space-between; background-color: #397888; height: 80px; color: white; padding: 10px; margin-bottom: 0; margin-top: 25px;">
+                        <h2 style="margin: 0;" contenteditable="true">Where you will stay</h2>
+                        <img src="images/map.png" alt="Image" style="width: 100px; height: 100px; z-index: 1;">
+                    </div>
+                
+                    <div class="hotels" id="hotel-list" contenteditable="true"> 
+                
+                    </div>
+
+                    <div class="costing-table" style="padding: 10px;">
+                        <div class="table">
+                            <div class="table-header">
+                                <div class="table-cell">Tour Date</div>
+                                <div class="table-cell">Room Category</div>
+                                <div class="table-cell">Twin/Triple Occupancy</div>
+                                <div class="table-cell">Single Occupancy</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell" id ="tour-date-table"></div>
+                                <div class="table-cell" id  = "room_category_tbl">Standard</div>
+                                <div class="table-cell">
+                                    <div class="price-container">
+                                        <span class="dollar-sign">$</span>
+                                        <input type="number" class="price-input" id="twin-triple" value="" disabled>
+                                    </div>
+                                </div>
+                                <div class="table-cell">
+                                    <div class="price-container">
+                                        <span class="dollar-sign">$</span>
+                                        <input type="number" class="price-input" id="single" value="" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="edit-btn" id = "price-btn-dis"   onclick="toggleEdit()">Edit Rate</button>
+                    </div>
+                
+                
+                </div>
+            </div>
+            
+                    <div class="righties">
+                        <button id="download-pdf" class="downloadBtn">Download</button>
+                        <div class="download-box">
+                            <div class="gif-container" style="width: 100%; display: flex; justify-content: center;">
+                                <dotlottie-player src="https://lottie.host/a6b83397-f6a1-4237-b67b-42e1de18b221/OrcAXZrNYf.json" background="transparent" speed="1" style="width: 100px;" loop autoplay></dotlottie-player>
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar-content">
+                            <span style="font-size: large; font-weight: 800;">Your Itinerary is Ready</span>
+                            <p>Click on the download button and save your Itinerary!</p>
+                        </div>
+
+                        <h3>Choose the image of your choice</h3>
+                        <div class="thumbnail-container" id="thumbnail-container"></div>
+            
+                    </div>
+        </div>
+        
+        <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+      integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+      integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+      integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+    <script src="script.js"></script>
+</body>
+
+</html>

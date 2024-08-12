@@ -1,3 +1,4 @@
+var qwerty = 0;
 async function fetchData() {
   const response = await fetch("https://devapi.cultureholidays.com/GetCountry");
   const data = await response.json();
@@ -22,11 +23,9 @@ async function populateButtons() {
       displayCountries(regionName, data);
       filteredPackagesContainer.style.display = "flex";
       pkginfo.style.display = "none";
-      // resetDisplay();
     });
     regionButtonsContainer.appendChild(button);
 
-    // Automatically click the first region button
     if (index === 0) {
       button.click();
     }
@@ -75,7 +74,6 @@ async function displayCountries(regionName, data) {
     countryButtonsContainer.parentElement.appendChild(optionalToursButton);
   }
 }
-
 
 async function fetchOptionalTours(countryCode) {
   const response = await fetch(`https://devapi.cultureholidays.com/GetAddonCategory?CountryCode=${countryCode}`);
@@ -154,7 +152,7 @@ function closeOptionalToursPopup() {
 
 async function fetchPackages(countryCode) {
   const response = await fetch(
-    `https://devapi.cultureholidays.com/GetPackageUsingCountry?CountryCode=${countryCode}`
+    `https://apidev.cultureholidays.com/api/Holidays/PackagelistByCountrycode?Countrycode=${countryCode}&AgencyId=`
   );
   const packages = await response.json();
   displayPackages(packages);
@@ -164,11 +162,9 @@ function displayPackages(packages) {
   const packageButtonsContainer = document.getElementById("packageButtons");
   packageButtonsContainer.innerHTML = "";
   const filteredPackagesContainer = document.getElementById("filteredPackages");
-
   const pkginfo = document.getElementById("pkginfo");
-  const uniqueDays = [...new Set(packages.map((pkg) => pkg.pkG_NOOFDAY))].sort(
-    (a, b) => a - b
-  );
+  const uniqueDays = [...new Set(packages.map((pkg) => pkg.pkgDay))].sort(
+    (a, b) => a - b);
 
   uniqueDays.forEach((day, index) => {
     const button = document.createElement("button");
@@ -194,29 +190,35 @@ function displayPackages(packages) {
 
 function displayFilteredPackages(packages, filterDay) {
   const filteredPackagesContainer = document.getElementById("filteredPackages");
-
   const pkginfo = document.getElementById("pkginfo");
+
   filteredPackagesContainer.innerHTML = "";
+
   const filteredPackages = filterDay
-    ? packages.filter((pkg) => pkg.pkG_NOOFDAY === filterDay)
+    ? packages.filter((pkg) => pkg.pkgDay === filterDay)
     : packages;
+console.log(filteredPackages);
   filteredPackages.forEach((pkg) => {
     const div = document.createElement("div");
     div.classList.add("package");
     div.innerHTML = `
-                    <h4>${pkg.pkG_TITLE}</h4>
+                    <h4>${pkg.pkgTitle}</h4>
                 `;
     div.addEventListener("click", () => {
-      localStorage.setItem("selectedPackageID", pkg.pkG_ID);
-      localStorage.setItem("selectedPackageTitle", pkg.pkG_TITLE);
-      displayPackageDetails(pkg.pkG_ID, pkg.pkG_TITLE);
+      localStorage.setItem("selectedPackageID", String(pkg.pkgID));
+      localStorage.setItem("selectedPackageTitle", String(pkg.pkgTitle));
+      qwerty = pkg.pkgID;
+      displayPackageDetails(pkg.pkgID, pkg.pkgTitle);
       filteredPackagesContainer.style.display = "none";
       pkginfo.style.display = "flex";
     });
     filteredPackagesContainer.appendChild(div);
   });
+
   document.getElementById("searchInput").addEventListener("input", handleSearchInput);
 }
+
+
 function handleSearchInput(event) {
   const searchTerm = event.target.value.toLowerCase();
   const allPackages = document.querySelectorAll("#filteredPackages .package");
@@ -232,10 +234,11 @@ function handleSearchInput(event) {
 
 async function displayPackageDetails(pkg_ID, pkg_TITLE) {
   const response = await fetch(
-    `https://devapi.cultureholidays.com/GetPKGInfo?PKG_ID=${pkg_ID}`
+    `https://apidev.cultureholidays.com/api/Holidays/PacKageInfo?PKG_ID=${pkg_ID}`
   );
+  
   const packageInfo = await response.json();
-
+console.log(packageInfo);
   const packageDetailsContainer = document.getElementById("packageDetails");
   const filteredPackagesContainer = document.getElementById("filteredPackages");
   packageDetailsContainer.style.textAlign = 'center';
@@ -263,7 +266,7 @@ async function displayPackageDetails(pkg_ID, pkg_TITLE) {
 
 async function displayitineraryitems(pkg_ID) {
   const response = await fetch(
-    `https://devapi.cultureholidays.com/GetPKGItinerary?PKG_ID=${pkg_ID}`
+    `https://apidev.cultureholidays.com/api/Holidays/PacKageItieneary?PKG_ID=${pkg_ID}`
   );
   const itineraryitems = await response.json();
   fetchHotelData(pkg_ID);
@@ -299,7 +302,7 @@ async function displayitineraryitems(pkg_ID) {
 async function fetchInclusionsExclusions(pkg_ID) {
   try {
     const response = await fetch(
-      `https://devapi.cultureholidays.com/GetPKGIncExc?PKG_ID=${pkg_ID}`
+      `https://apidev.cultureholidays.com/api/Holidays/PacKageInclusionAndExclusion?PKG_ID=${pkg_ID}`
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -365,7 +368,7 @@ function toggleDetails(showId, hideId) {
 
 async function fetchHotelData(pkg_ID) {
   const response = await fetch(
-    `https://devapi.cultureholidays.com/GetPKGHotel?PKG_ID=${pkg_ID}`
+    `https://apidev.cultureholidays.com/api/Holidays/PacKageHotel?PKG_ID=${pkg_ID}`
   );
   const data = await response.json();
   console.log(data);
@@ -449,25 +452,31 @@ async function displaySupplierRateTable(pkg_ID) {
 
           const noOfPaxCell = document.createElement("td");
           noOfPaxCell.textContent = rate.noOfPax;
+          noOfPaxCell.setAttribute("data-label", "Minimum No. of PAX");
           row.appendChild(noOfPaxCell);
 
           const dateRangeCell = document.createElement("td");
           dateRangeCell.textContent = `${rate.date_from} - ${rate.date_To}`;
+          dateRangeCell.setAttribute("data-label", "Date Range");
           row.appendChild(dateRangeCell);
 
           const singleOccCell = document.createElement("td");
           singleOccCell.textContent = rate.singleOcc;
+          singleOccCell.setAttribute("data-label", "Single Occupancy");
           row.appendChild(singleOccCell);
 
           const doubleOccCell = document.createElement("td");
           doubleOccCell.textContent = rate.doubleOcc;
+          doubleOccCell.setAttribute("data-label", "Double Occupancy");
           row.appendChild(doubleOccCell);
 
           const extraBedCell = document.createElement("td");
           extraBedCell.textContent = rate.extraBed;
+          extraBedCell.setAttribute("data-label", "Extra Bed");
           row.appendChild(extraBedCell);
 
           const downloadRateCell = document.createElement("td");
+          downloadRateCell.setAttribute("data-label", "Download");
           if (rate.remarks) {
             const downloadLink = document.createElement("a");
             downloadLink.href = `https://cmx.cultureholidays.com${rate.remarks.replace(
@@ -527,12 +536,81 @@ async function displaySupplierRateTable(pkg_ID) {
   }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const apiBaseUrl = 'https://apidev.cultureholidays.com/api';
 
+  function setupButton(buttonId, popupId, dateDropdownId, agentInputId, submitId, cancelId, pageUrl) {
+    document.getElementById(buttonId).addEventListener("click", () => {
+      document.getElementById(popupId).style.display = "block";
 
-document
-  .getElementById("downloadItineraryButton")
-  .addEventListener("click", () => {
-    window.open("https://ptyagi069.github.io/new-inventory/pages/itinerary.html", "_blank");
-  });
+      const selectedPackageID = qwerty;
+      if (!selectedPackageID) {
+        console.error('No package ID selected');
+        return;
+      }
+
+      fetch(`${apiBaseUrl}/Account/GetPackageRoomAvlDate?PKGID=${selectedPackageID}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          const dateDropdown = document.getElementById(dateDropdownId);
+          dateDropdown.innerHTML = ''; 
+          data.forEach(item => {
+            const option = document.createElement("option");
+            option.value = item.ratE_AVIAL_DATE;
+            option.textContent = item.ratE_AVIAL_DATE;
+            dateDropdown.appendChild(option);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching dates:', error);
+          alert('Failed to load available dates. Please try again.');
+        });
+    });
+
+    document.getElementById(submitId).addEventListener("click", () => {
+      let agentID = document.getElementById(agentInputId).value;
+      let selectedDate = document.getElementById(dateDropdownId).value;
+
+      if (agentID.startsWith("CHAGT")) {
+        let itineraryURL = `${pageUrl}?itineraryID=${encodeURIComponent(qwerty)}&agentID=${encodeURIComponent(agentID)}&rateAvialDate=${encodeURIComponent(selectedDate)}`;
+        window.open(itineraryURL, "_blank").focus();
+        document.getElementById(popupId).style.display = "none";
+      } else {
+        alert("Invalid Agent ID. It must start with 'CHAGT'.");
+      }
+    });
+
+    document.getElementById(cancelId).addEventListener("click", () => {
+      document.getElementById(popupId).style.display = "none";
+    });
+  }
+
+  // Setup for the first button
+  setupButton(
+    "downloadItineraryButton",
+    "agentIdPopup",
+    "dateDropdown",
+    "agentIDInput",
+    "submitAgentID",
+    "cancelAgentID",
+    "../pages/index.html"
+  );
+
+  // Setup for the second button
+  setupButton(
+    "downloadItineraryButtontwo",
+    "agentIdPopupTwo",
+    "dateDropdownTwo",
+    "agentIDInputTwo",
+    "submitAgentIDTwo",
+    "cancelAgentIDTwo",
+    "../pagestwo/index.html"
+  );
+});
 
 populateButtons();
