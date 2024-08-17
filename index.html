@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,9 @@
     <title>Culture Holidays Inventory</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
+
     <div class="navbario" style="display: flex; justify-content: center;">
         <img src="https://www.cultureholidays.com/Content/logo-black.png" alt="" style="width: 230px;">
     </div>
@@ -20,20 +22,21 @@
             <div class="top-container">
                 <div id="optionalToursPopup" class="popup">
                     <div class="popup-content">
-                      <span class="close" onclick="closeOptionalToursPopup()">&times;</span>
-                      <div id="optionalToursContent"></div>
+                        <span class="close" onclick="closeOptionalToursPopup()">&times;</span>
+                        <div id="optionalToursContent"></div>
                     </div>
-                  </div>
-                   
+                </div>
+
                 <div class="region-container section">
                     <h3>Regions</h3>
                     <div id="regionButtons"></div>
                 </div>
                 <div class="country-container section" style="display: flex; width: 60%;">
-                   <div class="tt" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-                    <h3>Countries</h3>
-                    <div id="countryButtons"></div>
-                   </div>
+                    <div class="tt"
+                        style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                        <h3>Countries</h3>
+                        <div id="countryButtons"></div>
+                    </div>
                 </div>
                 <div class="day-container section">
                     <h3>Days</h3>
@@ -45,98 +48,137 @@
                 <input type="text" id="searchInput" placeholder="Search packages...">
                 <span class="search-icon"><i class="ri-search-line"></i></span>
             </div>
-            
-            <div id="filteredPackages" style="display: flex; justify-content: space-evenly; flex-wrap: wrap; align-items: flex-start; gap: 10px;" ></div>  
-            <div class="pkginfo" id="pkginfo" style="display: none; flex-direction: column; justify-content: space-between;">
+
+            <div id="filteredPackages"
+                style="display: flex; justify-content: space-evenly; flex-wrap: wrap; align-items: flex-start; gap: 10px;">
+            </div>
+            <div class="pkginfo" id="pkginfo"
+                style="display: none; flex-direction: column; justify-content: space-between;">
                 <div id="packageDetails" class="details"></div>
-                <div class="middle-container" style="display: flex;flex-direction:column; justify-content: space-between; gap: 10%;">
-                   <div class="day-wise" style="display: flex;flex-direction: column; align-items: center; margin-top: 20px;">
-                    <h2>DAY-WISE ITINERARY</h2>
-                    <div id="accordionContainer" class="accordion" style="background-color: white; height: min-content;"></div>
-                   </div>
-                   <div class="extempor" style="display: flex; gap:20px; justify-content: center; ">
-                    <div class="inclusions-exclusions">
-                        <div class="selection-container">
-                            <button id="inclusionsButton" class="selection-button active">Inclusions</button>
-                            <button id="exclusionsButton" class="selection-button">Exclusions</button>
-                        </div>
-                        <div class="details-container">
-                            <div id="inclusionsContent" class="content active"></div>
-                            <div id="exclusionsContent" class="content"></div>
-                        </div>
+                <div class="middle-container"
+                    style="display: flex;flex-direction:column; justify-content: space-between; gap: 10%;">
+                    <div class="day-wise"
+                        style="display: flex;flex-direction: column; align-items: center; margin-top: 20px;">
+                        <h2>DAY-WISE ITINERARY</h2>
+                        <div id="accordionContainer" class="accordion"
+                            style="background-color: white; height: min-content;"></div>
                     </div>
-                    <div class="hotel-details" style="text-align: center;"></div>
-                   </div>
+                    <div class="extempor" style="display: flex; gap:20px; justify-content: center; ">
+                        <div class="inclusions-exclusions">
+                            <div class="selection-container">
+                                <button id="inclusionsButton" class="selection-button active">Inclusions</button>
+                                <button id="exclusionsButton" class="selection-button">Exclusions</button>
+                            </div>
+                            <div class="details-container">
+                                <div id="inclusionsContent" class="content active"></div>
+                                <div id="exclusionsContent" class="content"></div>
+                            </div>
+                        </div>
+                        <div class="hotel-details" style="text-align: center;"></div>
+                    </div>
                 </div>
-                
+
                 <div class="costing-table" style="text-align: center;">
                     <h2>COST BREAKDOWN</h2>
-                <div id="supplierRateTableContainer"></div>
+                    <div id="supplierRateTableContainer"></div>
                 </div>
                 <div class="utils">
-                 
-<div id="agentIdPopup" style="display: none;">
-    <label for="agentIDInput">Enter Agent ID:</label>
-    <input type="text" id="agentIDInput">
-    
-    <label for="dateDropdown">Select Date:</label>
-    <select id="dateDropdown"></select>
-    
-    <button id="submitAgentID">Submit</button>
-    <button id="cancelAgentID">Cancel</button>
-  </div>
 
-  <div id="agentIdPopupTwo" style="display: none;">
-    <label for="agentIDInputTwo">Enter Agent ID:</label>
-    <input type="text" id="agentIDInputTwo">
-    
-    <label for="dateDropdownTwo">Select Date:</label>
-    <select id="dateDropdownTwo"></select>
-    
-    <button id="submitAgentIDTwo">Submit</button>
-    <button id="cancelAgentIDTwo">Cancel</button>
-  </div>
-  <div id="agentIdPopupThree" style="display: none;">
-    <label for="agentIDInputThree">Enter Agent ID:</label>
-    <input type="text" id="agentIDInputThree">
-    
-    <label for="dateDropdownThree">Select Date:</label>
-    <select id="dateDropdownThree"></select>
-    
-    <button id="submitAgentIDThree">Submit</button>
-    <button id="cancelAgentIDThree">Cancel</button>
-  </div>
-  
-  <!-- Place the script tag here -->
-  <script src="script.js"></script>
-  </body>
-  
-                      
-  
-                    <button id="downloadItineraryButton">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download" style="vertical-align: middle; margin-bottom: 3px;">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                        DOWNLOAD ITINERARY -1
-                    </button>
-                    <button id="downloadItineraryButtontwo">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download" style="vertical-align: middle; margin-bottom: 3px;">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                        DOWNLOAD ITINERARY -2
-                    </button>
-                    <button id="downloadItineraryButtonthree">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download" style="vertical-align: middle; margin-bottom: 3px;">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                        DOWNLOAD ITINERARY -3
-                    </button>
+                    <div id="agentIdPopup" style="display: none;">
+                        <label for="agentIDInput">Enter Agent ID:</label>
+                        <input type="text" id="agentIDInput">
+
+                        <label for="dateDropdown">Select Date:</label>
+                        <select id="dateDropdown"></select>
+
+                        <button id="submitAgentID">Submit</button>
+                        <button id="cancelAgentID">Cancel</button>
+                    </div>
+
+                    <div id="agentIdPopupTwo" style="display: none;">
+                        <label for="agentIDInputTwo">Enter Agent ID:</label>
+                        <input type="text" id="agentIDInputTwo">
+
+                        <label for="dateDropdownTwo">Select Date:</label>
+                        <select id="dateDropdownTwo"></select>
+
+                        <button id="submitAgentIDTwo">Submit</button>
+                        <button id="cancelAgentIDTwo">Cancel</button>
+                    </div>
+                    <div id="agentIdPopupThree" style="display: none;">
+                        <label for="agentIDInputThree">Enter Agent ID:</label>
+                        <input type="text" id="agentIDInputThree">
+
+                        <label for="dateDropdownThree">Select Date:</label>
+                        <select id="dateDropdownThree"></select>
+
+                        <button id="submitAgentIDThree">Submit</button>
+                        <button id="cancelAgentIDThree">Cancel</button>
+                    </div>
+
+                    <!-- Place the script tag here -->
+                    <script src="script.js"></script>
+
+
+
+
+                    <section style="width: 100%; display: flex; justify-content: center; flex-direction: column;">
+
+                        <h1>DOWNLOAD ITINERARY</h1>
+                        <section style="width: 100%; display: flex; justify-content: center;">
+                            <div style="width: fit-content; padding: 10px; display: flex; flex-direction: column; justify-content: center;">
+
+
+                                <div
+                                    style="background-image: url('inv_assets/itinerary_1.png'); height: 400px; background-size: cover;">
+
+                                </div>
+
+                                <span style="color: #333">
+                                        *preview
+                                </span>
+                                <button id="downloadItineraryButton" style="margin-top: 10px;">
+
+                                    DOWNLOAD ITINERARY -1
+                                </button>
+
+                            </div>
+
+                            <div style="width: fit-content; padding: 10px; display: flex; flex-direction: column; justify-content: center;">
+
+                                <div
+                                    style="background-image: url('inv_assets/itinerary_2.png'); height: 400px; background-size: cover;">
+
+                                </div>
+                                <span style="color: #333">
+                                    *preview
+                            </span>
+
+                                <button id="downloadItineraryButtontwo" style="margin-top: 10px;">
+
+                                    DOWNLOAD ITINERARY -2
+                                </button>
+                            </div>
+
+                            <div style="width: fit-content; padding: 10px; display: flex; flex-direction: column; justify-content: center;">
+                                <div
+                                    style="background-image: url('inv_assets/itinerary_3.png'); height: 400px; background-size: cover;">
+
+                                </div>
+                                <span style="color: #333">
+                                    *preview
+                            </span>
+
+                                <button id="downloadItineraryButtonthree" style="margin-top: 10px;">
+
+                                    DOWNLOAD ITINERARY -3
+                                </button>
+                            </div>
+
+                        </section>
+                    </section>
+
+
                     <!-- <a href="form.html" target="_blank">
                         <button style="background-color: #2c3e50;
                                     color: #fff;
@@ -149,11 +191,12 @@
                         </button>
                     </a> -->
                 </div>
-                
-                
+
+
             </div>
         </div>
     </div>
-   
+
 </body>
+
 </html>
