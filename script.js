@@ -611,6 +611,17 @@ document.addEventListener("DOMContentLoaded", () => {
     "cancelAgentIDTwo",
     "../pagestwo/index.html"
   );
+
+  // Setup for the third button
+  setupButton(
+    "downloadItineraryButtonthree",
+    "agentIdPopupThree",
+    "dateDropdownThree",
+    "agentIDInputThree",
+    "submitAgentIDThree",
+    "cancelAgentIDThree",
+    "../pagesthree/index.html"
+  );
 });
 
 populateButtons();

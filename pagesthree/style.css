@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Dancing+Script:wght@400..700&family=Lobster&family=Moderustic:wght@300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito", sans-serif;
+   
+}
+#pkgname {
+  font-family: "Lobster", sans-serif !important;
+  font-size: 50px;
+  color: white !important;
+  font-weight: 500;
+
+}
+body{
+    overflow-x: hidden; 
+}
+.container{
+    width: 100vw;
+   height: auto;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.a4-container3{
+   width: 210mm;
+   height: auto;
+}
+.contact-us-link{
+    color: white;
+    text-decoration: none;
+}
+.inc-exc-three {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    background-color: #fff;
+   
+}
+
+.inc-exc-three h2 {
+    color: #000;
+    font-size: 25px;
+    text-align: left;
+    margin-bottom: 30px;
+    /* text-transform: uppercase; */
+    letter-spacing: 2px;
+}
+
+.inclusion-three, .exclusion-three {
+    margin-bottom: 30px;
+    padding: 10px;
+}
+
+
+
+
+.inclusion-three p, .exclusion-three p {
+    color: #333;
+    margin: 10px 0;
+    padding-left: 25px;
+    position: relative;
+    line-height: 1.6;
+}
+
+
+/* PRICING TABLE  CSS HERE*/
+
+.table {
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.table-header, .table-row {
+  display: table-row;
+}
+
+.table-header {
+  background-color: #000000;
+  color: white;
+  font-size: large;
+}
+
+.table-cell {
+  display: table-cell;
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.table-header .table-cell {
+  border-bottom: none;
+}
+
+.table-row:last-child .table-cell {
+  border-bottom: none;
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+}
+
+.dollar-sign {
+  margin-right: 2px;
+  font-weight: bold;
+}
+
+.price-input {
+  width: 70px;
+  border: none;
+  background-color: transparent;
+  font-size: inherit;
+  font-family: inherit;
+  text-align: right;
+}
+
+.price-input:focus {
+  outline: none;
+}
+
+.editable {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #ffe600;
+}
+
+.edit-btn {
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-btn:hover {
+  background-color: #3a78c2;
+}
+.righties {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    top: 20px; 
+    width: 30%;
+    height: 100%;
+    background-color: #f8f9fa;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .download-box {
+    text-align: center;
+  }
+  
+  .download-text {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .downloadBtn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width:30%;
+  }
+  
+  #downloadBtn:hover {
+    background-color: #0056b3;
+  }
+  
+  .sidebar-image {
+    margin-bottom: 20px;
+  }
+  
+  .sidebar-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  #scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+  }
+
+  .selected-img {
+    border: 6px solid rgb(0, 132, 255); 
+    border-radius: 10px;
+}
+  @media (max-width: 600px) {
+    .inc-exc-three {
+        padding: 10px;
+    }
+    
+    .inclusion-three, .exclusion-three {
+        padding: 15px;
+    }
+    
+    .inc-exc-three h2 {
+        font-size: 24px;
+    }
+    
+    .inclusion-three h3, .exclusion-three h3 {
+        font-size: 20px;
+    }
+}
+
+a{
+  text-decoration: none;
+}
