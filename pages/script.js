@@ -1,5 +1,5 @@
-const mainurl = 'https://apidev.cultureholidays.com/api/Holidays/';
-const mainurl2 = 'https://apidev.cultureholidays.com/api/Account/';
+const mainurl = 'https://mobileapi.cultureholidays.com/api/Holidays/';
+const mainurl2 = 'https://mobileapi.cultureholidays.com/api/Account/';
 var pdf_filename = '';
 
 function getUrlParameter(name) {

@@ -115,7 +115,6 @@ function closeOptionalToursPopup() {
   document.getElementById("optionalToursPopup").style.display = "none";
 }
 
-
 function displayOptionalToursPopup(optionalTours) {
   const popup = document.getElementById("optionalToursPopup");
   const content = document.getElementById("optionalToursContent");
@@ -152,7 +151,7 @@ function closeOptionalToursPopup() {
 
 async function fetchPackages(countryCode) {
   const response = await fetch(
-    `https://apidev.cultureholidays.com/api/Holidays/PackagelistByCountrycode?Countrycode=${countryCode}&AgencyId=`
+    `https://mobileapi.cultureholidays.com/api/Holidays/PackagelistByCountrycode?Countrycode=${countryCode}&AgencyId=`
   );
   const packages = await response.json();
   displayPackages(packages);
@@ -234,7 +233,7 @@ function handleSearchInput(event) {
 
 async function displayPackageDetails(pkg_ID, pkg_TITLE) {
   const response = await fetch(
-    `https://apidev.cultureholidays.com/api/Holidays/PacKageInfo?PKG_ID=${pkg_ID}`
+    `https://mobileapi.cultureholidays.com/api/Holidays/PacKageInfo?PKG_ID=${pkg_ID}`
   );
   
   const packageInfo = await response.json();
@@ -262,11 +261,9 @@ console.log(packageInfo);
     `;
   }
 }
-
-
 async function displayitineraryitems(pkg_ID) {
   const response = await fetch(
-    `https://apidev.cultureholidays.com/api/Holidays/PacKageItieneary?PKG_ID=${pkg_ID}`
+    `https://mobileapi.cultureholidays.com/api/Holidays/PacKageItieneary?PKG_ID=${pkg_ID}`
   );
   const itineraryitems = await response.json();
   fetchHotelData(pkg_ID);
@@ -302,7 +299,7 @@ async function displayitineraryitems(pkg_ID) {
 async function fetchInclusionsExclusions(pkg_ID) {
   try {
     const response = await fetch(
-      `https://apidev.cultureholidays.com/api/Holidays/PacKageInclusionAndExclusion?PKG_ID=${pkg_ID}`
+      `https://mobileapi.cultureholidays.com/api/Holidays/PacKageInclusionAndExclusion?PKG_ID=${pkg_ID}`
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -368,7 +365,7 @@ function toggleDetails(showId, hideId) {
 
 async function fetchHotelData(pkg_ID) {
   const response = await fetch(
-    `https://apidev.cultureholidays.com/api/Holidays/PacKageHotel?PKG_ID=${pkg_ID}`
+    `https://mobileapi.cultureholidays.com/api/Holidays/PacKageHotel?PKG_ID=${pkg_ID}`
   );
   const data = await response.json();
   console.log(data);
@@ -537,86 +534,67 @@ async function displaySupplierRateTable(pkg_ID) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const apiBaseUrl = 'https://apidev.cultureholidays.com/api';
+  // const apiBaseUrl = 'https://apidev.cultureholidays.com/api';
 
-  function setupButton(buttonId, popupId, dateDropdownId, agentInputId, submitId, cancelId, pageUrl) {
+  function setupButton(buttonId, popupId, datePickerId, agentInputId, submitId, cancelId, pageUrl) {
     document.getElementById(buttonId).addEventListener("click", () => {
-      document.getElementById(popupId).style.display = "block";
-
-      const selectedPackageID = qwerty;
-      if (!selectedPackageID) {
-        console.error('No package ID selected');
-        return;
-      }
-
-      fetch(`${apiBaseUrl}/Account/GetPackageRoomAvlDate?PKGID=${selectedPackageID}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          const dateDropdown = document.getElementById(dateDropdownId);
-          dateDropdown.innerHTML = ''; 
-          data.forEach(item => {
-            const option = document.createElement("option");
-            option.value = item.ratE_AVIAL_DATE;
-            option.textContent = item.ratE_AVIAL_DATE;
-            dateDropdown.appendChild(option);
-          });
-        })
-        .catch(error => {
-          console.error('Error fetching dates:', error);
-          alert('Failed to load available dates. Please try again.');
-        });
+        document.getElementById(popupId).style.display = "block";
     });
 
     document.getElementById(submitId).addEventListener("click", () => {
-      let agentID = document.getElementById(agentInputId).value;
-      let selectedDate = document.getElementById(dateDropdownId).value;
+        let agentID = document.getElementById(agentInputId).value;
+        let selectedDate = document.getElementById(datePickerId).value;
 
-      if (agentID.startsWith("CHAGT")) {
-        let itineraryURL = `${pageUrl}?itineraryID=${encodeURIComponent(qwerty)}&agentID=${encodeURIComponent(agentID)}&rateAvialDate=${encodeURIComponent(selectedDate)}`;
-        window.open(itineraryURL, "_blank").focus();
-        document.getElementById(popupId).style.display = "none";
-      } else {
-        alert("Invalid Agent ID. It must start with 'CHAGT'.");
-      }
+        // Format the date
+        if (selectedDate) {
+            let date = new Date(selectedDate);
+            let day = date.getDate().toString().padStart(2, '0');
+            let month = (date.getMonth() + 1).toString().padStart(2, '0');
+            let year = date.getFullYear();
+            selectedDate = `${day}/${month}/${year}`;
+        }
+
+        if (agentID.startsWith("CHAGT")) {
+            let itineraryURL = `${pageUrl}?itineraryID=${encodeURIComponent(qwerty)}&agentID=${encodeURIComponent(agentID)}&rateAvialDate=${selectedDate}`;
+            window.open(itineraryURL, "_blank").focus();
+            document.getElementById(popupId).style.display = "none";
+        } else {
+            alert("Invalid Agent ID. It must start with 'CHAGT'.");
+        }
     });
 
     document.getElementById(cancelId).addEventListener("click", () => {
-      document.getElementById(popupId).style.display = "none";
+        document.getElementById(popupId).style.display = "none";
     });
-  }
+}
 
   // Setup for the first button
   setupButton(
     "downloadItineraryButton",
     "agentIdPopup",
-    "dateDropdown",
+    "datePicker",  // Changed from "dateDropdown" to "datePicker"
     "agentIDInput",
     "submitAgentID",
     "cancelAgentID",
     "../pages/index.html"
   );
-
+  
   // Setup for the second button
   setupButton(
     "downloadItineraryButtontwo",
     "agentIdPopupTwo",
-    "dateDropdownTwo",
+    "datePickerTwo",  // Changed from "dateDropdownTwo" to "datePickerTwo"
     "agentIDInputTwo",
     "submitAgentIDTwo",
     "cancelAgentIDTwo",
     "../pagestwo/index.html"
   );
-
+  
   // Setup for the third button
   setupButton(
     "downloadItineraryButtonthree",
     "agentIdPopupThree",
-    "dateDropdownThree",
+    "datePickerThree",  // Changed from "dateDropdownThree" to "datePickerThree"
     "agentIDInputThree",
     "submitAgentIDThree",
     "cancelAgentIDThree",
