@@ -9,6 +9,7 @@ var emailID = "";
 var packg_name = "";
 var pdf_filename = "";
 var agentemail = "";
+var hotelIds = [];
 
 function getUrlParameter(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -159,14 +160,14 @@ async function fetchPackageImages() {
           thumbnailsContainer2.appendChild(imgElement2);
         });
 
-        // Set initial images if required
+        
         if (data.length > 1) {
-          updateMainImage(data[0].pkG_IMG_URl, "topmost"); // Set the first image as initial for topmost container
+          updateMainImage(data[0].pkG_IMG_URl, "topmost");
           setSelectedImage(
             thumbnailsContainer1.children[0],
             thumbnailsContainer1
           );
-          updateMainImage(data[1].pkG_IMG_URl, "tripOverview"); // Set the second image as initial for trip overview container
+          updateMainImage(data[1].pkG_IMG_URl, "tripOverview"); 
           setSelectedImage(
             thumbnailsContainer2.children[1],
             thumbnailsContainer2
@@ -177,7 +178,11 @@ async function fetchPackageImages() {
       }
     })
     .catch((error) => console.error("Error fetching package images:", error));
+
 }
+
+
+
 
 function updateMainImage(imageUrl, containerType) {
   if (containerType === "topmost") {
@@ -213,7 +218,6 @@ async function fetchPackageItinerary() {
       } Nights | ${finalday} Days`;
 
       const selectedDate = sess;
-      // console.log("Selected date from session storage:", selectedDate);
       const [day, month, year] = selectedDate.split("/");
 
       const startDate = new Date(year, month - 1, day);
@@ -254,6 +258,7 @@ async function fetchPackageItinerary() {
             image: "assets/breakfast.png",
           },
           { type: "lunch", label: "Lunch", image: "assets/lunch.png" },
+
           { type: "dinner", label: "Dinner", image: "assets/dinner.png" },
         ];
 
@@ -354,11 +359,42 @@ async function fetchPackageInclusionExclusion() {
     );
 }
 
+function enableTripleClickImageChange(hotelIds) {
+  console.log("Received hotelIds:", hotelIds); // pls delete boss 
+
+  const staticElements = document.querySelectorAll('.topmost-container, .trip-overview-heading');
+  
+  const addClickListener = (element) => {
+    element.addEventListener('click', function(event) {
+      if (event.detail === 2) {
+        const imageUrl = prompt("Please enter the image URL:");
+        if (imageUrl) {
+          this.style.backgroundImage = `url('${imageUrl}')`;
+        }
+      }
+    });
+  };
+
+  staticElements.forEach(addClickListener);
+
+  if (Array.isArray(hotelIds) && hotelIds.length > 0) {
+    hotelIds.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        addClickListener(element);
+      }
+    });
+  } else {
+    console.warn("hotelIds is not a valid array or is empty");
+  }
+}
+
 async function fetchHotels() {
+
   return fetch(mainurl + "PacKageHotel?PKG_ID=" + pkgID)
     .then((response) => response.json())
     .then((data) => {
-      var i = 0;
+      
       const totalNights =
         data.reduce((sum, hotel) => sum + parseInt(hotel.nights), 0) + 1;
 
@@ -366,18 +402,19 @@ async function fetchHotels() {
         const hotelContainer = document.getElementById("hotelContainer");
         hotelContainer.innerHTML = "";
         let currentStartDay = 1;
-
-        data.forEach((hotelData) => {
+        const hotelIds = [];
+        data.forEach((hotelData , index) => {
           let startDay = currentStartDay;
           let endDay = parseInt(hotelData.nights) + startDay;
           if (startDay >= finalday) {
             startDay = finalday - parseInt(hotelData.nights);
             endDay = finalday;
           }
-          i = i + 1;
+          
           const card = document.createElement("div");
           card.classList.add("card");
-
+          const hotelId = `hotel-image-${index + 1}`; 
+          hotelIds.push(hotelId); 
           card.innerHTML = `
     <div class="top-card" style="display: flex;">
       <div class="left-side" style="display: flex; background-color: #3620ed; color: white; padding: 8px 15px;">
@@ -423,7 +460,7 @@ align-items: center;
               hotelData.htL_ADDRESS
             }</span></p>
           </div>
-          <div class="rightie" id = "${i}" style="width: 30%; background-image: url('${
+          <div class="rightie" id="${hotelId}" style="width: 30%; background-image: url('${
             hotelData.hotelImage
           }'); background-size: cover; background-position: center; ">
           </div>
@@ -434,8 +471,10 @@ align-items: center;
           hotelContainer.appendChild(card);
           currentStartDay = endDay;
         });
+        console.log(hotelIds);
+        enableTripleClickImageChange(hotelIds); 
       } else {
-        // Proceed with the existing logic to divide into maps
+
         const fiveStarHotels = new Map();
         const fourStarHotels = new Map();
 
@@ -500,10 +539,11 @@ function closePopup() {
   popupContainer.style.display = "none";
 }
 
-function displayHotels(hotels) {
+function displayHotels(hotels , index) {
   const hotelContainer = document.getElementById("hotelContainer");
   hotelContainer.innerHTML = "";
   let currentStartDay = 1;
+ 
   hotels.forEach((hotelData) => {
     let startDay = currentStartDay;
     let endDay = parseInt(hotelData.nights) + startDay;
@@ -511,6 +551,10 @@ function displayHotels(hotels) {
       startDay = finalday - parseInt(hotelData.nights);
       endDay = finalday;
     }
+
+    const hotelId = `hotel-image-${index + 1}`; 
+
+    hotelIds.push(hotelId);
     const card = document.createElement("div");
     card.classList.add("card");
     card.innerHTML = `
@@ -558,7 +602,7 @@ function displayHotels(hotels) {
                     hotelData.htL_ADDRESS
                   }</span></p>
                 </div>
-                <div class="rightie" style="width: 30%; background-image: url('${
+                <div class="rightie" style="width: 30%; id="${hotelId}" background-image: url('${
                   hotelData.hotelImage
                 }'); background-size: cover; background-position: center; ">
                 </div>
@@ -570,6 +614,8 @@ function displayHotels(hotels) {
     hotelContainer.appendChild(card);
     currentStartDay = endDay;
   });
+
+  console.log("Generated hotel IDs:", hotelIds);
 }
 
 async function fetchAndDisplayQRCode() {
@@ -684,7 +730,6 @@ scrollToTopBtn.addEventListener("click", function () {
 
 document.getElementById("download-pdf").addEventListener("click", function () {
   window.scrollTo(0, 0);
-  // document.getElementById("price-btn-dis").style.display = "none";
 
   var options = {
     filename: pdf_filename,
@@ -738,38 +783,14 @@ document.getElementById("single").addEventListener("input", function (e) {
   }
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Get elements
-  const openModalButton = document.getElementById("openModalButton");
-  const imageModal = document.getElementById("imageModal");
-  const closeButton = document.querySelector(".close-button");
-  const saveImageButton = document.getElementById("saveImageButton");
-  const imageUrlInput = document.getElementById("imageUrlInput");
-  const backgroundContainer = document.getElementById("backgroundContainer");
 
-  // Open the modal
-  openModalButton.addEventListener("click", () => {
-    imageModal.style.display = "block";
-  });
 
-  // Close the modal
-  closeButton.addEventListener("click", () => {
-    imageModal.style.display = "none";
-  });
 
-  // Save the new background image URL
-  saveImageButton.addEventListener("click", () => {
-    const newImageUrl = imageUrlInput.value.trim();
-    if (newImageUrl) {
-      backgroundContainer.style.backgroundImage = `url(${newImageUrl})`;
-    }
-    imageModal.style.display = "none";
-  });
+// Call the function when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', enableTripleClickImageChange);
 
-  // Close the modal when clicking outside the modal content
-  window.addEventListener("click", (event) => {
-    if (event.target == imageModal) {
-      imageModal.style.display = "none";
-    }
-  });
-});
+
+
+
+
+
