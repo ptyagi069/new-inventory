@@ -54,9 +54,8 @@
                         <div style="width: 50%; margin-left: 45px; font-size: 28px;" contenteditable="true">
                             travel <br> agent
                         </div>
-                        <img src="images/suitcase.png" alt="" style="width: 55px; margin-right: 25px; z-index: 1; margin-top: 45px;">
-                        <img src="images/lady-gaga.png" alt="Image"
-                            style="height: 200px; margin-left: 10px; margin-right: 10px; z-index: 1;">
+                        <img src="images/suitcase.png" alt="" style="width: 55px; z-index: 1; margin-top: 45px;">
+                      
                         <div style="width: 50%; margin-left: 50px; font-size: 18px;" contenteditable="true">
                            <p id = "agency-name" style="font-size: 25px; ">xyz</p>
                         </div>
@@ -70,9 +69,10 @@
                     justify-content: space-between;">
                      
                         <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; padding-left: 30px;">
-                            <div id="qrCodeContainer" >
+                            <div id="qrCodeContainer"  style="display: flex; flex-direction: column-reverse; justify-content: center; align-items: center; ">
+                                <p id = "booknowtext" contenteditable="true" style="color: blue;">Book Now</p>
                             </div>
-                            <p  contenteditable="true" style="color: blue;">Book Now</p>
+                           
                        
                         </div>
                        
@@ -181,7 +181,7 @@
                 
                     </div>
 
-                    <div class="costing-table" style="padding: 10px;">
+                    <div  id ="cst-tbl"  class="costing-table" style="padding: 10px;">
                         <div class="table">
                             <div class="table-header">
                                 <div class="table-cell">Tour Date</div>
@@ -227,7 +227,18 @@
                         </div>
 
                         <h3>Choose the image of your choice</h3>
+                        
+                        <div id="imageModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close-button">&times;</span>
+                                <h2>Paste Image URL</h2>
+                                <input type="text" id="imageUrlInput" placeholder="Enter image URL here">
+                                <button id="saveImageButton">Save Image</button>
+                            </div>
+                        </div>
                         <div class="thumbnail-container" id="thumbnail-container"></div>
+                        <h5>Or paste a custom url here..</h5>
+                        <button id="openModalButton">Change Image</button>
             
                     </div>
         </div>

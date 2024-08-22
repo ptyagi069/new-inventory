@@ -12,6 +12,23 @@ function getUrlParameter(name) {
 var itineraryID = getUrlParameter('itineraryID');
 var agentID = getUrlParameter('agentID');
 var rateAvialDate = getUrlParameter('rateAvialDate');
+var checkbox = getUrlParameter('includeRateTable');
+
+
+if(checkbox == 'true') {  
+  document.getElementById('cst-tbl').style.display = 'block';
+  document.getElementById('booknowtext').style.display = 'block';
+
+}
+
+else {
+
+  document.getElementById('cst-tbl').style.display = 'none';
+  document.getElementById('booknowtext').style.display = 'none';
+
+}
+const amont = getUrlParameter('amount');
+
 const sess = rateAvialDate;
 let [day, month, year] = sess.split('/');
 let formattedDateStr = `${month}/${day}/${year}`;
@@ -23,7 +40,6 @@ document.querySelectorAll('.dates').forEach((dateElement) => {
   dateElement.innerHTML = startDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
 });
 
-
 async function fetchAgencyDetails() {
   const apiUrl = mainurl2 + 'GetAgencyProfileDetails?AgentID=' + agentID;
   try {
@@ -34,13 +50,23 @@ async function fetchAgencyDetails() {
     }
 
     const data = await response.json();
-    
-    // Storing the response entities in variables
-     companyLogo = data.companyLogo || '';
-     whatsappContact = data.whatsappNumber || '';
-     emailID = data.emailid || '';
+    console.log(data.emailid);
+    companyLogo = data.companyLogo || '';
+    whatsappContact = data.whatsappNumber || '';
+    emailID = data.emailid || '';
 
+     
 
+if(checkbox == 'true') {  
+  fetchAndDisplayQRCode(data.emailid);
+  
+}
+
+else {
+
+ document.getElementById('booknowtext').style.display = 'none';
+
+}
       if(data.company_Name = '') {
         document.getElementById('agency-name').innerHTML  = '';
       }
@@ -57,7 +83,6 @@ async function fetchAgencyDetails() {
   }
 }
 
-
 async function fetchPackageInfo() {
   return fetch(mainurl + "PacKageInfo?PKG_ID=" + pkgID)
     .then((response) => response.json())
@@ -71,10 +96,11 @@ async function fetchPackageInfo() {
          pkgNameElement.innerHTML = packageInfo.packageName;
         pkgDescElement.innerHTML = packageInfo.pkG_DESCRIPTION;
         infDescElement.innerHTML = packageInfo.inF_DESCRIPTION;
+        infDescElement.style.color = '#333 !important';
       } else {
         console.error("Package info not available.");
       }
-      fetchAgencyDetails();
+      
       return fetchPackageItinerary();
     })
     .catch((error) => console.error("Error fetching package info:", error));
@@ -293,14 +319,14 @@ async function fetchPackageImgs() {
       .catch((error) => console.error("Error fetching package info:", error));
 }
 
-async function fetchAndDisplayQRCode() {
+async function fetchAndDisplayQRCode(emalu) {
   const apiUrl =  mainurl2 + 'GenrateQr';
   const agentId = agentID;
-  const emailId = sessionStorage.getItem('emailid');
-  const selected = sessionStorage.getItem('selectedDate');
+  const emailId = emalu;
+  const selected = rateAvialDate;
   const packageId = pkgID;
-  const amount = '1111';
-  const depositAmount = '200'; 
+  const amount = amont;
+  const depositAmount = sessionStorage.getItem('dpst-amt'); 
   const ipAddress = '::1';
   const requestBody = {};
 
@@ -353,12 +379,14 @@ async function fetchAndDisplayQRCode() {
 
 async function fetchpackagerates() {
   try {
-    const response = await fetch(mainurl + `PacKageRate?PKG_ID=${pkgID}&AgentID=${agentIds}&tourdate=${encodeURIComponent(sess)}`);
+    const tttt = mainurl + `PacKageRate?PKG_ID=${pkgID}&AgentID=${agentIds}&tourdate=${encodeURIComponent(sess)}` ;
+    const response = await fetch(tttt);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     
     const data = await response.json();
+   
     if (data.length > 0) {
       const packageRate = data[0];
       document.getElementById('twin-triple').value = Math.round(packageRate.dbldclienT_PRICE);
@@ -372,13 +400,11 @@ async function fetchpackagerates() {
   }
 }
 
-
+fetchAgencyDetails();
 fetchAndUpdateHotels();
 fetchAndUpdateInclusionsExclusions();
 fetchPackageInfo();
-fetchPackageItinerary();
 fetchPackageImgs();
-fetchAndDisplayQRCode();
 fetchpackagerates();
 
 document.getElementById("download-pdf").addEventListener("click", function () {
@@ -435,5 +461,40 @@ document.getElementById("twin-triple").addEventListener("input", function(e) {
 document.getElementById("single").addEventListener("input", function(e) {
     if (e.target.value.length > 5) {
         e.target.value = e.target.value.slice(0, 5);
+    }
+});
+
+
+// Get elements
+const openModalButton = document.getElementById("openModalButton");
+const imageModal = document.getElementById("imageModal");
+const closeButton = document.querySelector(".close-button");
+const saveImageButton = document.getElementById("saveImageButton");
+const imageUrlInput = document.getElementById("imageUrlInput");
+const topmostImage = document.getElementById("topmostimage");
+
+// Open the modal
+openModalButton.addEventListener("click", () => {
+    imageModal.style.display = "block";
+});
+
+// Close the modal
+closeButton.addEventListener("click", () => {
+    imageModal.style.display = "none";
+});
+
+// Save the new image URL
+saveImageButton.addEventListener("click", () => {
+    const newImageUrl = imageUrlInput.value.trim();
+    if (newImageUrl) {
+        topmostImage.src = newImageUrl;
+    }
+    imageModal.style.display = "none";
+});
+
+// Close the modal when clicking outside the modal content
+window.addEventListener("click", (event) => {
+    if (event.target == imageModal) {
+        imageModal.style.display = "none";
     }
 });

@@ -8,6 +8,7 @@ var whatsappContact = '';
 var emailID = '';
 var packg_name = '';
 var pdf_filename = '';
+var agentemail = '';
 
 function getUrlParameter(name) {
   name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -28,10 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
   .then (fetchAgencyDetails)
     .then(fetchPackageImages)
     .then(fetchPackageItinerary)
-    .then (fetchAndDisplayQRCode)
     .then(fetchPackageInclusionExclusion)
     .then(fetchHotels)
     .then(fetchpackagerates)
+    .then (fetchAndDisplayQRCode)
     .catch(error => console.error('Error in the chain of function execution:', error));
 });
 
@@ -54,7 +55,7 @@ async function fetchAgencyDetails() {
      whatsappContact = data.whatsappNumber || '';
      emailID = data.emailid || '';
 
-
+     agentemail = emailID ;
       if(data.company_Name = '') {
         document.getElementById('company-name-stg').innerHTML  = '';
       }
@@ -530,8 +531,8 @@ function displayHotels(hotels) {
 async function fetchAndDisplayQRCode() {
   const apiUrl =  mainurl2 + 'GenrateQr';
   const agentId =  agentID;
-  const emailId = sessionStorage.getItem('emailid');
-  const selected = sess;
+  const emailId = agentemail;
+  const selected = rateAvialDate;
   const packageId = pkgID;
   const amount = '111111';
   const depositAmount = '200'; 
@@ -684,4 +685,41 @@ document.getElementById("single").addEventListener("input", function(e) {
     if (e.target.value.length > 5) {
         e.target.value = e.target.value.slice(0, 5);
     }
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Get elements
+  const openModalButton = document.getElementById("openModalButton");
+  const imageModal = document.getElementById("imageModal");
+  const closeButton = document.querySelector(".close-button");
+  const saveImageButton = document.getElementById("saveImageButton");
+  const imageUrlInput = document.getElementById("imageUrlInput");
+  const backgroundContainer = document.getElementById("backgroundContainer");
+
+  // Open the modal
+  openModalButton.addEventListener("click", () => {
+      imageModal.style.display = "block";
+  });
+
+  // Close the modal
+  closeButton.addEventListener("click", () => {
+      imageModal.style.display = "none";
+  });
+
+  // Save the new background image URL
+  saveImageButton.addEventListener("click", () => {
+      const newImageUrl = imageUrlInput.value.trim();
+      if (newImageUrl) {
+          backgroundContainer.style.backgroundImage = `url(${newImageUrl})`;
+      }
+      imageModal.style.display = "none";
+  });
+
+  // Close the modal when clicking outside the modal content
+  window.addEventListener("click", (event) => {
+      if (event.target == imageModal) {
+          imageModal.style.display = "none";
+      }
+  });
 });

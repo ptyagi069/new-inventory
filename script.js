@@ -1,4 +1,5 @@
 var qwerty = 0;
+var dpstamt2 =0;
 async function fetchData() {
   const response = await fetch("https://devapi.cultureholidays.com/GetCountry");
   const data = await response.json();
@@ -151,7 +152,7 @@ function closeOptionalToursPopup() {
 
 async function fetchPackages(countryCode) {
   const response = await fetch(
-    `https://mobileapi.cultureholidays.com/api/Holidays/PackagelistByCountrycode?Countrycode=${countryCode}&AgencyId=`
+    `https://mobileapi.cultureholidays.com/api/Holidays/PackagelistByCountrycode?Countrycode=${countryCode}&AgencyId=all`
   );
   const packages = await response.json();
   displayPackages(packages);
@@ -204,8 +205,9 @@ console.log(filteredPackages);
                     <h4>${pkg.pkgTitle}</h4>
                 `;
     div.addEventListener("click", () => {
-      localStorage.setItem("selectedPackageID", String(pkg.pkgID));
-      localStorage.setItem("selectedPackageTitle", String(pkg.pkgTitle));
+    
+        sessionStorage.setItem("dpst-amt" , pkg.pkgdepositamt);
+        dpstamt2 = pkg.pkgdepositamt;
       qwerty = pkg.pkgID;
       displayPackageDetails(pkg.pkgID, pkg.pkgTitle);
       filteredPackagesContainer.style.display = "none";
@@ -534,9 +536,8 @@ async function displaySupplierRateTable(pkg_ID) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // const apiBaseUrl = 'https://apidev.cultureholidays.com/api';
 
-  function setupButton(buttonId, popupId, datePickerId, agentInputId, submitId, cancelId, pageUrl) {
+  function setupButton(buttonId, popupId, datePickerId, agentInputId, submitId, cancelId, pageUrl, amountInputId, checkboxId) {
     document.getElementById(buttonId).addEventListener("click", () => {
         document.getElementById(popupId).style.display = "block";
     });
@@ -544,18 +545,20 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById(submitId).addEventListener("click", () => {
         let agentID = document.getElementById(agentInputId).value;
         let selectedDate = document.getElementById(datePickerId).value;
+        let amount = document.getElementById(amountInputId).value;
+        let includeRateTable = document.getElementById(checkboxId).checked;
 
-        // Format the date
         if (selectedDate) {
             let date = new Date(selectedDate);
             let day = date.getDate().toString().padStart(2, '0');
             let month = (date.getMonth() + 1).toString().padStart(2, '0');
             let year = date.getFullYear();
             selectedDate = `${day}/${month}/${year}`;
+            sessionStorage.setItem("selectedDate", selectedDate);
         }
 
         if (agentID.startsWith("CHAGT")) {
-            let itineraryURL = `${pageUrl}?itineraryID=${encodeURIComponent(qwerty)}&agentID=${encodeURIComponent(agentID)}&rateAvialDate=${selectedDate}`;
+            let itineraryURL = `${pageUrl}?itineraryID=${encodeURIComponent(qwerty)}&agentID=${encodeURIComponent(agentID)}&rateAvialDate=${selectedDate}&amount=${encodeURIComponent(amount)}&includeRateTable=${includeRateTable}`;
             window.open(itineraryURL, "_blank").focus();
             document.getElementById(popupId).style.display = "none";
         } else {
@@ -566,40 +569,47 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById(cancelId).addEventListener("click", () => {
         document.getElementById(popupId).style.display = "none";
     });
-}
+  }
 
   // Setup for the first button
   setupButton(
     "downloadItineraryButton",
     "agentIdPopup",
-    "datePicker",  // Changed from "dateDropdown" to "datePicker"
+    "datePicker",
     "agentIDInput",
     "submitAgentID",
     "cancelAgentID",
-    "../pages/index.html"
+    "../pages/index.html",
+    "amt",          // ID for the amount input field
+    "rateTableCheckbox" // ID for the checkbox
   );
   
   // Setup for the second button
   setupButton(
     "downloadItineraryButtontwo",
     "agentIdPopupTwo",
-    "datePickerTwo",  // Changed from "dateDropdownTwo" to "datePickerTwo"
+    "datePickerTwo",
     "agentIDInputTwo",
     "submitAgentIDTwo",
     "cancelAgentIDTwo",
-    "../pagestwo/index.html"
+    "../pagestwo/index.html",
+    "amt",          // ID for the amount input field
+    "rateTableCheckboxTwo" // ID for the checkbox
   );
   
   // Setup for the third button
   setupButton(
     "downloadItineraryButtonthree",
     "agentIdPopupThree",
-    "datePickerThree",  // Changed from "dateDropdownThree" to "datePickerThree"
+    "datePickerThree",
     "agentIDInputThree",
     "submitAgentIDThree",
     "cancelAgentIDThree",
-    "../pagesthree/index.html"
+    "../pagesthree/index.html",
+    "amt",          // ID for the amount input field
+    "rateTableCheckboxThree" // ID for the checkbox
   );
 });
+
 
 populateButtons();
