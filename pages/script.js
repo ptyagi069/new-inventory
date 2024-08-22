@@ -55,8 +55,6 @@ async function fetchAgencyDetails() {
     whatsappContact = data.whatsappNumber || '';
     emailID = data.emailid || '';
 
-     
-
 if(checkbox == 'true') {  
   fetchAndDisplayQRCode(data.emailid);
   

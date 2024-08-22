@@ -3,44 +3,55 @@ var pkgpdfname = "";
 const mainurl = "https://mobileapi.cultureholidays.com/api/Holidays/";
 const mainurl2 = "https://mobileapi.cultureholidays.com/api/Account/";
 let finalday = 0;
-var companyLogo = '';
-var whatsappContact = '';
-var emailID = '';
-var packg_name = '';
-var pdf_filename = '';
-var agentemail = '';
+var companyLogo = "";
+var whatsappContact = "";
+var emailID = "";
+var packg_name = "";
+var pdf_filename = "";
+var agentemail = "";
 
 function getUrlParameter(name) {
-  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
   var results = regex.exec(window.location.search);
-  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  return results === null
+    ? ""
+    : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-var itineraryID = getUrlParameter('itineraryID');
-var agentID = getUrlParameter('agentID');
-var rateAvialDate = getUrlParameter('rateAvialDate');
+var itineraryID = getUrlParameter("itineraryID");
+var agentID = getUrlParameter("agentID");
+var rateAvialDate = getUrlParameter("rateAvialDate");
 const sess = rateAvialDate;
 const pkgID = itineraryID;
 const agentIds = agentID;
+const amont = getUrlParameter("amount");
+var checkbox = getUrlParameter("includeRateTable");
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchPackageInfo()
-  .then (fetchAgencyDetails)
+    .then(fetchAgencyDetails)
     .then(fetchPackageImages)
     .then(fetchPackageItinerary)
     .then(fetchPackageInclusionExclusion)
     .then(fetchHotels)
     .then(fetchpackagerates)
-    .then (fetchAndDisplayQRCode)
-    .catch(error => console.error('Error in the chain of function execution:', error));
+    .then(fetchAndDisplayQRCode)
+    .catch((error) =>
+      console.error("Error in the chain of function execution:", error)
+    );
 });
 
-
-
+if (checkbox == "true") {
+  document.getElementById("cst-tbl").style.display = "block";
+  document.getElementById("qrCodeContainer").style.display = "block";
+} else if (checkbox == "false") {
+  document.getElementById("cst-tbl").style.display = "none";
+  document.getElementById("qrCodeContainer").style.display = "none";
+}
 
 async function fetchAgencyDetails() {
-  const apiUrl = mainurl2 + 'GetAgencyProfileDetails?AgentID=' + agentID;
+  const apiUrl = mainurl2 + "GetAgencyProfileDetails?AgentID=" + agentID;
   try {
     const response = await fetch(apiUrl);
 
@@ -49,30 +60,25 @@ async function fetchAgencyDetails() {
     }
 
     const data = await response.json();
-    
+
     // Storing the response entities in variables
-     companyLogo = data.companyLogo || '';
-     whatsappContact = data.whatsappNumber || '';
-     emailID = data.emailid || '';
+    companyLogo = data.companyLogo || "";
+    whatsappContact = data.whatsappNumber || "";
+    emailID = data.emailid || "";
 
-     agentemail = emailID ;
-      if(data.company_Name = '') {
-        document.getElementById('company-name-stg').innerHTML  = '';
-      }
-      else {
-        document.getElementById('company-name-stg').innerHTML = data.company_Name;
-      }
-      document.getElementById('kompani-logo').src = companyLogo;
-      document.getElementById('phone-stg').innerHTML = whatsappContact;
-      document.getElementById('email-stg').innerHTML = emailID;
-
-
+    agentemail = emailID;
+    if ((data.company_Name = "")) {
+      document.getElementById("company-name-stg").innerHTML = "";
+    } else {
+      document.getElementById("company-name-stg").innerHTML = data.company_Name;
+    }
+    document.getElementById("kompani-logo").src = companyLogo;
+    document.getElementById("phone-stg").innerHTML = whatsappContact;
+    document.getElementById("email-stg").innerHTML = emailID;
   } catch (error) {
-    console.error('There was a problem with the fetch operation:', error);
+    console.error("There was a problem with the fetch operation:", error);
   }
 }
-
-
 
 async function fetchPackageInfo() {
   return fetch(mainurl + "PacKageInfo?PKG_ID=" + pkgID)
@@ -88,7 +94,7 @@ async function fetchPackageInfo() {
       document.getElementById("inf_desc").innerHTML =
         packageInfo.inF_DESCRIPTION;
       const citiesDiv = document.getElementById("cities");
-      citiesDiv.innerHTML = ""; 
+      citiesDiv.innerHTML = "";
 
       const destinations = packageInfo.pkG_DESTINATION.split(",");
       destinations.forEach((destination) => {
@@ -99,7 +105,7 @@ async function fetchPackageInfo() {
         destinationDiv.style.padding = "0.5rem";
         destinationDiv.style.marginRight = "0.5rem";
         destinationDiv.style.borderRadius = "15px";
-        destinationDiv.style.marginTop  = "15px";
+        destinationDiv.style.marginTop = "15px";
         destinationDiv.textContent = destination.trim();
         citiesDiv.appendChild(destinationDiv);
       });
@@ -112,35 +118,39 @@ async function fetchPackageImages() {
     .then((response) => response.json())
     .then((data) => {
       if (data && data.length > 0) {
-        const thumbnailsContainer1 = document.getElementById('thumbnailsContainer1');
-        const thumbnailsContainer2 = document.getElementById('thumbnailsContainer2');
-        thumbnailsContainer1.innerHTML = ''; // Clear any existing thumbnails
-        thumbnailsContainer2.innerHTML = ''; // Clear any existing thumbnails
+        const thumbnailsContainer1 = document.getElementById(
+          "thumbnailsContainer1"
+        );
+        const thumbnailsContainer2 = document.getElementById(
+          "thumbnailsContainer2"
+        );
+        thumbnailsContainer1.innerHTML = ""; // Clear any existing thumbnails
+        thumbnailsContainer2.innerHTML = ""; // Clear any existing thumbnails
 
         data.forEach((image, index) => {
-          const imgElement1 = document.createElement('img');
+          const imgElement1 = document.createElement("img");
           imgElement1.src = image.pkG_IMG_URl;
           imgElement1.alt = `Image ${index + 1}`;
-          imgElement1.style.cursor = 'pointer';
-          imgElement1.style.margin = '5px';
-          imgElement1.style.width = '150px';
-          imgElement1.style.height = '100px';
-          imgElement1.style.objectFit = 'cover';
-          imgElement1.addEventListener('click', () => {
-            updateMainImage(image.pkG_IMG_URl, 'topmost');
+          imgElement1.style.cursor = "pointer";
+          imgElement1.style.margin = "5px";
+          imgElement1.style.width = "150px";
+          imgElement1.style.height = "100px";
+          imgElement1.style.objectFit = "cover";
+          imgElement1.addEventListener("click", () => {
+            updateMainImage(image.pkG_IMG_URl, "topmost");
             setSelectedImage(imgElement1, thumbnailsContainer1);
           });
 
-          const imgElement2 = document.createElement('img');
+          const imgElement2 = document.createElement("img");
           imgElement2.src = image.pkG_IMG_URl;
           imgElement2.alt = `Image ${index + 1}`;
-          imgElement2.style.cursor = 'pointer';
-          imgElement2.style.margin = '5px';
-          imgElement2.style.width = '150px';
-          imgElement2.style.height = '100px';
-          imgElement2.style.objectFit = 'cover';
-          imgElement2.addEventListener('click', () => {
-            updateMainImage(image.pkG_IMG_URl, 'tripOverview');
+          imgElement2.style.cursor = "pointer";
+          imgElement2.style.margin = "5px";
+          imgElement2.style.width = "150px";
+          imgElement2.style.height = "100px";
+          imgElement2.style.objectFit = "cover";
+          imgElement2.addEventListener("click", () => {
+            updateMainImage(image.pkG_IMG_URl, "tripOverview");
             setSelectedImage(imgElement2, thumbnailsContainer2);
           });
 
@@ -150,32 +160,40 @@ async function fetchPackageImages() {
 
         // Set initial images if required
         if (data.length > 1) {
-          updateMainImage(data[0].pkG_IMG_URl, 'topmost'); // Set the first image as initial for topmost container
-          setSelectedImage(thumbnailsContainer1.children[0], thumbnailsContainer1);
-          updateMainImage(data[1].pkG_IMG_URl, 'tripOverview'); // Set the second image as initial for trip overview container
-          setSelectedImage(thumbnailsContainer2.children[1], thumbnailsContainer2);
+          updateMainImage(data[0].pkG_IMG_URl, "topmost"); // Set the first image as initial for topmost container
+          setSelectedImage(
+            thumbnailsContainer1.children[0],
+            thumbnailsContainer1
+          );
+          updateMainImage(data[1].pkG_IMG_URl, "tripOverview"); // Set the second image as initial for trip overview container
+          setSelectedImage(
+            thumbnailsContainer2.children[1],
+            thumbnailsContainer2
+          );
         }
       } else {
-        console.error('No images available to display.');
+        console.error("No images available to display.");
       }
     })
-    .catch(error => console.error('Error fetching package images:', error));
+    .catch((error) => console.error("Error fetching package images:", error));
 }
 
 function updateMainImage(imageUrl, containerType) {
-  if (containerType === 'topmost') {
-    const topmostContainer = document.querySelector('.topmost-container');
+  if (containerType === "topmost") {
+    const topmostContainer = document.querySelector(".topmost-container");
     topmostContainer.style.backgroundImage = `url(${imageUrl})`;
-  } else if (containerType === 'tripOverview') {
-    const tripOverviewContainer = document.querySelector('.trip-overview-heading');
+  } else if (containerType === "tripOverview") {
+    const tripOverviewContainer = document.querySelector(
+      ".trip-overview-heading"
+    );
     tripOverviewContainer.style.backgroundImage = `url(${imageUrl})`;
   }
 }
 
 function setSelectedImage(selectedImage, container) {
-  const images = container.querySelectorAll('img');
-  images.forEach(img => img.classList.remove('selected-image'));
-  selectedImage.classList.add('selected-image');
+  const images = container.querySelectorAll("img");
+  images.forEach((img) => img.classList.remove("selected-image"));
+  selectedImage.classList.add("selected-image");
 }
 
 async function fetchPackageItinerary() {
@@ -183,8 +201,10 @@ async function fetchPackageItinerary() {
     .then((response) => response.json())
     .then((data) => {
       finalday = Math.max(...data.map((item) => item.pkG_ITI_DAY));
-      const tripDurationElement = document.getElementById('trip-duratomo');
-      tripDurationElement.textContent = `Trip Duration: ${finalday - 1} Nights | ${finalday} Days`;
+      const tripDurationElement = document.getElementById("trip-duratomo");
+      tripDurationElement.textContent = `Trip Duration: ${
+        finalday - 1
+      } Nights | ${finalday} Days`;
       document.getElementById(
         "daycount"
       ).innerHTML = `<i class="ri-sun-fill"></i> ${
@@ -193,61 +213,72 @@ async function fetchPackageItinerary() {
 
       const selectedDate = sess;
       // console.log("Selected date from session storage:", selectedDate);
-      const [day, month, year] = selectedDate.split('/');
-      
-      const startDate = new Date(year, month - 1, day); 
+      const [day, month, year] = selectedDate.split("/");
+
+      const startDate = new Date(year, month - 1, day);
       const endDate = new Date(startDate);
 
       endDate.setDate(startDate.getDate() + finalday - 1);
 
       const formatDate = (date) => {
-        return date.toLocaleDateString('en-US', { 
-          month: 'short', 
-          day: 'numeric', 
-          year: 'numeric' 
+        return date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
         });
       };
 
       const formattedStartDate = formatDate(startDate);
-      document.getElementById('tour-date-table').innerHTML = formattedStartDate;
+      document.getElementById("tour-date-table").innerHTML = formattedStartDate;
       pdf_filename = `${packg_name}-${formattedStartDate}`;
       const formattedEndDate = formatDate(endDate);
 
-      const dateRangeElement = document.querySelector('.date-range-element');
+      const dateRangeElement = document.querySelector(".date-range-element");
       dateRangeElement.innerHTML = `
         <i class="ri-calendar-2-line"></i> ${formattedStartDate} - ${formattedEndDate}
       `;
 
       const daysContainer = document.querySelector(".all-days");
-      daysContainer.innerHTML = ''; // Clear existing content
+      daysContainer.innerHTML = ""; // Clear existing content
 
       data.forEach((item, index) => {
         const dayDiv = document.createElement("div");
         dayDiv.classList.add("day");
-        const overnightLocation = item.pkG_ITI_DESC.match(/Overnight:\s*([^<>]+)/)?.[1].trim() || "N/A";
+        const overnightLocation =
+          item.pkG_ITI_DESC.match(/Overnight:\s*([^<>]+)/)?.[1].trim() || "N/A";
         const meals = [
-          { type: 'breakfast', label: 'Breakfast', image: 'assets/breakfast.png' },
-          { type: 'lunch', label: 'Lunch', image: 'assets/lunch.png' },
-          { type: 'dinner', label: 'Dinner', image: 'assets/dinner.png' }
+          {
+            type: "breakfast",
+            label: "Breakfast",
+            image: "assets/breakfast.png",
+          },
+          { type: "lunch", label: "Lunch", image: "assets/lunch.png" },
+          { type: "dinner", label: "Dinner", image: "assets/dinner.png" },
         ];
 
-        const mealIcons = meals.filter(meal => item[meal.type] === 'yes')
-          .map(meal => `<div style="text-align: center; margin-right: 10px; gap:20px;">
+        const mealIcons = meals
+          .filter((meal) => item[meal.type] === "yes")
+          .map(
+            (
+              meal
+            ) => `<div style="text-align: center; margin-right: 10px; gap:20px;">
                           <img src="${meal.image}" alt="${meal.label}" style="width: 40px;">
                           <div>${meal.label}</div>
-                        </div>`).join('');
+                        </div>`
+          )
+          .join("");
 
-        const mealSection = mealIcons ? mealIcons : 'Meal Not Available';
+        const mealSection = mealIcons ? mealIcons : "Meal Not Available";
 
         // Calculate the date for this day
         const currentDate = new Date(startDate);
         currentDate.setDate(startDate.getDate() + index);
 
         // Format the date as "DD Month YYYY"
-        const formattedDate = currentDate.toLocaleDateString('en-US', { 
-          day: '2-digit', 
-          month: 'short', 
-          year: 'numeric' 
+        const formattedDate = currentDate.toLocaleDateString("en-US", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
         });
 
         dayDiv.innerHTML = `
@@ -294,8 +325,10 @@ async function fetchPackageInclusionExclusion() {
   return fetch(mainurl + "PacKageInclusionAndExclusion?PKG_ID=" + pkgID)
     .then((response) => response.json())
     .then((data) => {
-      const inclusionDetailsContainer = document.getElementById("inclusionDetails");
-      const exclusionDetailsContainer = document.getElementById("exclusionDetails");
+      const inclusionDetailsContainer =
+        document.getElementById("inclusionDetails");
+      const exclusionDetailsContainer =
+        document.getElementById("exclusionDetails");
       inclusionDetailsContainer.innerHTML = "";
       exclusionDetailsContainer.innerHTML = "";
 
@@ -324,8 +357,10 @@ async function fetchHotels() {
   return fetch(mainurl + "PacKageHotel?PKG_ID=" + pkgID)
     .then((response) => response.json())
     .then((data) => {
-      const totalNights = data.reduce((sum, hotel) => sum + parseInt(hotel.nights), 0) + 1;
-      
+      var i = 0;
+      const totalNights =
+        data.reduce((sum, hotel) => sum + parseInt(hotel.nights), 0) + 1;
+
       if (totalNights === finalday) {
         const hotelContainer = document.getElementById("hotelContainer");
         hotelContainer.innerHTML = "";
@@ -338,11 +373,11 @@ async function fetchHotels() {
             startDay = finalday - parseInt(hotelData.nights);
             endDay = finalday;
           }
-
+          i = i + 1;
           const card = document.createElement("div");
           card.classList.add("card");
-          
-    card.innerHTML = `
+
+          card.innerHTML = `
     <div class="top-card" style="display: flex;">
       <div class="left-side" style="display: flex; background-color: #3620ed; color: white; padding: 8px 15px;">
         <h3 style="font-weight: 400">DAY ${startDay} - DAY ${endDay}</h3>
@@ -355,9 +390,13 @@ async function fetchHotels() {
             <div class = "mast" style = "display:flex; justify-content: space-between;">
 <div class="stars" style="background-color: #fffefe; border: 1px solid rgb(255, 217, 0); padding: 10px; border-radius: 15px; width: 200px; display: flex; gap: 10px; align-items: center; justify-content: center; margin-bottom: 20px;">
                 ${Array(is5star ? 5 : 4)
-                 .fill('<i class="ri-star-fill" style="color: rgb(255, 217, 0);"></i>')
-                    .join("")}
-                  <p  style="font-weight: bold;">${is5star ? "5 star" : "4 star"}</p>
+                  .fill(
+                    '<i class="ri-star-fill" style="color: rgb(255, 217, 0);"></i>'
+                  )
+                  .join("")}
+                  <p  style="font-weight: bold;">${
+                    is5star ? "5 star" : "4 star"
+                  }</p>
               </div>
               <div class="nights" style="    background-color: rgba(0, 0, 255, 0.185);
 border: 2px dotted blue;
@@ -383,7 +422,7 @@ align-items: center;
               hotelData.htL_ADDRESS
             }</span></p>
           </div>
-          <div class="rightie" style="width: 30%; background-image: url('${
+          <div class="rightie" id = "${i}" style="width: 30%; background-image: url('${
             hotelData.hotelImage
           }'); background-size: cover; background-position: center; ">
           </div>
@@ -442,17 +481,17 @@ function promptUserForHotelSelection(fiveStarHotels, fourStarHotels) {
   const fourStarOption = document.getElementById("fourStarOption");
 
   popupContainer.style.display = "flex";
-fiveStarOption.addEventListener("click", () => {
-  is5star = true;
-  displayHotels(fiveStarHotels);
-  closePopup();
-});
+  fiveStarOption.addEventListener("click", () => {
+    is5star = true;
+    displayHotels(fiveStarHotels);
+    closePopup();
+  });
 
-fourStarOption.addEventListener("click", () => {
-  is5star = false;
-  displayHotels(fourStarHotels);
-  closePopup();
-});
+  fourStarOption.addEventListener("click", () => {
+    is5star = false;
+    displayHotels(fourStarHotels);
+    closePopup();
+  });
 }
 
 function closePopup() {
@@ -468,7 +507,7 @@ function displayHotels(hotels) {
     let startDay = currentStartDay;
     let endDay = parseInt(hotelData.nights) + startDay;
     if (startDay >= finalday) {
-      startDay = finalday -  parseInt(hotelData.nights);
+      startDay = finalday - parseInt(hotelData.nights);
       endDay = finalday;
     }
     const card = document.createElement("div");
@@ -486,9 +525,13 @@ function displayHotels(hotels) {
                   <div class = "mast" style = "display:flex; justify-content: space-between;">
      <div class="stars" style="background-color: #fffefe; border: 1px solid rgb(255, 217, 0); padding: 10px; border-radius: 15px; width: 200px; display: flex; gap: 10px; align-items: center; justify-content: center; margin-bottom: 20px;">
                       ${Array(is5star ? 5 : 4)
-                       .fill('<i class="ri-star-fill" style="color: rgb(255, 217, 0);"></i>')
-                          .join("")}
-                        <p  style="font-weight: bold;">${is5star ? "5 star" : "4 star"}</p>
+                        .fill(
+                          '<i class="ri-star-fill" style="color: rgb(255, 217, 0);"></i>'
+                        )
+                        .join("")}
+                        <p  style="font-weight: bold;">${
+                          is5star ? "5 star" : "4 star"
+                        }</p>
                     </div>
                     <div class="nights" style="    background-color: rgba(0, 0, 255, 0.185);
     border: 2px dotted blue;
@@ -529,14 +572,14 @@ function displayHotels(hotels) {
 }
 
 async function fetchAndDisplayQRCode() {
-  const apiUrl =  mainurl2 + 'GenrateQr';
-  const agentId =  agentID;
+  const apiUrl = mainurl2 + "GenrateQr";
+  const agentId = agentID;
   const emailId = agentemail;
   const selected = rateAvialDate;
   const packageId = pkgID;
-  const amount = '111111';
-  const depositAmount = '200'; 
-  const ipAddress = '::1';
+  const amount = amont;
+  const depositAmount = "200";
+  const ipAddress = "::1";
   const requestBody = {};
 
   const queryString = new URLSearchParams({
@@ -554,65 +597,74 @@ async function fetchAndDisplayQRCode() {
 
   try {
     const response = await fetch(fullUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Accept': '*/*',
+        Accept: "*/*",
       },
       body: JSON.stringify(requestBody),
     });
 
     if (!response.ok) {
-      throw new Error('Error !');
+      throw new Error("Error !");
     }
 
     const data = await response.json();
-    if (data.success && data.message.startsWith('data:image/png;base64,')) {
-      console.log(data.message);
-      const base64ImageData = data.message.replace('data:image/png;base64,', '');
+    if (data.success && data.message.startsWith("data:image/png;base64,")) {
+      const base64ImageData = data.message.replace(
+        "data:image/png;base64,",
+        ""
+      );
       const qrImage = new Image();
-      qrImage.src = 'data:image/png;base64,' + base64ImageData;
-      qrImage.style.width = '150px';
-      qrImage.style.borderRadius = '5px'
-      qrImage.style.zIndex = '100'
-      
+      qrImage.src = "data:image/png;base64," + base64ImageData;
+      qrImage.style.width = "150px";
+      qrImage.style.borderRadius = "5px";
+      qrImage.style.zIndex = "100";
 
-      const imageContainer = document.getElementById('qrCodeContainer');
+      const imageContainer = document.getElementById("qrCodeContainer");
       imageContainer.appendChild(qrImage);
     } else {
-      console.error('Invalid API response format');
+      console.error("Invalid API response format");
     }
   } catch (error) {
-    console.error('Error fetching API:', error);
+    console.error("Error fetching API:", error);
   }
 }
 
 async function fetchpackagerates() {
   try {
-    const response = await fetch(mainurl + `PacKageRate?PKG_ID=${pkgID}&AgentID=${agentIds}&tourdate=${encodeURIComponent(sess)}`);
+    const response = await fetch(
+      mainurl +
+        `PacKageRate?PKG_ID=${pkgID}&AgentID=${agentIds}&tourdate=${encodeURIComponent(
+          sess
+        )}`
+    );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     const data = await response.json();
     console.log(data);
     if (data.length > 0) {
       const packageRate = data[0];
-      document.getElementById('twin-triple').value = Math.round(packageRate.dbldclienT_PRICE);
-      document.getElementById('single').value =Math.round( packageRate.singdclienT_PRICE);
-      document.getElementById('room_category_tbl').textContent = packageRate.roomCategory;
+      document.getElementById("twin-triple").value = Math.round(
+        packageRate.dbldclienT_PRICE
+      );
+      document.getElementById("single").value = Math.round(
+        packageRate.singdclienT_PRICE
+      );
+      document.getElementById("room_category_tbl").textContent =
+        packageRate.roomCategory;
     }
-    
+
     return data;
   } catch (error) {
-    console.error('There was a problem with the fetch operation:', error);
+    console.error("There was a problem with the fetch operation:", error);
   }
 }
 
-
-
 let scrollToTopBtn = document.getElementById("scrollToTopBtn");
 
-window.onscroll = function() {
+window.onscroll = function () {
   scrollFunction();
 };
 
@@ -624,7 +676,7 @@ function scrollFunction() {
   }
 }
 
-scrollToTopBtn.addEventListener("click", function() {
+scrollToTopBtn.addEventListener("click", function () {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 });
@@ -638,55 +690,52 @@ document.getElementById("download-pdf").addEventListener("click", function () {
     image: { type: "jpeg", quality: 0.98 },
     html2canvas: { scale: 2, logging: true, useCORS: true },
     jsPDF: { unit: "mm", format: "letter", orientation: "portrait" },
-    pagebreak: { mode: 'avoid-all'},
-    margin: [10,0,0,0],
+    pagebreak: { mode: "avoid-all" },
+    margin: [10, 0, 0, 0],
   };
 
   var element = document.getElementById("sanu");
   html2pdf().set(options).from(element).save();
   document.getElementById("price-btn-dis").style.display = "block";
-
 });
-
 
 let isEditing = false;
 
 function toggleEdit() {
-    const twinTriple = document.getElementById("twin-triple");
-    const single = document.getElementById("single");
-    const editBtn = document.querySelector(".edit-btn");
+  const twinTriple = document.getElementById("twin-triple");
+  const single = document.getElementById("single");
+  const editBtn = document.querySelector(".edit-btn");
 
-    if (!isEditing) {
-        twinTriple.disabled = false;
-        single.disabled = false;
-        twinTriple.parentElement.classList.add("editable");
-        single.parentElement.classList.add("editable");
-        editBtn.textContent = "Save";
-        isEditing = true;
-    } else {
-        // Save changes and exit edit mode
-        twinTriple.disabled = true;
-        single.disabled = true;
-        twinTriple.parentElement.classList.remove("editable");
-        single.parentElement.classList.remove("editable");
-        editBtn.textContent = "Edit Rate";
-        isEditing = false;
-    }
+  if (!isEditing) {
+    twinTriple.disabled = false;
+    single.disabled = false;
+    twinTriple.parentElement.classList.add("editable");
+    single.parentElement.classList.add("editable");
+    editBtn.textContent = "Save";
+    isEditing = true;
+  } else {
+    // Save changes and exit edit mode
+    twinTriple.disabled = true;
+    single.disabled = true;
+    twinTriple.parentElement.classList.remove("editable");
+    single.parentElement.classList.remove("editable");
+    editBtn.textContent = "Edit Rate";
+    isEditing = false;
+  }
 }
 
 // limit input to 5 digits
-document.getElementById("twin-triple").addEventListener("input", function(e) {
-    if (e.target.value.length > 5) {
-        e.target.value = e.target.value.slice(0, 5);
-    }
+document.getElementById("twin-triple").addEventListener("input", function (e) {
+  if (e.target.value.length > 5) {
+    e.target.value = e.target.value.slice(0, 5);
+  }
 });
 
-document.getElementById("single").addEventListener("input", function(e) {
-    if (e.target.value.length > 5) {
-        e.target.value = e.target.value.slice(0, 5);
-    }
+document.getElementById("single").addEventListener("input", function (e) {
+  if (e.target.value.length > 5) {
+    e.target.value = e.target.value.slice(0, 5);
+  }
 });
-
 
 document.addEventListener("DOMContentLoaded", function () {
   // Get elements
@@ -699,27 +748,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Open the modal
   openModalButton.addEventListener("click", () => {
-      imageModal.style.display = "block";
+    imageModal.style.display = "block";
   });
 
   // Close the modal
   closeButton.addEventListener("click", () => {
-      imageModal.style.display = "none";
+    imageModal.style.display = "none";
   });
 
   // Save the new background image URL
   saveImageButton.addEventListener("click", () => {
-      const newImageUrl = imageUrlInput.value.trim();
-      if (newImageUrl) {
-          backgroundContainer.style.backgroundImage = `url(${newImageUrl})`;
-      }
-      imageModal.style.display = "none";
+    const newImageUrl = imageUrlInput.value.trim();
+    if (newImageUrl) {
+      backgroundContainer.style.backgroundImage = `url(${newImageUrl})`;
+    }
+    imageModal.style.display = "none";
   });
 
   // Close the modal when clicking outside the modal content
   window.addEventListener("click", (event) => {
-      if (event.target == imageModal) {
-          imageModal.style.display = "none";
-      }
+    if (event.target == imageModal) {
+      imageModal.style.display = "none";
+    }
   });
 });
