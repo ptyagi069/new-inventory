@@ -9,12 +9,28 @@ function getUrlParameter(name) {
   return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
+
 var itineraryID = getUrlParameter('itineraryID');
 var agentIds = getUrlParameter('agentID');
 var rateAvialDate = getUrlParameter('rateAvialDate');
 console.log(rateAvialDate);
 var pkgID = itineraryID;
 var sess = rateAvialDate;
+const amont = getUrlParameter("amount");
+var checkbox = getUrlParameter("includeRateTable");
+
+window.addEventListener('load', async () => {
+  
+  await fetchPackageInfo();
+  await fetchItinerary();
+  await fetchincexc();
+  await hotelsusu();
+  await fetchimgs();  
+  await fetchpackagerates();
+  await fetchAgencyDetails();
+  
+});
+
 
 async function fetchPackageInfo() {
     try {
@@ -147,14 +163,14 @@ async function hotelsusu(){
   .catch(error => console.error('Error fetching hotel data:', error));
 }
 
-async function fetchAndDisplayQRCode() {
+async function fetchAndDisplayQRCode(emalu) {
   const apiUrl =  mainurl2 + 'GenrateQr';
-  const agentId = sessionStorage.getItem('agentID');
-  const emailId = sessionStorage.getItem('emailid');
-  const selected = sessionStorage.getItem('selectedDate');
+  const agentId = agentIds;
+  const emailId = emalu;
+  const selected = rateAvialDate;
   const packageId = pkgID;
-  const amount = '1111';
-  const depositAmount = '200'; 
+  const amount = amont;
+  const depositAmount = sessionStorage.getItem('dpst-amt');
   const ipAddress = '::1';
   const requestBody = {};
 
@@ -281,17 +297,7 @@ async function fetchpackagerates() {
   }
 }
 
-window.addEventListener('load', async () => {
-  
-    await fetchPackageInfo();
-    await fetchItinerary();
-    await fetchincexc();
-    await hotelsusu();
-    await fetchimgs();  
-    await fetchpackagerates();
-    await fetchAndDisplayQRCode();
-    await fetchAgencyDetails();
-});
+
 
 
 async function fetchAgencyDetails() {
@@ -312,7 +318,7 @@ async function fetchAgencyDetails() {
       document.getElementById('phone-stg').innerHTML = whatsappContact;
       document.getElementById('email-stg').innerHTML = emailID;
 
-
+      fetchAndDisplayQRCode(data.emailid);
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }

@@ -20,7 +20,7 @@
 </head>
 <body>
         <div class="outer-container" style="display: flex; justify-content: space-evenly;">
-            <div class="momim" style="border: 2px solid black;">
+            <div class="momim" style="border: 2px solid black;" contenteditable="true">
                 <div class="a4-container" style="width: 210mm;" id = "sanu">
                     <div class="main-container" style=" height: fit-content;display: flex; height: 380px;">  
                         <div class="leftside" style="width:40%; padding-left: 40px; padding-right: 40px; padding-top: 8px; background-image: url(images/image.png); object-fit: contain; background-position: center;" >
@@ -39,7 +39,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <h1 contenteditable="true"  class="trip-heading" id = "pkgname" style="margin-top: 60px; font-size: 35px; color: rgb(100, 98, 98);">
+                            <h1 contenteditable="true"  class="trip-heading" id = "pkgname" style="margin-top: 60px; font-size: 28px; color: rgb(100, 98, 98);">
                         </div>
                     </div>
                   <div class="content-container"
@@ -225,8 +225,8 @@
                             <span style="font-size: large; font-weight: 800;">Your Itinerary is Ready</span>
                             <p>Click on the download button and save your Itinerary!</p>
                         </div>
-
-                        <h3>Choose the image of your choice</h3>
+                    
+                        <h3 style="font-style: italic; font-display: block;">Choose the image of your choice</h3>
                         
                         <div id="imageModal" class="modal">
                             <div class="modal-content">
@@ -236,7 +236,9 @@
                                 <button id="saveImageButton">Save Image</button>
                             </div>
                         </div>
-                        <div class="thumbnail-container" id="thumbnail-container"></div>
+                        <div class="thumbnail-container" id="thumbnail-container">
+                           
+                        </div>
                         <h5>Or paste a custom url here..</h5>
                         <button id="openModalButton">Change Image</button>
             

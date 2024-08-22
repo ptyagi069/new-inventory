@@ -536,80 +536,83 @@ async function displaySupplierRateTable(pkg_ID) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
   function setupButton(buttonId, popupId, datePickerId, agentInputId, submitId, cancelId, pageUrl, amountInputId, checkboxId) {
-    document.getElementById(buttonId).addEventListener("click", () => {
-        document.getElementById(popupId).style.display = "block";
-    });
+      document.getElementById(buttonId).addEventListener("click", () => {
+          document.getElementById(popupId).style.display = "block";
+      });
 
-    document.getElementById(submitId).addEventListener("click", () => {
-        let agentID = document.getElementById(agentInputId).value;
-        let selectedDate = document.getElementById(datePickerId).value;
-        let amount = document.getElementById(amountInputId).value;
-        let includeRateTable = document.getElementById(checkboxId).checked;
+      document.getElementById(submitId).addEventListener("click", () => {
+          let agentID = document.getElementById(agentInputId).value;
+          let selectedDate = document.getElementById(datePickerId).value;
+          let amount = document.getElementById(amountInputId).value;
+          let includeRateTable = document.getElementById(checkboxId).checked;
 
-        if (selectedDate) {
-            let date = new Date(selectedDate);
-            let day = date.getDate().toString().padStart(2, '0');
-            let month = (date.getMonth() + 1).toString().padStart(2, '0');
-            let year = date.getFullYear();
-            selectedDate = `${day}/${month}/${year}`;
-            sessionStorage.setItem("selectedDate", selectedDate);
+          if (!agentID || !selectedDate || !amount) {
+            alert("Please fill in all fields before submitting.");
+            return;
         }
 
-        if (agentID.startsWith("CHAGT")) {
-            let itineraryURL = `${pageUrl}?itineraryID=${encodeURIComponent(qwerty)}&agentID=${encodeURIComponent(agentID)}&rateAvialDate=${selectedDate}&amount=${encodeURIComponent(amount)}&includeRateTable=${includeRateTable}`;
-            window.open(itineraryURL, "_blank").focus();
-            document.getElementById(popupId).style.display = "none";
-        } else {
-            alert("Invalid Agent ID. It must start with 'CHAGT'.");
-        }
-    });
+          if (selectedDate) {
+              let date = new Date(selectedDate);
+              let day = date.getDate().toString().padStart(2, '0');
+              let month = (date.getMonth() + 1).toString().padStart(2, '0');
+              let year = date.getFullYear();
+              selectedDate = `${day}/${month}/${year}`;
+              sessionStorage.setItem("selectedDate", selectedDate);
+          }
 
-    document.getElementById(cancelId).addEventListener("click", () => {
-        document.getElementById(popupId).style.display = "none";
-    });
+          if (agentID.startsWith("CHAGT")) {
+              let itineraryURL = `${pageUrl}?itineraryID=${encodeURIComponent(qwerty)}&agentID=${encodeURIComponent(agentID)}&rateAvialDate=${selectedDate}&amount=${encodeURIComponent(amount)}&includeRateTable=${includeRateTable}`;
+              window.open(itineraryURL, "_blank").focus();
+              document.getElementById(popupId).style.display = "none";
+          } else {
+              alert("Invalid Agent ID. It must start with 'CHAGT'.");
+          }
+      });
+
+      document.getElementById(cancelId).addEventListener("click", () => {
+          document.getElementById(popupId).style.display = "none";
+      });
   }
 
   // Setup for the first button
   setupButton(
-    "downloadItineraryButton",
-    "agentIdPopup",
-    "datePicker",
-    "agentIDInput",
-    "submitAgentID",
-    "cancelAgentID",
-    "../pages/index.html",
-    "amt",          // ID for the amount input field
-    "rateTableCheckbox" // ID for the checkbox
+      "downloadItineraryButton",
+      "agentIdPopup",
+      "datePicker",
+      "agentIDInput",
+      "submitAgentID",
+      "cancelAgentID",
+      "../pages/index.html",
+      "amtOne",
+      "rateTableCheckbox"
   );
-  
+
   // Setup for the second button
   setupButton(
-    "downloadItineraryButtontwo",
-    "agentIdPopupTwo",
-    "datePickerTwo",
-    "agentIDInputTwo",
-    "submitAgentIDTwo",
-    "cancelAgentIDTwo",
-    "../pagestwo/index.html",
-    "amt",          // ID for the amount input field
-    "rateTableCheckboxTwo" // ID for the checkbox
+      "downloadItineraryButtontwo",
+      "agentIdPopupTwo",
+      "datePickerTwo",
+      "agentIDInputTwo",
+      "submitAgentIDTwo",
+      "cancelAgentIDTwo",
+      "../pagestwo/index.html",
+      "amtTwo",
+      "rateTableCheckboxTwo"
   );
-  
+
   // Setup for the third button
   setupButton(
-    "downloadItineraryButtonthree",
-    "agentIdPopupThree",
-    "datePickerThree",
-    "agentIDInputThree",
-    "submitAgentIDThree",
-    "cancelAgentIDThree",
-    "../pagesthree/index.html",
-    "amt",          // ID for the amount input field
-    "rateTableCheckboxThree" // ID for the checkbox
+      "downloadItineraryButtonthree",
+      "agentIdPopupThree",
+      "datePickerThree",
+      "agentIDInputThree",
+      "submitAgentIDThree",
+      "cancelAgentIDThree",
+      "../pagesthree/index.html",
+      "amtThree",
+      "rateTableCheckboxThree"
   );
 });
-
 
 populateButtons();

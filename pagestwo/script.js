@@ -26,6 +26,7 @@ const sess = rateAvialDate;
 const pkgID = itineraryID;
 const agentIds = agentID;
 const amont = getUrlParameter("amount");
+console.log(amont);
 var checkbox = getUrlParameter("includeRateTable");
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -72,7 +73,7 @@ async function fetchAgencyDetails() {
     } else {
       document.getElementById("company-name-stg").innerHTML = data.company_Name;
     }
-    document.getElementById("kompani-logo").src = companyLogo;
+    document.getElementById("kompani-logo").style.backgroundImage = `url(${companyLogo})`;
     document.getElementById("phone-stg").innerHTML = whatsappContact;
     document.getElementById("email-stg").innerHTML = emailID;
   } catch (error) {
@@ -683,7 +684,7 @@ scrollToTopBtn.addEventListener("click", function () {
 
 document.getElementById("download-pdf").addEventListener("click", function () {
   window.scrollTo(0, 0);
-  document.getElementById("price-btn-dis").style.display = "none";
+  // document.getElementById("price-btn-dis").style.display = "none";
 
   var options = {
     filename: pdf_filename,
