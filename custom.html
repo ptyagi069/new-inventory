@@ -4,41 +4,251 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./styles/custom.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="all-search-part">
+  
+        <div class="progress-bar">
+            <div class="progress-step active">1</div>
+            <div class="progress-step">2</div>
+            <div class="progress-step">3</div>
+            <div class="progress-step">4</div>
+        </div>
     
+ 
+        <div class="section-container search-section active">
+            <div class="search-container">
+                <h1>Search Your Dream Destination</h1>
+               <div class="all-search-part-new">
+                <div class="search-box">
+                   
+                    <input type="text" class="search-input" placeholder="Search for a country...">
+                    <div class="suggestions-container"></div>
+                </div>
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+               </div>
+                <button class="continue-btn">Continue</button>
+            </div>
+        </div>
+    
+   
+        <div class="section-container agent-section">
+            <div class="agent-container">
+                <h1>Enter Your Agent ID</h1>
+                <div class="agent-input-wrapper">
+                    <input type="text" class="agent-input" placeholder="e.g., chagt000003780">
+                    <button class="verify-btn">Verify</button>
+                </div>
+                <div class="agent-verification-status"></div>
+            </div>
+        </div>
+    
+   
+        <div class="section-container duration-section">
+            <div class="duration-container">
+                <h1>Select Duration</h1>
+                <div class="duration-box">
+                    <div class="dropdown">
+                        <input type="text" class="duration-input" placeholder="Enter or select duration..." readonly>
+                        <div class="dropdown-arrow">▼</div>
+                    </div>
+                    <div class="duration-list">
+                        <div class="duration-item">1 Day</div>
+                        <div class="duration-item">3 Days</div>
+                        <div class="duration-item">1 Week</div>
+                        <div class="duration-item">2 Weeks</div>
+                        <div class="duration-item">1 Month</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section-container packages-section">
+            <div class="packages-container">
+                <h1>Select Your Package</h1>
+                <div class="packages-grid">
+                    <div class="package-card">
+                        <div class="package-image">
+                            <img src="https://via.placeholder.com/300x200" alt="Basic Package">
+                            <div class="package-badge">Popular</div>
+                        </div>
+                        <div class="package-content">
+                            <h3>Basic Package</h3>
+                            <p class="package-price">$599</p>
+                            <ul class="package-features">
+                                <li>3 Days, 2 Nights</li>
+                                <li>Hotel Accommodation</li>
+                                <li>Breakfast Included</li>
+                                <li>City Tour</li>
+                            </ul>
+                            <button class="select-package-btn">Select Package</button>
+                        </div>
+                    </div>
+    
+                    <div class="package-card">
+                        <div class="package-image">
+                            <img src="https://via.placeholder.com/300x200" alt="Premium Package">
+                        </div>
+                        <div class="package-content">
+                            <h3>Premium Package</h3>
+                            <p class="package-price">$899</p>
+                            <ul class="package-features">
+                                <li>5 Days, 4 Nights</li>
+                                <li>4-Star Hotel</li>
+                                <li>All Meals Included</li>
+                                <li>Adventure Activities</li>
+                            </ul>
+                            <button class="select-package-btn">Select Package</button>
+                        </div>
+                    </div>
+    
+                    <div class="package-card">
+                        <div class="package-image">
+                            <img src="https://via.placeholder.com/300x200" alt="Luxury Package">
+                        </div>
+                        <div class="package-content">
+                            <h3>Luxury Package</h3>
+                            <p class="package-price">$1,299</p>
+                            <ul class="package-features">
+                                <li>7 Days, 6 Nights</li>
+                                <li>5-Star Resort</li>
+                                <li>All Inclusive</li>
+                                <li>Private Tours</li>
+                            </ul>
+                            <button class="select-package-btn">Select Package</button>
+                        </div>
+                    </div>
+    
+                    <div class="package-card">
+                        <div class="package-image">
+                            <img src="https://via.placeholder.com/300x200" alt="Family Package">
+                        </div>
+                        <div class="package-content">
+                            <h3>Family Package</h3>
+                            <p class="package-price">$1,999</p>
+                            <ul class="package-features">
+                                <li>6 Days, 5 Nights</li>
+                                <li>Family Suite</li>
+                                <li>Theme Park Tickets</li>
+                                <li>Family Activities</li>
+                            </ul>
+                            <button class="select-package-btn">Select Package</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="./script/custom.js"></script>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const sections = document.querySelectorAll('.section-container');
+    const progressSteps = document.querySelectorAll('.progress-step');
+    const packageButtons = document.querySelectorAll('.select-package-btn');
+    let currentStep = 0;
 
-    let foo = true;
-    const apiurl = `https://mobileapi.cultureholidays.com/api/`;
 
-
-    async function fetchrdestinations(){
-           try{
-            const data = await fetch(apiurl + `Holidays/Countrylist`);
-            const result = await data.json();
-            
-            console.log(result);
-            const l = result.length;
-
-            for (let i = 0; i < l; i++) {
-                console.log(result[i].countryName);
-                const option = document.createElement('option');
-                option.value = result[i].countryName;
-                option.text = result[i].countryName;
-            }
-            
-           }
-           catch(error){
-                const result  = [];
-                console.log('An error occurred in fetchrdestinations api/function');
-           }
+    function showNextSection() {
+        if (currentStep < sections.length - 1) {
+            sections[currentStep].classList.remove('active');
+            sections[currentStep + 1].classList.add('active');
+            progressSteps[currentStep + 1].classList.add('active');
+            progressSteps[currentStep].classList.add('completed');
+            currentStep++;
+        }
     }
 
-    fetchrdestinations();
+
+    document.querySelector('.continue-btn').addEventListener('click', function() {
+        const searchInput = document.querySelector('.search-input');
+        if (searchInput.value.trim() !== '') {
+            showNextSection();
+        } else {
+            searchInput.classList.add('error');
+            setTimeout(() => searchInput.classList.remove('error'), 1000);
+        }
+    });
 
 
+    document.querySelector('.verify-btn').addEventListener('click', function() {
+        const agentInput = document.querySelector('.agent-input');
+        if (agentInput.value.trim() !== '') {
+            // Simulate verification
+            const statusDiv = document.querySelector('.agent-verification-status');
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = 'Verification successful!';
+            statusDiv.className = 'agent-verification-status success';
+            setTimeout(showNextSection, 1000);
+        } else {
+            agentInput.classList.add('error');
+            setTimeout(() => agentInput.classList.remove('error'), 1000);
+        }
+    });
+
+    const durationInput = document.querySelector('.duration-input');
+    const durationList = document.querySelector('.duration-list');
+    const durationItems = document.querySelectorAll('.duration-item');
+
+    durationInput.addEventListener('click', function() {
+        durationList.style.display = durationList.style.display === 'block' ? 'none' : 'block';
+    });
+
+    durationItems.forEach(item => {
+        item.addEventListener('click', function() {
+            durationInput.value = this.textContent;
+            durationList.style.display = 'none';
+        });
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.duration-box')) {
+            durationList.style.display = 'none';
+        }
+    });
+    packageButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all packages
+            document.querySelectorAll('.package-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add active class to selected package
+            this.closest('.package-card').classList.add('selected');
+            
+            // Show success message
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.textContent = 'Package selected successfully!';
+            
+            // Remove any existing success messages
+            const existingMessage = document.querySelector('.success-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            // Add new success message
+            this.closest('.package-content').appendChild(successMessage);
+            
+            // Optional: Proceed to next step after short delay
+            setTimeout(() => {
+                // Add your next step logic here
+                // showNextSection();
+            }, 1500);
+        });
+    });
+    durationItems.forEach(item => {
+        item.addEventListener('click', function() {
+            durationInput.value = this.textContent;
+            durationList.style.display = 'none';
+            setTimeout(showNextSection, 500); // Show packages section after duration selection
+        });
+    });
+
+});
 </script>
 </html>
