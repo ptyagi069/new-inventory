@@ -77,7 +77,7 @@ async function displayCountries(regionName, data) {
 }
 
 async function fetchOptionalTours(countryCode) {
-  const response = await fetch(`https://devapi.cultureholidays.com/GetAddonCategory?CountryCode=${countryCode}`);
+  const response = await fetch(`https://mobileapi.cultureholidays.com/GetAddonCategory?CountryCode=${countryCode}`);
   const optionalTours = await response.json();
   displayOptionalToursPopup(optionalTours);
 }
@@ -412,7 +412,7 @@ async function displayHotelDetails(pkg_ID) {
 async function displaySupplierRateTable(pkg_ID) {
   try {
     const response = await fetch(
-      `https://devapi.cultureholidays.com/GetSupplierRate?PKG_ID=${pkg_ID}`
+      `https://mobileapi.cultureholidays.com/GetSupplierRate?PKG_ID=${pkg_ID}`
     );
     const supplierRateTableContainer = document.getElementById(
       "supplierRateTableContainer"

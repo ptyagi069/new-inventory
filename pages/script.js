@@ -13,7 +13,7 @@ var itineraryID = getUrlParameter('itineraryID');
 var agentID = getUrlParameter('agentID');
 var rateAvialDate = getUrlParameter('rateAvialDate');
 var checkbox = getUrlParameter('includeRateTable');
-
+let pkgname2 = '';
 
 if(checkbox == 'true') {  
   document.getElementById('cst-tbl').style.display = 'block';
@@ -92,6 +92,7 @@ async function fetchPackageInfo() {
 
       if (packageInfo) {
          pkgNameElement.innerHTML = packageInfo.packageName;
+         pkgname2 = packageInfo.packageName;
         pkgDescElement.innerHTML = packageInfo.pkG_DESCRIPTION;
         infDescElement.innerHTML = packageInfo.inF_DESCRIPTION;
         infDescElement.style.color = '#333 !important';
@@ -166,7 +167,7 @@ async function fetchPackageItinerary() {
 
         if(index == 0){
           document.getElementById('tour-date-table').textContent = formattedDate;
-          pdf_filename = "pratap";
+          pdf_filename = pkgname2;
         }
 
         imageContainer.appendChild(imageContent);
