@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+
+    let foo = true;
+    const apiurl = `https://mobileapi.cultureholidays.com/api/`;
+
+
+    async function fetchrdestinations(){
+           try{
+            const data = await fetch(apiurl + `Holidays/Countrylist`);
+            const result = await data.json();
+            
+            console.log(result);
+            const l = result.length;
+
+            for (let i = 0; i < l; i++) {
+                console.log(result[i].countryName);
+                const option = document.createElement('option');
+                option.value = result[i].countryName;
+                option.text = result[i].countryName;
+            }
+            
+           }
+           catch(error){
+                const result  = [];
+                console.log('An error occurred in fetchrdestinations api/function');
+           }
+    }
+
+    fetchrdestinations();
+
+
+</script>
+</html>
