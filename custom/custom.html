@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Multi-step Form</title>
- <link rel="stylesheet" href="./styles/custom.css">
+    <title>Inventory Htl</title>
+ <link rel="stylesheet" href="../styles/custom.css">
+ <link rel="icon" type="image/x-icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHBN6zMCwlK89aXENK0XXdOawyoq2dCT2emA&s">
 </head>
 <body>
     <div class="form-container">
@@ -34,6 +35,12 @@
                 <div class="step-number">4</div>
                 <div class="step-content">
                     <div class="step-title">Package Selection</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <div class="step-title">Date Selection</div>
                 </div>
             </div>
         </div>
@@ -72,6 +79,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="step-form" data-step="5">
+                    <div class="form-group">
+                        <label for="selectedDate">Select a Date</label>
+                        <input type="date" id="selectedDate" name="selectedDate" required>
+                    </div>
+                </div>
+                
             
                 <div class="button-group">
                     <button type="button" class="btn-prev" id="prevBtn" disabled>Back</button>
@@ -81,6 +95,6 @@
         </div>
     </div>
 
-   <script src="./script/custom.js"></script>
+   <script src="../script/custom.js"></script>
 </body>
 </html>
