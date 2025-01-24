@@ -69,6 +69,9 @@ nextBtn.addEventListener("click", function () {
       window.open(
         `https://pdfi.cultureholidays.com/api/edit/${formData.package.id}?userid=${formData.agentId}&date=${selecteddate}&addonswcost=true&wantaddon=true&token=${formData.token}`
       );
+      // window.open(
+      //   `http://localhost:3000/api/edit/${formData.package.id}?userid=${formData.agentId}&date=${selecteddate}&addonswcost=true&wantaddon=true&token=${formData.token}`
+      // );
       resetForm();
     }
   }
