@@ -15,6 +15,11 @@ body {
   color: #fafafa;
 }
 
+.filter-option.selected {
+  background-color: #ffcc00;
+  color: black;
+}
+
 .see-more-btn{
   width: 141px;
   background-color: yellow;

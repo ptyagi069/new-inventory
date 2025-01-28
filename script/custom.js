@@ -6,6 +6,7 @@ const prevBtn = document.getElementById("prevBtn");
 const packageCards = document.querySelectorAll(".package-card");
 const params = new URLSearchParams(window.location.search);
 const apiUrl = "https://mobileapi.cultureholidays.com/api/";
+let selectedActivities = new Set();
 let currentPage = 1;
 let selecteddate = '';
 let token = "";
@@ -218,8 +219,6 @@ async function filteredpackage(region, country, userid, type, pkg_category_id, n
     }
 }
 
-
-
 async function fetchActivitiesPage(pageNumber) {
   try {
     const response = await fetch(`http://localhost:3000/api/getfilteredpackages`, {
@@ -275,46 +274,6 @@ function processActivities(activities) {
     activity,
     packages
   }));
-}
-
-
-async function renderactivities(filteredActivities, append = false) {
-  const container = document.getElementById('activity-container');
-  // Only clear container if we're not appending
-  if (!append) {
-    container.innerHTML = '';
-  } else {
-    // Remove existing "See More" button if it exists
-    const existingButton = container.querySelector('.see-more-btn');
-    if (existingButton) {
-      existingButton.remove();
-    }
-  }
-
-  filteredActivities.forEach(activitySummary => {
-    const activityButton = document.createElement('button');
-    activityButton.className = 'filter-option';
-    activityButton.textContent = activitySummary.activity;
-    activityButton.addEventListener('click', () => {
-      filterPackagesByActivity(activitySummary);
-    });
-    container.appendChild(activityButton);
-  });
-
-  const seeMoreButton = document.createElement('button');
-  seeMoreButton.textContent = 'See More';
-  seeMoreButton.className = 'see-more-btn';
-  seeMoreButton.addEventListener('click', async () => {
-    currentPage++;
-    const newActivities = await fetchActivitiesPage(currentPage);
-    if (newActivities.length > 0) {
-     
-      //renderactivities(processedActivities, true);
-    } else {
-      seeMoreButton.style.display = 'none';  // Hide button when no more data
-    }
-  });
-  container.appendChild(seeMoreButton);
 }
 
 function validateStep(step) {
@@ -527,6 +486,52 @@ async function populatedays(countryCode, agentid) {
   }
 }
 
+async function renderactivities(filteredActivities, append = false) {
+  const container = document.getElementById('activity-container');
+  // Only clear container if we're not appending
+  if (!append) {
+    container.innerHTML = '';
+  } else {
+    // Remove existing "See More" button if it exists
+    const existingButton = container.querySelector('.see-more-btn');
+    if (existingButton) {
+      existingButton.remove();
+    }
+  }
+
+  filteredActivities.forEach(activitySummary => {
+    const activityButton = document.createElement('button');
+    activityButton.className = 'filter-option';
+    activityButton.textContent = activitySummary.activity;
+    activityButton.addEventListener('click', () => {
+      if (selectedActivities.has(activitySummary)) {
+        selectedActivities.delete(activitySummary);
+        activityButton.classList.remove('selected');
+      } else {
+        selectedActivities.add(activitySummary);
+        activityButton.classList.add('selected');
+      }
+      filterPackagesByActivity(Array.from(selectedActivities));
+    });
+    container.appendChild(activityButton);
+  });
+
+  const seeMoreButton = document.createElement('button');
+  seeMoreButton.textContent = 'See More';
+  seeMoreButton.className = 'see-more-btn';
+  seeMoreButton.addEventListener('click', async () => {
+    currentPage++;
+    const newActivities = await fetchActivitiesPage(currentPage);
+    if (newActivities.length > 0) {
+     
+      //renderactivities(processedActivities, true);
+    } else {
+      seeMoreButton.style.display = 'none';  // Hide button when no more data
+    }
+  });
+  container.appendChild(seeMoreButton);
+}
+
 async function filteredpackage(region, country, userid, type, pkg_category_id, nights, pagenumber, pagesize) {
   try {
     currentPage = 1;  // Reset page counter when starting a new filter
@@ -539,6 +544,7 @@ async function filteredpackage(region, country, userid, type, pkg_category_id, n
     throw error;
   }
 }
+
 function renderpackages(dayvalue) {
   const packages = packageArray;
   const packageCardsContainer = document.getElementById(
@@ -548,7 +554,7 @@ function renderpackages(dayvalue) {
 
   // Filter packages where pkgDay matches dayvalue
   filteredPackagesdaywise = packages.filter((pkg) => pkg.pkgDay == dayvalue);
-    
+
   filteredPackagesdaywise.forEach((pkg) => {
     const packageCard = document.createElement("div");
     packageCard.className = "package-card";
@@ -709,27 +715,42 @@ async function filteredpackage(region, country, userid, type, pkg_category_id, n
   }
 }
 
-function filterPackagesByActivity(activityName) {
-
-  const activityToPackageArray = activityName.packages.map(pkg => pkg.packageId);
+function filterPackagesByActivity(selectedActivities) {
   const packageCardsContainer = document.getElementById("package-cards-container");
-  packageCardsContainer.innerHTML = ""; // Clear previous packages
+  packageCardsContainer.innerHTML = "";
 
-  // Filter the packageArray based on packageId and pkgID match
-  const filteredPackages = filteredPackagesdaywise.filter(pkg =>
-    activityToPackageArray.includes(parseInt(pkg.pkgID))
-  );
+  let packagesToDisplay = [];
+  
+  if (selectedActivities.length === 0) {
+    // If no activities selected, show all packages from filteredPackagesdaywise
+    packagesToDisplay = filteredPackagesdaywise;
+  } else {
+    // Get package IDs from each activity
+    const packageIdSets = selectedActivities.map(activity => 
+      new Set(activity.packages.map(pkg => parseInt(pkg.packageId)))
+    );
 
-  if (filteredPackages.length === 0) {
+    // Get the intersection of all package ID sets
+    const commonPackageIds = [...packageIdSets[0]].filter(pkgId => 
+      packageIdSets.every(set => set.has(pkgId))
+    );
+
+    // Filter packages that are present in ALL selected activities
+    packagesToDisplay = filteredPackagesdaywise.filter(pkg =>
+      commonPackageIds.includes(parseInt(pkg.pkgID))
+    );
+  }
+
+  if (packagesToDisplay.length === 0) {
     const noPackageMessage = document.createElement("p");
-    noPackageMessage.textContent = "No package found for this activity.";
+    noPackageMessage.textContent = "No packages found common in all selected activities.";
     noPackageMessage.className = "no-package-message";
     packageCardsContainer.appendChild(noPackageMessage);
-    return; // Exit the function since no packages are available
+    return;
   }
 
   // Create package cards for the filtered packages
-  filteredPackages.forEach((pkg) => {
+  packagesToDisplay.forEach((pkg) => {
     const packageCard = document.createElement("div");
     packageCard.className = "package-card";
     packageCard.setAttribute("data-package", pkg.pkgID);
@@ -775,4 +796,10 @@ function filterPackagesByActivity(activityName) {
       validateStep(currentStep);
     });
   });
+}
+
+function highlightActivityButton(button) {
+  const buttons = document.querySelectorAll('.filter-option');
+  buttons.forEach(btn => btn.style.backgroundColor = '');
+  button.style.backgroundColor = '#ffcc00';
 }
