@@ -15,12 +15,27 @@ body {
   color: #fafafa;
 }
 
+.see-more-btn{
+  width: 141px;
+  background-color: yellow;
+  padding-block: 10px;
+}
+.filter-option{
+  
+  background-color: #3f3f46;
+  width: 198px;
+  border-radius: 4px;
+  color: white;
+
+}
+
+
 .form-container {
   background: #18181b;
   border-radius: 24px;
   border: 1px solid #27272a;
   width: 100%;
-  max-width: 1000px;
+  max-width: 94vw;
   display: flex;
   min-height: 600px;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
@@ -171,6 +186,8 @@ input:focus {
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   margin-top: 24px;
+  height: fit-content;
+  width: 60vw;
 }
 
 .package-card {
@@ -299,6 +316,40 @@ option {
   }
 
   .package-cards {
+
     grid-template-columns: 1fr;
   }
+}
+
+
+#filter-part {
+  margin-bottom: 20px;
+}
+.filter-container {
+  display: flex;
+  flex-direction: column;
+}
+.filter-item {
+  margin-bottom: 10px;
+}
+.filter-item label {
+  margin-right: 10px;
+}
+#renderactivities {
+  display: flex;
+  flex-wrap: wrap;
+}
+.activity-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  width: 200px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.activity-card img {
+  max-width: 100%;
+  height: auto;
+}
+.activity-card h3 {
+  margin: 10px 0;
 }

@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Htl</title>
- <link rel="stylesheet" href="../styles/custom.css">
- <link rel="icon" type="image/x-icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHBN6zMCwlK89aXENK0XXdOawyoq2dCT2emA&s">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <link rel="icon" type="image/x-icon"
+        href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHBN6zMCwlK89aXENK0XXdOawyoq2dCT2emA&s">
 </head>
+
+
 <body>
     <div class="form-container">
         <div class="progress-bar">
@@ -54,30 +58,41 @@
                         </select>
                     </div>
                 </div>
-            
+
                 <div class="step-form" data-step="2">
                     <div class="form-group">
                         <label for="agentId">Enter your Agent ID</label>
                         <input type="text" id="agentId" name="agentId" required placeholder="AG-XXXX">
                     </div>
                 </div>
-            
+
                 <div class="step-form" data-step="3">
                     <div class="form-group">
                         <label for="days">How long would you like to stay?</label>
                         <select id="days" name="days" required>
-                           
+
                         </select>
                     </div>
                 </div>
-            
-                <div class="step-form" data-step="4">
+
+                <div class="step-form" data-step="4" style="width: 100%; ">
                     <div class="form-group">
                         <label>Choose your perfect package</label>
-                        <div class="package-cards" id="package-cards-container">
-                            <!-- dynamically ayega packages here  -->
+                        <div style="display: flex; gap:4rem;">
+                            <div class="package-cards" id="package-cards-container" style="    max-height: 75vh; overflow-y:  scroll;">
+                            </div>
+                           
+                            <div id="activity-container" style="    display: flex;
+                                justify-content: flex-start;
+                                align-items: flex-start;
+                                flex-direction: column;
+                                gap: 10px; height: 70vh; overflow-y: scroll;">
+
+                            </div>
                         </div>
                     </div>
+
+
                 </div>
                 <div class="step-form" data-step="5">
                     <div class="form-group">
@@ -85,8 +100,8 @@
                         <input type="date" id="selectedDate" name="selectedDate" required>
                     </div>
                 </div>
-                
-            
+
+
                 <div class="button-group">
                     <button type="button" class="btn-prev" id="prevBtn" disabled>Back</button>
                     <button type="button" class="btn-next" id="nextBtn">Continue</button>
@@ -94,7 +109,9 @@
             </form>
         </div>
     </div>
+    <div id="inclusionsContainer"></div>
 
-   <script src="../script/custom.js"></script>
+    <script src="../script/custom.js"></script>
 </body>
+
 </html>
