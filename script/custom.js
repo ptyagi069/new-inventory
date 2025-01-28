@@ -721,7 +721,7 @@ function filterPackagesByActivity(selectedActivities) {
 
   let packagesToDisplay = [];
   
-  if (selectedActivities.length === 0) {
+  if (selectedActivities.length === 0 || selectedActivities.length == null ) {
     // If no activities selected, show all packages from filteredPackagesdaywise
     packagesToDisplay = filteredPackagesdaywise;
   } else {
