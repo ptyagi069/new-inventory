@@ -138,7 +138,7 @@ function updateStep(step) {
 
 async function gettoken(agentid) {
   try {
-    const response = await fetch("http://localhost:3000/api/login", {
+    const response = await fetch("https://pdfi.cultureholidays.com/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -157,7 +157,7 @@ async function gettoken(agentid) {
 
 async function filteredpackage(region, country, userid, type, pkg_category_id, nights, pagenumber, pagesize) {
     try {
-        const data = await fetch(`http://localhost:3000/api/getfilteredpackages`, {
+        const data = await fetch(`https://pdfi.cultureholidays.com/api/getfilteredpackages`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -221,7 +221,7 @@ async function filteredpackage(region, country, userid, type, pkg_category_id, n
 
 async function fetchActivitiesPage(pageNumber) {
   try {
-    const response = await fetch(`http://localhost:3000/api/getfilteredpackages`, {
+    const response = await fetch(`https://pdfi.cultureholidays.com/api/getfilteredpackages`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -637,7 +637,7 @@ async function fetchMoreActivities() {
 
   while (hasMoreData) {
     try {
-      const response = await fetch(`http://localhost:3000/api/getfilteredpackages`, {
+      const response = await fetch(`https://pdfi.cultureholidays.com/api/getfilteredpackages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
