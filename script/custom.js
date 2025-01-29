@@ -239,6 +239,7 @@ async function fetchActivitiesPage(pageNumber) {
     });
 
     const data = await response.json();
+    console.log(data);
     return data.success ? data.data : [];
   
   } catch (error) {
@@ -520,6 +521,7 @@ async function renderactivities(filteredActivities, append = false) {
   seeMoreButton.textContent = 'See More';
   seeMoreButton.className = 'see-more-btn';
   seeMoreButton.addEventListener('click', async () => {
+    console.log(currentPage);
     currentPage++;
     const newActivities = await fetchActivitiesPage(currentPage);
     if (newActivities.length > 0) {
