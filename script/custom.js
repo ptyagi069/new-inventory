@@ -176,7 +176,9 @@ async function filteredpackage(region, country, userid, type, pkg_category_id, n
         });
 
         const response = await data.json();
+        
         actitivityArray = response.data;
+        console.log(actitivityArray);
         // Create a map to store activities and their related packages
         const activitiesMap = new Map();
 
@@ -656,7 +658,7 @@ async function fetchMoreActivities() {
       });
 
       const data = await response.json();
-
+   
       if (data.success && data.data.length > 0) {
         allActivities.push(...data.data);
         pageNumber++;
