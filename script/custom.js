@@ -445,19 +445,20 @@ async function populatedays(countryCode, agentid) {
       `https://mobileapi.cultureholidays.com/api/Holidays/PackagelistByCountrycode?Countrycode=${countryCode}&AgencyId=all`
     );
     const  result = await response.json();
-    // Normalize result to an array
+    console.log(result);
     if (!Array.isArray(result) && result.data) {
       result = result.data;
     } else if (!Array.isArray(result)) {
       result = Object.values(result);
     }
-
+    
     // Create an array of objects with pkgTitle, pkgID, pkgImage, and pkgDay
     packageArray = result.map((item) => ({
       pkgTitle: item.pkgTitle,
       pkgID: item.pkgID,
       pkgImage: item.pkgImage,
       pkgDay: item.pkgDay,
+      
     }));
 
     const selectDays = document.getElementById("days");
