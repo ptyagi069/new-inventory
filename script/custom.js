@@ -6,7 +6,7 @@ const prevBtn = document.getElementById("prevBtn");
 const packageCards = document.querySelectorAll(".package-card");
 const params = new URLSearchParams(window.location.search);
 const apiUrl = "https://mobileapi.cultureholidays.com/api/";
-const pdfiurl =  'https://itinerary-server-side.onrender.com/api/';
+const pdfiurl = "https://pdfi.cultureholidays.com/inv/";
 let selectedActivities = new Set();
 let currentPage = 1;
 let selecteddate = '';
@@ -95,9 +95,9 @@ nextBtn.addEventListener("click", function () {
     else {
       console.log("Form submitted:", formData);
      window.open(
-        `${pdfiurl}edit/${formData.package.id}?userid=${formData.agentId}&date=${selecteddate}&addonswcost=true&wantaddon=true&token=${formData.token}`
+        `https://pdfi.cultureholidays.com/api/edit/${formData.package.id}?userid=${formData.agentId}&date=${selecteddate}&addonswcost=true&wantaddon=true&token=${formData.token}`
       );
-     // window.open(`http://localhost:3000/api/edit/${formData.package.id}?userid=${formData.agentId}&date=${selecteddate}&addonswcost=true&wantaddon=true&token=${formData.token}`);
+      //window.open(`http://localhost:3000/api/edit/${formData.package.id}?userid=${formData.agentId}&date=${selecteddate}&addonswcost=true&wantaddon=true&token=${formData.token}`);
       resetForm();
     }
   }
@@ -139,7 +139,7 @@ function updateStep(step) {
 
 async function gettoken(agentid) {
   try {
-    const response = await fetch(pdfiurl + "login", {
+    const response = await fetch( pdfiurl + "login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -638,7 +638,7 @@ async function fetchMoreActivities() {
 
   while (hasMoreData) {
     try {
-      const response = await fetch(`https://pdfi.cultureholidays.com/api/getfilteredpackages`, {
+      const response = await fetch(`${pdfiurl}getfilteredpackages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
