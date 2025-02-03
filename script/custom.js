@@ -94,10 +94,10 @@ nextBtn.addEventListener("click", function () {
 
     else {
       console.log("Form submitted:", formData);
-    //  window.open(
-    //     `https://pdfi.cultureholidays.com/api/edit/${formData.package.id}?userid=${formData.agentId}&date=${selecteddate}&addonswcost=true&wantaddon=false&token=${formData.token}`
-    //   );
-      window.open(`http://localhost:3000/api/edit/${formData.package.id}?userid=${formData.agentId}&date=${selecteddate}&addonswcost=true&wantaddon=false&token=${formData.token}`);
+     window.open(
+        `https://pdfi.cultureholidays.com/api/edit/${formData.package.id}?userid=${formData.agentId}&date=${selecteddate}&addonswcost=true&wantaddon=false&token=${formData.token}`
+      );
+      //window.open(`http://localhost:3000/api/edit/${formData.package.id}?userid=${formData.agentId}&date=${selecteddate}&addonswcost=true&wantaddon=false&token=${formData.token}`);
      // resetForm();
     }
   }
