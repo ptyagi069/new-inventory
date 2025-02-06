@@ -1,470 +1,541 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Booking Form</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .form-step {
-            display: none;
-        }
+      .form-step {
+        display: none;
+      }
 
-        .form-step.active {
-            display: block;
-        }
+      .form-step.active {
+        display: block;
+      }
 
-        .loading {
-            display: none;
-        }
+      .loading {
+        display: none;
+      }
 
-        .loading.active {
-            display: flex;
-        }
+      .loading.active {
+        display: flex;
+      }
 
-        .inclusion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
+      .inclusion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
 
-        .inclusion-content.active {
-            max-height: 500px;
-            /* Adjust based on content */
-            transition: max-height 0.5s ease-in;
-        }
+      .inclusion-content.active {
+        max-height: 500px;
+        /* Adjust based on content */
+        transition: max-height 0.5s ease-in;
+      }
 
-        .nav-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .padui{
-            position: sticky;
-            top: -2%;
-        }
+      .nav-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .padui {
+        position: sticky;
+        top: -2%;
+      }
     </style>
-</head>
+  </head>
 
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-xl bg-white rounded-lg shadow-lg p-6">
-        <!-- Progress indicator -->
-        <div>
-            <div class="mb-6">
-                <div class="flex justify-between mb-2">
-                    <span class="text-sm font-medium" id="step-text">Step 1 of 4</span>
-                    <span class="text-sm font-medium" id="step-title">Select Destination</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                    <div class="bg-blue-600 h-2.5 rounded-full" id="progress-bar" style="width: 25%"></div>
-                </div>
-            </div>
+      <!-- Progress indicator -->
+      <div>
+        <div class="mb-6">
+          <div class="flex justify-between mb-2">
+            <span class="text-sm font-medium" id="step-text">Step 1 of 4</span>
+            <span class="text-sm font-medium" id="step-title"
+              >Select Destination</span
+            >
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div
+              class="bg-blue-600 h-2.5 rounded-full"
+              id="progress-bar"
+              style="width: 25%"
+            ></div>
+          </div>
+        </div>
 
-            <!-- Loading spinner -->
-            <div class="loading items-center justify-center p-4" id="loading">
-                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            </div>
+        <!-- Loading spinner -->
+        <div class="loading items-center justify-center p-4" id="loading">
+          <div
+            class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+          ></div>
+        </div>
 
-            <!-- Step 1: Destination Selection -->
-            <div class="form-step active" id="step1">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-2" for="destination">Select Destination</label>
-                    <select id="destination"
-                        class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Loading destinations...</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-2" for="agentId">Agent ID</label>
-                    <input type="text" id="agentId"
-                        class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </div>
-                <div class="mb-4">
+        <!-- Step 1: Destination Selection -->
+        <div class="form-step active" id="step1">
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2" for="destination"
+              >Select Destination</label
+            >
+            <select
+              id="destination"
+              class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Loading destinations...</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2" for="agentId"
+              >Agent ID</label
+            >
+            <input
+              type="text"
+              id="agentId"
+              class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <!-- <div class="mb-4">
                     <label class="block text-sm font-medium mb-2" for="days">Number of Days (1-100)</label>
                     <input type="number" id="days" min="1" max="100"
                         class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </div>
-                <!-- <button onclick="nextStep()"
+                </div> -->
+          <!-- <button onclick="nextStep()"
                 class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Next</button> -->
-            </div>
+        </div>
 
-            <!-- Step 2: Package Selection -->
-            <div class="form-step" id="step2">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-2">Filter by Activities</label>
-                    <div id="activities-container" class="flex flex-wrap gap-2 mb-4 max-h-40 overflow-y-auto p-1 relative"></div>
-                </div>
-                <div class="grid grid-cols-1 gap-4 mb-4" id="packages-container"
-                    style="max-height: 40vh; overflow-y: auto">
-                    <!-- Packages will be inserted here -->
-                </div>
-                <button style="display: none" id="showmorepackages"
-                    class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 mt-4">
-                    Show More Packages
-                </button>
-            </div>
+        <!-- Step 2: Package Selection -->
+        <div class="form-step" id="step2">
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2"
+              >Filter by Activities</label
+            >
+            <div
+              id="activities-container"
+              class="flex flex-wrap gap-2 mb-4 max-h-40 overflow-y-auto p-1 relative"
+            ></div>
+          </div>
+          <div
+            class="grid grid-cols-1 gap-4 mb-4"
+            id="packages-container"
+            style="max-height: 40vh; overflow-y: auto"
+          >
+            <!-- Packages will be inserted here -->
+          </div>
+          <button
+            style="display: none"
+            id="showmorepackages"
+            class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 mt-4"
+          >
+            Show More Packages
+          </button>
+        </div>
 
-            <!-- Step 3: Date Selection -->
-            <div class="form-step" id="step3">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-2" for="travelDate">Travel Date (DD/MM/YYYY)</label>
-                    <input type="text" id="travelDate" placeholder="26/04/2025"
-                        class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </div>
-                <!-- <button onclick="nextStep()"
+        <!-- Step 3: Date Selection -->
+        <div class="form-step" id="step3">
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2" for="travelDate"
+              >Travel Date (DD/MM/YYYY)</label
+            >
+            <input
+              type="text"
+              id="travelDate"
+              placeholder="26/04/2025"
+              class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <!-- <button onclick="nextStep()"
                 class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Next</button> -->
-            </div>
+        </div>
 
-            <!-- Step 4: Addons -->
-            <div class="form-step" id="step4">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-2">Would you like to add any addons?</label>
-                    <div class="flex items-center">
-                        <input type="checkbox" id="addons" class="mr-2" />
-                        <label for="addons">Yes, I would like addons</label>
-                    </div>
-                </div>
+        <!-- Step 4: Addons -->
+        <div class="form-step" id="step4">
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2"
+              >Would you like to add any addons?</label
+            >
+            <div class="flex items-center">
+              <input type="checkbox" id="addons" class="mr-2" />
+              <label for="addons">Yes, I would like addons</label>
             </div>
+          </div>
         </div>
-        <div class="nav-buttons">
-            <button onclick="previousStep()" id="backButton"
-                class="hidden w-1/2 bg-gray-500 text-white p-2 rounded hover:bg-gray-600">
-                Back
-            </button>
-            <button onclick="nextStep()" id="nextButton"
-                class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
-                Next
-            </button>
-        </div>
+      </div>
+      <div class="nav-buttons">
+        <button
+          onclick="previousStep()"
+          id="backButton"
+          class="hidden w-1/2 bg-gray-500 text-white p-2 rounded hover:bg-gray-600"
+        >
+          Back
+        </button>
+        <button
+          onclick="nextStep()"
+          id="nextButton"
+          class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+        >
+          Next
+        </button>
+      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.14.1/framer-motion.umd.min.js"></script>
 
     <script>
-        let pagenum = 1;
-        let allPackages = [];
-        let formData = {
-            countryCode: "",
-            token: "",
-            agentId: "",
-            numberOfDays: "",
-            selectedPackage: null,
-            travelDate: "",
-            addons: false,
-            selectedActivities: [],
-        };
+      let pagenum = 1;
+      let allPackages = [];
+      let formData = {
+        countryCode: "",
+        token: "",
+        agentId: "",
+        numberOfDays: "",
+        selectedPackage: null,
+        travelDate: "",
+        addons: false,
+        selectedActivities: [],
+      };
 
-        const API_BASE_URL = "https://mobileapi.cultureholidays.com/api/";
-        const apiurl2 = "https://pdfi.cultureholidays.com/inv/";
-        let currentStep = 1;
-        let inclusionStates = new Map();
+      const API_BASE_URL = "https://mobileapi.cultureholidays.com/api/";
+      const apiurl2 = "https://pdfi.cultureholidays.com/inv/";
+      let currentStep = 1;
+      let inclusionStates = new Map();
 
-        document.getElementById("showmorepackages").addEventListener("click", () => { fetchPackages(pagenum); });
+      document
+        .getElementById("showmorepackages")
+        .addEventListener("click", () => {
+          fetchPackages(pagenum);
+        });
 
-        async function populateDestinations() {
-            try {
-                showLoading(true);
-                const response = await fetch(`${API_BASE_URL}Holidays/Countrylist`);
-                const destinations = await response.json();
+      async function populateDestinations() {
+        try {
+          showLoading(true);
+          const response = await fetch(`${API_BASE_URL}Holidays/Countrylist`);
+          const destinations = await response.json();
 
-                const destinationSelect = document.getElementById("destination");
-                destinationSelect.innerHTML =
-                    '<option value="">Select destination</option>';
+          const destinationSelect = document.getElementById("destination");
+          destinationSelect.innerHTML =
+            '<option value="">Select destination</option>';
 
-                destinations.forEach((dest) => {
-                    const option = document.createElement("option");
-                    option.value = dest.countryCode;
-                    option.textContent = dest.countryName;
-                    destinationSelect.appendChild(option);
-                });
-            } catch (error) {
-                console.error("Error fetching destinations:", error);
-            } finally {
-                showLoading(false);
-            }
+          destinations.forEach((dest) => {
+            const option = document.createElement("option");
+            option.value = dest.countryCode;
+            option.textContent = dest.countryName;
+            destinationSelect.appendChild(option);
+          });
+        } catch (error) {
+          console.error("Error fetching destinations:", error);
+        } finally {
+          showLoading(false);
+        }
+      }
+
+      async function fetchPackages(page) {
+  try {
+    showLoading(true);
+    const response = await fetch(apiurl2 + "getfilteredpackages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        region: "",
+        country: formData.countryCode,
+        userid: "ALL",
+        type: "Country",
+        pkg_category_id: "",
+        nights: formData.numberOfDays,
+        pagenumber: page,
+        pagesize: 55,
+      }),
+    });
+
+    const data = await response.json();
+    console.log(`Fetched page ${page}:`);
+
+    // Stop fetching if no data is received
+    if (!data || !data.data || !Array.isArray(data.data) || data.data.length === 0) {
+      console.warn("No more data available. Stopping fetch.");
+      return; // STOP further recursive calls
+    }
+
+    // Add new packages to allPackages array
+    allPackages = [...allPackages, ...data.data];
+
+    // Update activities based on all packages
+    bindActivities(allPackages);
+
+    // Filter and display packages based on selected activities
+    filterPackagesByActivities();
+
+    // Continue fetching next page after 10s delay
+    setTimeout(() => fetchPackages(page + 1), 10000);
+    
+  } catch (error) {
+    console.error("Error fetching packages:", error);
+    document.getElementById("packages-container").innerHTML =
+      '<p class="text-red-500">Failed to load packages. Please try again.</p>';
+  } finally {
+    showLoading(false);
+  }
+}
+
+      async function showInclusions(pkgId, buttonElement) {
+        const inclusionDiv = buttonElement.nextElementSibling;
+        const button = buttonElement;
+
+        if (inclusionDiv.dataset.loaded === "true") {
+          inclusionDiv.classList.toggle("active");
+          button.textContent = inclusionDiv.classList.contains("active")
+            ? "Hide Inclusions"
+            : "Show Inclusions";
+          inclusionStates.set(pkgId, inclusionDiv.classList.contains("active"));
+          return;
         }
 
-        async function fetchPackages(page) {
-            try {
-                showLoading(true);
-                const response = await fetch(apiurl2 + "getfilteredpackages", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        region: "",
-                        country: formData.countryCode,
-                        userid: "ALL",
-                        type: "Country",
-                        pkg_category_id: "",
-                        nights: formData.numberOfDays,
-                        pagenumber: page,
-                        pagesize: 15,
-                    }),
-                });
-                const data = await response.json();
+        try {
+          button.textContent = "Loading...";
+          button.disabled = true;
 
-                console.timeEnd(`Fetch time for page ${page}`);
+          const response = await fetch(
+            API_BASE_URL +
+              "Holidays/PacKageInclusionAndExclusion?PKG_ID=" +
+              pkgId
+          );
+          const result = await response.json();
 
-                if (data && data.data && Array.isArray(data.data)) {
-                    if (data.data.length === 0) {
-                        return;
-                    }
-
-                    // Add new packages to allPackages array
-                    allPackages = [...allPackages, ...data.data];
-                    // Update activities based on all packages
-                    bindActivities(allPackages);
-                    // Filter and display packages based on selected activities
-                    filterPackagesByActivities();
-
-                    setTimeout(() => fetchPackages(page + 1), 10000);
-                } else {
-                    throw new Error("Invalid package data structure");
-                }
-            } catch (error) {
-                console.error("Error fetching packages:", error);
-                const container = document.getElementById("packages-container");
-                container.innerHTML =
-                    '<p class="text-red-500">Failed to load packages. Please try again.</p>';
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        async function showInclusions(pkgId, buttonElement) {
-            const inclusionDiv = buttonElement.nextElementSibling;
-            const button = buttonElement;
-
-            if (inclusionDiv.dataset.loaded === "true") {
-                inclusionDiv.classList.toggle("active");
-                button.textContent = inclusionDiv.classList.contains("active")
-                    ? "Hide Inclusions"
-                    : "Show Inclusions";
-                inclusionStates.set(pkgId, inclusionDiv.classList.contains("active"));
-                return;
-            }
-
-            try {
-                button.textContent = "Loading...";
-                button.disabled = true;
-
-                const response = await fetch(
-                    API_BASE_URL +
-                    "Holidays/PacKageInclusionAndExclusion?PKG_ID=" +
-                    pkgId
-                );
-                const result = await response.json();
-
-                const inclusionContent = `
+          const inclusionContent = `
             <div class="p-4 border rounded-lg bg-gray-50 mt-3">
                 <div class="space-y-3">
                     <div>
                         <h4 class="text-sm font-semibold text-gray-800 mb-2">✓ Inclusions</h4>
                         <ul class="text-sm text-gray-600 list-disc list-inside space-y-1">
                             ${result[1]["inC_DETAILS"]
-                        .split(";")
-                        .map((item) => item.trim())
-                        .filter((item) => item.length > 0)
-                        .map((item) => `<li>${item}</li>`)
-                        .join("")}
+                              .split(";")
+                              .map((item) => item.trim())
+                              .filter((item) => item.length > 0)
+                              .map((item) => `<li>${item}</li>`)
+                              .join("")}
                         </ul>
                     </div>
                 </div>
             </div>
         `;
 
-                inclusionDiv.innerHTML = inclusionContent;
-                inclusionDiv.dataset.loaded = "true";
-                inclusionDiv.classList.add("active");
-                button.textContent = "Hide Inclusions";
-                button.disabled = false;
+          inclusionDiv.innerHTML = inclusionContent;
+          inclusionDiv.dataset.loaded = "true";
+          inclusionDiv.classList.add("active");
+          button.textContent = "Hide Inclusions";
+          button.disabled = false;
 
-                // Store inclusion state and content
-                inclusionStates.set(pkgId, true);
-                inclusionStates.set(pkgId + "_content", inclusionContent);
-            } catch (error) {
-                console.error("Error fetching inclusions:", error);
-                const errorContent = `
+          // Store inclusion state and content
+          inclusionStates.set(pkgId, true);
+          inclusionStates.set(pkgId + "_content", inclusionContent);
+        } catch (error) {
+          console.error("Error fetching inclusions:", error);
+          const errorContent = `
             <div class="p-3 text-red-500 text-sm">
                 Failed to load inclusions. Please try again.
             </div>
         `;
-                inclusionDiv.innerHTML = errorContent;
-                inclusionStates.set(pkgId + "_content", errorContent);
-                button.textContent = "Show Inclusions";
-                button.disabled = false;
-            }
+          inclusionDiv.innerHTML = errorContent;
+          inclusionStates.set(pkgId + "_content", errorContent);
+          button.textContent = "Show Inclusions";
+          button.disabled = false;
         }
+      }
 
-        function displayPackages(packages) {
-            const container = document.getElementById("packages-container");
-            const selectedActivities = formData.selectedActivities;
+      function displayPackages(packages) {
+        const container = document.getElementById("packages-container");
+        const selectedActivities = formData.selectedActivities;
 
-            // Store scroll position
-            const scrollPosition = container.scrollTop;
+        // Store scroll position
+        const scrollPosition = container.scrollTop;
 
-            // Clear existing content
-            container.innerHTML = "";
+        // Clear existing content
+        container.innerHTML = "";
 
-            // Add status message container
-            const statusContainer = document.createElement("div");
-            statusContainer.className = "mb-4";
-            container.appendChild(statusContainer);
+        // Add status message container
+        const statusContainer = document.createElement("div");
+        statusContainer.className = "mb-4";
+        container.appendChild(statusContainer);
 
-            // Add clear filter button if there are selected activities
-            if (selectedActivities.length > 0) {
-                const clearFilterBtn = document.createElement("button");
-                clearFilterBtn.className =
-                    "mb-4 px-4 py-2 bg-gray-100 border rounded-lg hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 flex items-center gap-2";
-                clearFilterBtn.innerHTML = `
+        // Add clear filter button if there are selected activities
+        if (selectedActivities.length > 0) {
+          const clearFilterBtn = document.createElement("button");
+          clearFilterBtn.className =
+            "mb-4 px-4 py-2 bg-gray-100 border rounded-lg hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 flex items-center gap-2";
+          clearFilterBtn.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
             Clear Filters
         `;
-                clearFilterBtn.onclick = clearFilters;
-                statusContainer.appendChild(clearFilterBtn);
+          clearFilterBtn.onclick = clearFilters;
+          statusContainer.appendChild(clearFilterBtn);
+        }
+
+        if (packages.length === 0) {
+          const noPackagesMsg = document.createElement("p");
+          noPackagesMsg.className = "text-gray-500 mt-4";
+          noPackagesMsg.textContent =
+            "No package found with all the selected activities. Try adjusting your selections!";
+          container.appendChild(noPackagesMsg);
+          return;
+        }
+
+        // Group packages by match quality
+        const perfectMatches = [];
+        const partialMatches = [];
+
+        packages.forEach((pkg) => {
+          const packageActivities = JSON.parse(pkg.TopActivities || "[]").map(
+            (activity) => activity.Activity
+          );
+
+          const matchCount = selectedActivities.filter((act) =>
+            packageActivities.includes(act)
+          ).length;
+
+          if (selectedActivities.length > 0) {
+            if (
+              matchCount === selectedActivities.length &&
+              packageActivities.length >= selectedActivities.length
+            ) {
+              perfectMatches.push(pkg);
+            } else if (matchCount > 0) {
+              partialMatches.push(pkg);
             }
+          } else {
+            // When no activities are selected, show all packages
+            perfectMatches.push(pkg);
+          }
+        });
 
-            if (packages.length === 0) {
-                const noPackagesMsg = document.createElement("p");
-                noPackagesMsg.className = "text-gray-500 mt-4";
-                noPackagesMsg.textContent =
-                    "No package found with all the selected activities. Try adjusting your selections!";
-                container.appendChild(noPackagesMsg);
-                return;
-            }
+        // Display status message based on matches
+        if (selectedActivities.length > 0) {
+          const statusMessage = document.createElement("div");
+          statusMessage.className = "text-sm mb-4";
 
-            // Group packages by match quality
-            const perfectMatches = [];
-            const partialMatches = [];
-
-            packages.forEach((pkg) => {
-                const packageActivities = JSON.parse(pkg.TopActivities || "[]").map(
-                    (activity) => activity.Activity
-                );
-
-                const matchCount = selectedActivities.filter((act) =>
-                    packageActivities.includes(act)
-                ).length;
-
-                if (selectedActivities.length > 0) {
-                    if (
-                        matchCount === selectedActivities.length &&
-                        packageActivities.length >= selectedActivities.length
-                    ) {
-                        perfectMatches.push(pkg);
-                    } else if (matchCount > 0) {
-                        partialMatches.push(pkg);
-                    }
-                } else {
-                    // When no activities are selected, show all packages
-                    perfectMatches.push(pkg);
-                }
-            });
-
-            // Display status message based on matches
-            if (selectedActivities.length > 0) {
-                const statusMessage = document.createElement("div");
-                statusMessage.className = "text-sm mb-4";
-
-                if (perfectMatches.length > 0) {
-                    statusMessage.innerHTML = `
+          if (perfectMatches.length > 0) {
+            statusMessage.innerHTML = `
                 <div class="p-3 bg-green-50 text-green-800 rounded-lg">
                     ${perfectMatches.length} packages curated just for you!
                 </div>
             `;
-                } else if (partialMatches.length > 0) {
-                    statusMessage.innerHTML = `
+          } else if (partialMatches.length > 0) {
+            statusMessage.innerHTML = `
                 <div class="p-3 bg-yellow-50 text-yellow-700 rounded-lg">
-                    No package found with all the selected activities ,but showing ${partialMatches.length} 
-                    suggested package${partialMatches.length > 1 ? "s" : ""} with similar activities.
+                    No package found with all the selected activities ,but showing ${
+                      partialMatches.length
+                    } 
+                    suggested package${
+                      partialMatches.length > 1 ? "s" : ""
+                    } with similar activities.
                 </div>
             `;
-                }
-                statusContainer.appendChild(statusMessage);
+          }
+          statusContainer.appendChild(statusMessage);
+        }
+
+        // Display packages
+        const displayPackageList = (pkgList) => {
+          pkgList.forEach((pkg) => {
+            const card = document.createElement("div");
+            card.setAttribute("data-package-id", pkg.PKG_ID);
+            card.className = `border rounded-lg p-4 cursor-pointer hover:bg-gray-50 transition mb-4 ${
+              formData.selectedPackage?.PKG_ID === pkg.PKG_ID
+                ? "border-2 border-blue-500"
+                : "border"
+            }`;
+            let activities = [];
+            try {
+              activities = JSON.parse(pkg.TopActivities || "[]");
+            } catch (error) {
+              console.error("Error parsing activities:", error);
             }
 
-            // Display packages
-            const displayPackageList = (pkgList) => {
-                pkgList.forEach((pkg) => {
-                    const card = document.createElement("div");
-                    card.setAttribute("data-package-id", pkg.PKG_ID);
-                    card.className = `border rounded-lg p-4 cursor-pointer hover:bg-gray-50 transition mb-4 ${formData.selectedPackage?.PKG_ID === pkg.PKG_ID
-                        ? "border-2 border-blue-500"
-                        : "border"
-                        }`;
-                    let activities = [];
-                    try {
-                        activities = JSON.parse(pkg.TopActivities || "[]");
-                    } catch (error) {
-                        console.error("Error parsing activities:", error);
-                    }
+            const isExpanded = inclusionStates.get(pkg.PKG_ID);
+            const savedContent = inclusionStates.get(pkg.PKG_ID + "_content");
 
-                    const isExpanded = inclusionStates.get(pkg.PKG_ID);
-                    const savedContent = inclusionStates.get(pkg.PKG_ID + "_content");
-
-                    card.innerHTML = `
+            card.innerHTML = `
                 <div class="flex gap-4">
-                    <img src="https://cms.tripoculture.com/${pkg.pkgImage?.replace("..", "") || ""
-                        }"
+                    <img src="https://cms.tripoculture.com/${
+                      pkg.pkgImage?.replace("..", "") || ""
+                    }"
                          alt="${pkg.pkgTitle || "Package"}"
                          class="w-24 h-24 object-cover rounded-lg shadow-sm">
                     <div class="flex-1">
                     <h3 class="font-medium text-gray-900">
-  ${pkg.pkgTitle
-    ? pkg.pkgTitle
-        .split(" ")
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(" ")
-    : "Untitled Package"}
+  ${
+    pkg.pkgTitle
+      ? pkg.pkgTitle
+          .split(" ")
+          .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+          )
+          .join(" ")
+      : "Untitled Package"
+  }
 </h3>
 
 
 
 <p class="text-[14px] text-green-700 font-bold">
-  ${JSON.parse(pkg.HotelList)
-    .map(
-      (hotel) =>
-        `${hotel.HTL_CITY_NAME}: ${hotel.H[0]?.HTL_NIGHTS || "N/A"} nights`
-    )
-    .join(" , ")}
+  ${(() => {
+    try {
+      const hotelList = JSON.parse(pkg?.HotelList || "[]"); 
+      return Array.isArray(hotelList)
+        ? hotelList
+            .map(
+              (hotel) =>
+                `${hotel?.HTL_CITY_NAME || "Unknown City"}: ${
+                  hotel?.H?.[0]?.HTL_NIGHTS || "N/A"
+                } nights`
+            )
+            .join(" , ")
+        : "No Hotels Available";
+    } catch (error) {
+      console.error("Error parsing HotelList:", error);
+      return "Invalid Hotel Data";
+    }
+  })()}
 </p>
-
-
-                    
-                        <p class="text-sm font-semibold text-blue-600"> Days: ${pkg.pkgDay
+                        <p class="text-sm font-semibold text-blue-600"> Days: ${
+                          pkg.pkgDay
                         }</p>
 
                         <div class="mt-2">
                             <p class="text-xs text-gray-500">Activities:</p>
                             <div class="flex flex-wrap gap-1 mt-1">
                                 ${activities
-                            .map(
-                                (act) =>
-                                    `<span class="text-xs ${formData.selectedActivities.includes(
+                                  .map(
+                                    (act) =>
+                                      `<span class="text-xs ${
+                                        formData.selectedActivities.includes(
+                                          act.Activity
+                                        )
+                                          ? "bg-blue-100 text-blue-700"
+                                          : "bg-gray-100 text-gray-700"
+                                      } px-2 py-1 rounded">${
                                         act.Activity
-                                    )
-                                        ? "bg-blue-100 text-blue-700"
-                                        : "bg-gray-100 text-gray-700"
-                                    } px-2 py-1 rounded">${act.Activity
-                                    }</span>`
-                            )
-                            .join("")}
+                                      }</span>`
+                                  )
+                                  .join("")}
                             </div>
                         </div>
 
                         <button class="mt-3 text-sm text-blue-500 font-medium hover:underline focus:outline-none inclusion-btn"
-                                onclick="event.stopPropagation(); showInclusions('${pkg.PKG_ID
-                        }', this)">
-                            ${isExpanded ? "Hide Inclusions" : "Show Inclusions"
-                        }
+                                onclick="event.stopPropagation(); showInclusions('${
+                                  pkg.PKG_ID
+                                }', this)">
+                            ${
+                              isExpanded ? "Hide Inclusions" : "Show Inclusions"
+                            }
                         </button>
 
-                        <div class="inclusion-content ${isExpanded ? "active" : ""
+                        <div class="inclusion-content ${
+                          isExpanded ? "active" : ""
                         }" 
                              data-loaded="${isExpanded ? "true" : "false"}">
                             ${savedContent || ""}
@@ -473,446 +544,415 @@
                 </div>
             `;
 
-                    card.onclick = (e) => {
-                        if (
-                            !e.target.closest(".inclusion-btn") &&
-                            !e.target.closest(".inclusion-content")
-                        ) {
-                            selectPackage(pkg);
-                        }
-                    };
-
-                    container.appendChild(card);
-                });
+            card.onclick = (e) => {
+              if (
+                !e.target.closest(".inclusion-btn") &&
+                !e.target.closest(".inclusion-content")
+              ) {
+                selectPackage(pkg);
+              }
             };
 
-            // Display perfect matches first, then partial matches
-            displayPackageList(perfectMatches);
-            displayPackageList(partialMatches);
+            container.appendChild(card);
+          });
+        };
 
-            // Restore scroll position
-            container.scrollTop = scrollPosition;
+        // Display perfect matches first, then partial matches
+        displayPackageList(perfectMatches);
+        displayPackageList(partialMatches);
+
+        // Restore scroll position
+        container.scrollTop = scrollPosition;
+      }
+
+      function clearFilters() {
+        // Uncheck all activity checkboxes
+        document
+          .querySelectorAll('#activities-container input[type="checkbox"]')
+          .forEach((checkbox) => (checkbox.checked = false));
+
+        // Clear selected activities
+        formData.selectedActivities = [];
+
+        // Refilter packages
+        filterPackagesByActivities();
+      }
+
+      function createActivitySearch() {
+        const activitiesContainer = document.getElementById(
+          "activities-container"
+        );
+        const searchContainer = document.createElement("div");
+        searchContainer.className = "mb-4 w-full padui";
+
+        const searchInput = document.createElement("input");
+        searchInput.type = "text";
+        searchInput.placeholder = "Search activities...";
+        searchInput.className =
+          "w-full p-2 border rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ";
+
+        searchContainer.appendChild(searchInput);
+        activitiesContainer.insertBefore(
+          searchContainer,
+          activitiesContainer.firstChild
+        );
+
+        let allActivities = new Set();
+
+        searchInput.addEventListener("input", (e) => {
+          const searchTerm = e.target.value.toLowerCase();
+          filterActivities(searchTerm);
+        });
+      }
+
+      function filterActivities(searchTerm) {
+        const checkboxes = document.querySelectorAll(
+          '#activities-container input[type="checkbox"]'
+        );
+        const labels = document.querySelectorAll("#activities-container label");
+
+        checkboxes.forEach((checkbox, index) => {
+          const label = labels[index];
+          const activity = label.textContent.toLowerCase();
+          const container = checkbox.parentElement;
+
+          if (activity.includes(searchTerm)) {
+            container.style.display = "";
+          } else {
+            container.style.display = "none";
+          }
+        });
+      }
+
+      function bindActivities(packages) {
+        const activitiesContainer = document.getElementById(
+          "activities-container"
+        );
+        const existingActivities = new Set(
+          Array.from(activitiesContainer.querySelectorAll("input")).map(
+            (input) => input.value
+          )
+        );
+
+        // Create search box if it doesn't exist
+        if (!activitiesContainer.querySelector('input[type="text"]')) {
+          createActivitySearch();
         }
 
-        function clearFilters() {
-            // Uncheck all activity checkboxes
-            document
-                .querySelectorAll('#activities-container input[type="checkbox"]')
-                .forEach((checkbox) => (checkbox.checked = false));
-
-            // Clear selected activities
-            formData.selectedActivities = [];
-
-            // Refilter packages
-            filterPackagesByActivities();
-        }
-
-        function createActivitySearch() {
-            const activitiesContainer = document.getElementById(
-                "activities-container"
-            );
-            const searchContainer = document.createElement("div");
-            searchContainer.className = "mb-4 w-full padui";
-
-            const searchInput = document.createElement("input");
-            searchInput.type = "text";
-            searchInput.placeholder = "Search activities...";
-            searchInput.className =
-                "w-full p-2 border rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ";
-
-            searchContainer.appendChild(searchInput);
-            activitiesContainer.insertBefore(
-                searchContainer,
-                activitiesContainer.firstChild  
-            );
-
-            let allActivities = new Set();
-
-            searchInput.addEventListener("input", (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                filterActivities(searchTerm);
+        // Collect all unique activities
+        const activitiesSet = new Set();
+        packages.forEach((pkg) => {
+          try {
+            const activities = JSON.parse(pkg.TopActivities || "[]");
+            activities.forEach((activity) => {
+              activitiesSet.add(activity.Activity);
             });
-        }
+          } catch (error) {
+            console.error("Error parsing activities:", error);
+          }
+        });
 
-        function filterActivities(searchTerm) {
-            const checkboxes = document.querySelectorAll(
-                '#activities-container input[type="checkbox"]'
-            );
-            const labels = document.querySelectorAll("#activities-container label");
-
-            checkboxes.forEach((checkbox, index) => {
-                const label = labels[index];
-                const activity = label.textContent.toLowerCase();
-                const container = checkbox.parentElement;
-
-                if (activity.includes(searchTerm)) {
-                    container.style.display = "";
-                } else {
-                    container.style.display = "none";
-                }
-            });
-        }
-
-        function bindActivities(packages) {
-            const activitiesContainer = document.getElementById(
-                "activities-container"
-            );
-            const existingActivities = new Set(
-                Array.from(activitiesContainer.querySelectorAll("input")).map(
-                    (input) => input.value
-                )
-            );
-
-            // Create search box if it doesn't exist
-            if (!activitiesContainer.querySelector('input[type="text"]')) {
-                createActivitySearch();
-            }
-
-            // Collect all unique activities
-            const activitiesSet = new Set();
-            packages.forEach((pkg) => {
-                try {
-                    const activities = JSON.parse(pkg.TopActivities || "[]");
-                    activities.forEach((activity) => {
-                        activitiesSet.add(activity.Activity);
-                    });
-                } catch (error) {
-                    console.error("Error parsing activities:", error);
-                }
-            });
-
-            // Add only new activities
-            activitiesSet.forEach((activity) => {
-                if (!existingActivities.has(activity)) {
-                    const checkbox = document.createElement("div");
-                    checkbox.className = "flex items-center mb-2";
-                    checkbox.innerHTML = `
+        // Add only new activities
+        activitiesSet.forEach((activity) => {
+          if (!existingActivities.has(activity)) {
+            const checkbox = document.createElement("div");
+            checkbox.className = "flex items-center mb-2";
+            checkbox.innerHTML = `
                 <input type="checkbox" id="activity-${activity}" class="mr-2" value="${activity}">
                 <label for="activity-${activity}" class="text-sm">${activity}</label>
             `;
-                    checkbox
-                        .querySelector("input")
-                        .addEventListener("change", filterPackagesByActivities);
-                    activitiesContainer.appendChild(checkbox);
-                }
-            });
+            checkbox
+              .querySelector("input")
+              .addEventListener("change", filterPackagesByActivities);
+            activitiesContainer.appendChild(checkbox);
+          }
+        });
 
-            // Apply current search filter if exists
-            const searchInput =
-                activitiesContainer.querySelector('input[type="text"]');
-            if (searchInput && searchInput.value) {
-                filterActivities(searchInput.value.toLowerCase());
-            }
+        // Apply current search filter if exists
+        const searchInput =
+          activitiesContainer.querySelector('input[type="text"]');
+        if (searchInput && searchInput.value) {
+          filterActivities(searchInput.value.toLowerCase());
         }
+      }
 
+      function filterPackagesByActivities() {
+        const selectedActivities = Array.from(
+          document.querySelectorAll("#activities-container input:checked")
+        ).map((input) => input.value);
+        formData.selectedActivities = selectedActivities;
 
-        function filterPackagesByActivities() {
-            const selectedActivities = Array.from(
-                document.querySelectorAll("#activities-container input:checked")
-            ).map((input) => input.value);
-            formData.selectedActivities = selectedActivities;
+        let filteredPackages = allPackages;
 
-            let filteredPackages = allPackages;
-
-            if (selectedActivities.length > 0) {
-                filteredPackages = allPackages.filter((pkg) => {
-                    try {
-                        const packageActivities = JSON.parse(
-                            pkg.TopActivities || "[]"
-                        ).map((activity) => activity.Activity);
-                        return selectedActivities.some((selected) =>
-                            packageActivities.includes(selected)
-                        );
-                    } catch (error) {
-                        console.error("Error parsing activities for package:", error);
-                        return false;
-                    }
-                });
-            }
-
-            // Sort packages by the number of matching activities and the selected number of nights
-            filteredPackages.sort((a, b) => {
-                const aActivities = JSON.parse(a.TopActivities || "[]").map(
-                    (activity) => activity.Activity
-                );
-                const bActivities = JSON.parse(b.TopActivities || "[]").map(
-                    (activity) => activity.Activity
-                );
-                const aMatchCount = selectedActivities.filter((act) =>
-                    aActivities.includes(act)
-                ).length;
-                const bMatchCount = selectedActivities.filter((act) =>
-                    bActivities.includes(act)
-                ).length;
-
-                if (aMatchCount !== bMatchCount) {
-                    return bMatchCount - aMatchCount;
-                }
-
-                const aNights = parseInt(a.pkgDay, 10) || 0;
-                const bNights = parseInt(b.pkgDay, 10) || 0;
-                const selectedNights = parseInt(formData.numberOfDays, 10) || 0;
-
-                if (aNights === selectedNights && bNights !== selectedNights) {
-                    return -1;
-                }
-                if (bNights === selectedNights && aNights !== selectedNights) {
-                    return 1;
-                }
-
-                return 0;
-            });
-
-            displayPackages(filteredPackages);
-        }
-
-        function selectPackage(pkg) {
-            // Update formData
-            formData.selectedPackage = pkg;
-
-            // Remove selection from all packages
-            document
-                .querySelectorAll("#packages-container [data-package-id]")
-                .forEach((card) => {
-                    card.classList.remove("border-blue-500", "border-2");
-                    card.classList.add("border");
-                });
-
-            // Add selection to clicked package
-            const selectedCard = document.querySelector(
-                `[data-package-id="${pkg.PKG_ID}"]`
-            );
-            if (selectedCard) {
-                selectedCard.classList.remove("border");
-                selectedCard.classList.add("border-2", "border-blue-500");
-            }
-        }
-
-        function showLoading(show) {
-            document.getElementById("loading").classList.toggle("active", show);
-        }
-
-        async function gettoken(agentid) {
+        if (selectedActivities.length > 0) {
+          filteredPackages = allPackages.filter((pkg) => {
             try {
-                const response = await fetch(apiurl2 + "login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        agentid,
-                    }),
-                });
-                const data = await response.json();
-                console.log(data);
-                formData.token = data.encodedSessionID;
-            } catch (error) { }
-        }
-
-        function validateStep() {
-            switch (currentStep) {
-                case 1:
-                    formData.countryCode = document.getElementById("destination").value;
-                    formData.agentId = document.getElementById("agentId").value;
-                    formData.numberOfDays = document.getElementById("days").value;
-
-                    return (
-                        formData.countryCode && formData.agentId && formData.numberOfDays
-                    );
-                case 3:
-                    formData.travelDate = document.getElementById("travelDate").value;
-                    return /^\d{2}\/\d{2}\/\d{4}$/.test(formData.travelDate);
-                default:
-                    return true;
+              const packageActivities = JSON.parse(
+                pkg.TopActivities || "[]"
+              ).map((activity) => activity.Activity);
+              return selectedActivities.some((selected) =>
+                packageActivities.includes(selected)
+              );
+            } catch (error) {
+              console.error("Error parsing activities for package:", error);
+              return false;
             }
+          });
         }
 
-        function updateProgress() {
-            const progress = (currentStep / 4) * 100;
-            document.getElementById("progress-bar").style.width = `${progress}%`;
-            document.getElementById(
-                "step-text"
-            ).textContent = `Step ${currentStep} of 4`;
+        // Sort packages by the number of matching activities and the selected number of nights
+        filteredPackages.sort((a, b) => {
+          const aActivities = JSON.parse(a.TopActivities || "[]").map(
+            (activity) => activity.Activity
+          );
+          const bActivities = JSON.parse(b.TopActivities || "[]").map(
+            (activity) => activity.Activity
+          );
+          const aMatchCount = selectedActivities.filter((act) =>
+            aActivities.includes(act)
+          ).length;
+          const bMatchCount = selectedActivities.filter((act) =>
+            bActivities.includes(act)
+          ).length;
 
-            const titles = [
-                "Select Destination",
-                "Select Package",
-                "Select Date",
-                "Addons",
-            ];
-            document.getElementById("step-title").textContent =
-                titles[currentStep - 1];
+          if (aMatchCount !== bMatchCount) {
+            return bMatchCount - aMatchCount;
+          }
+
+          const aNights = parseInt(a.pkgDay, 10) || 0;
+          const bNights = parseInt(b.pkgDay, 10) || 0;
+          const selectedNights = 0;
+          // const selectedNights = parseInt(formData.numberOfDays, 10) || 0;
+
+          if (aNights === selectedNights && bNights !== selectedNights) {
+            return -1;
+          }
+          if (bNights === selectedNights && aNights !== selectedNights) {
+            return 1;
+          }
+
+          return 0;
+        });
+
+        displayPackages(filteredPackages);
+      }
+
+      function selectPackage(pkg) {
+        // Update formData
+        formData.selectedPackage = pkg;
+
+        // Remove selection from all packages
+        document
+          .querySelectorAll("#packages-container [data-package-id]")
+          .forEach((card) => {
+            card.classList.remove("border-blue-500", "border-2");
+            card.classList.add("border");
+          });
+
+        // Add selection to clicked package
+        const selectedCard = document.querySelector(
+          `[data-package-id="${pkg.PKG_ID}"]`
+        );
+        if (selectedCard) {
+          selectedCard.classList.remove("border");
+          selectedCard.classList.add("border-2", "border-blue-500");
         }
+      }
 
-        function submitForm() {
-            formData.addons = document.getElementById("addons").checked;
-            console.log("Final form data:", formData);
-        }
+      function showLoading(show) {
+        document.getElementById("loading").classList.toggle("active", show);
+      }
 
-        // Initialize the form
-        populateDestinations();
+      async function gettoken(agentid) {
+        try {
+          const response = await fetch(apiurl2 + "login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              agentid,
+            }),
+          });
+          const data = await response.json();
+          console.log(data);
+          formData.token = data.encodedSessionID;
+        } catch (error) {}
+      }
 
-        function updateNavigationButtons() {
-            const backButton = document.getElementById("backButton");
-            const nextButton = document.getElementById("nextButton");
+      function validateStep() {
+        switch (currentStep) {
+          case 1:
+            formData.countryCode = document.getElementById("destination").value;
+            formData.agentId = document.getElementById("agentId").value;
+            // formData.numberOfDays = document.getElementById("days").value;
 
-            // Handle first step
-            if (currentStep === 1) {
-                backButton.classList.add("hidden");
-                nextButton.classList.remove("hidden");
-                nextButton.classList.remove("w-1/2");
-                nextButton.classList.add("w-full");
-            }
-            // Handle last step
-            else if (currentStep === 4) {
-                backButton.classList.add("hidden");
-                nextButton.classList.remove("hidden");
-                backButton.classList.remove("w-1/2");
-                backButton.classList.add("w-full");
-            }
-            // Handle middle steps
-            else {
-                backButton.classList.remove("hidden");
-                nextButton.classList.remove("hidden");
-                backButton.classList.add("w-1/2");
-                nextButton.classList.add("w-1/2");
-                backButton.classList.remove("w-full");
-                nextButton.classList.remove("w-full");
-            }
-        }
-        // Add reset form function
-
-        function resetForm() {
-            // Reset form data
-            formData = {
-                countryCode: "",
-                agentId: "",
-                numberOfDays: "",
-                selectedPackage: null,
-                travelDate: "",
-                addons: false,
-                selectedActivities: [],
-            };
-
-            // Reset form elements
-            document.getElementById("destination").value = "";
-            document.getElementById("agentId").value = "";
-            document.getElementById("days").value = "";
-            document.getElementById("travelDate").value = "";
-            document.getElementById("addons").checked = false;
-
-            // Clear activities and packages
-            document.getElementById("activities-container").innerHTML = "";
-            document.getElementById("packages-container").innerHTML = "";
-
-            // Reset to first step
-            document
-                .getElementById(`step${currentStep}`)
-                .classList.remove("active");
-            currentStep = 1;
-            document.getElementById("step1").classList.add("active");
-
-            // Reset progress
-            updateProgress();
-            updateNavigationButtons();
-
-            // Repopulate destinations
-            populateDestinations();
-        }
-
-
-        async function openpdf() {
-            window.open(`https://pdfi.cultureholidays.com/api/edit/${formData.selectedPackage.PKG_ID}?userid=${formData.agentId}&date=${formData.travelDate}&addonswcost=true&wantaddon=${formData.addons}&token=${formData.token}`);
-        }
-        // Modify the existing nextStep function to update navigation buttons
-
-        async function nextStep() {
-            if (!validateStep()) return;
-
-            document.getElementById(`step${currentStep}`).classList.remove("active");
-            console.log(currentStep);
-            currentStep++;
-
-            if (currentStep > 4) {
-                // Wait for the token to be fetched first
-                await gettoken(formData.agentId);
-
-                console.log("Token received:", formData.token); // Ensure token is logged before opening the PDF
-
-                // Now open the PDF
-                await openpdf();
-
-                // Reset to first step
-                currentStep = 1;
-            }
-
-            document.getElementById(`step${currentStep}`).classList.add("active");
-            updateProgress();
-            updateNavigationButtons();
-
-            if (currentStep === 2) {
-                pagenum = 1;
-                allPackages = [];
-                fetchPackages(pagenum);
-            }
-        }
-
-        // Function to reset the form
-        function resetForm() {
-            // Reset destination
-            document.getElementById("destination").value = "";
-
-            // Reset agent ID
-            document.getElementById("agentId").value = "";
-
-            // Reset days
-            document.getElementById("days").value = "";
-
-            // Reset travel date
-            document.getElementById("travelDate").value = "";
-
-            // Reset addons checkbox
-            document.getElementById("addons").checked = false;
-
-            // Clear any selected packages if applicable
-            const packagesContainer = document.getElementById("packages-container");
-            if (packagesContainer) {
-                packagesContainer.innerHTML = "";
-            }
-
-            // Clear any selected activities if applicable
-            const activitiesContainer = document.getElementById(
-                "activities-container"
+            return (
+              formData.countryCode && formData.agentId
+              //formData.countryCode && formData.agentId && formData.numberOfDays
             );
-            if (activitiesContainer) {
-                activitiesContainer.innerHTML = "";
-            }
+          case 3:
+            formData.travelDate = document.getElementById("travelDate").value;
+            return /^\d{2}\/\d{2}\/\d{4}$/.test(formData.travelDate);
+          default:
+            return true;
+        }
+      }
 
-            // Reset progress bar
-            document.getElementById("progress-bar").style.width = "25%";
-            document.getElementById("step-text").textContent = "Step 1 of 4";
-            document.getElementById("step-title").textContent =
-                "Select Destination";
+      function updateProgress() {
+        const progress = (currentStep / 4) * 100;
+        document.getElementById("progress-bar").style.width = `${progress}%`;
+        document.getElementById(
+          "step-text"
+        ).textContent = `Step ${currentStep} of 4`;
 
-            // Hide all steps except first
-            document.querySelectorAll(".form-step").forEach((step) => {
-                step.classList.remove("active");
-            });
-            document.getElementById("step1").classList.add("active");
+        const titles = [
+          "Select Destination",
+          "Select Package",
+          "Select Date",
+          "Addons",
+        ];
+        document.getElementById("step-title").textContent =
+          titles[currentStep - 1];
+      }
+
+      function submitForm() {
+        formData.addons = document.getElementById("addons").checked;
+        console.log("Final form data:", formData);
+      }
+
+      // Initialize the form
+      populateDestinations();
+
+      function updateNavigationButtons() {
+        const backButton = document.getElementById("backButton");
+        const nextButton = document.getElementById("nextButton");
+
+        // Handle first step
+        if (currentStep === 1) {
+          backButton.classList.add("hidden");
+          nextButton.classList.remove("hidden");
+          nextButton.classList.remove("w-1/2");
+          nextButton.classList.add("w-full");
+        }
+        // Handle last step
+        else if (currentStep === 4) {
+          backButton.classList.add("hidden");
+          nextButton.classList.remove("hidden");
+          backButton.classList.remove("w-1/2");
+          backButton.classList.add("w-full");
+        }
+        // Handle middle steps
+        else {
+          backButton.classList.remove("hidden");
+          nextButton.classList.remove("hidden");
+          backButton.classList.add("w-1/2");
+          nextButton.classList.add("w-1/2");
+          backButton.classList.remove("w-full");
+          nextButton.classList.remove("w-full");
+        }
+      }
+      // Add reset form function
+
+      function resetForm() {
+        // Reset form data
+        formData = {
+          countryCode: "",
+          agentId: "",
+          numberOfDays: "",
+          selectedPackage: null,
+          travelDate: "",
+          addons: false,
+          selectedActivities: [],
+        };
+
+        // Reset form elements
+        document.getElementById("destination").value = "";
+        document.getElementById("agentId").value = "";
+        document.getElementById("days").value = "";
+        document.getElementById("travelDate").value = "";
+        document.getElementById("addons").checked = false;
+
+        // Clear activities and packages
+        document.getElementById("activities-container").innerHTML = "";
+        document.getElementById("packages-container").innerHTML = "";
+
+        // Reset to first step
+        document
+          .getElementById(`step${currentStep}`)
+          .classList.remove("active");
+        currentStep = 1;
+        document.getElementById("step1").classList.add("active");
+
+        // Reset progress
+        updateProgress();
+        updateNavigationButtons();
+
+        // Repopulate destinations
+        populateDestinations();
+      }
+
+      async function openpdf() {
+        window.open(
+          `https://pdfi.cultureholidays.com/api/edit/${formData.selectedPackage.PKG_ID}?userid=${formData.agentId}&date=${formData.travelDate}&addonswcost=true&wantaddon=${formData.addons}&token=${formData.token}`
+        );
+      }
+      // Modify the existing nextStep function to update navigation buttons
+
+      async function nextStep() {
+        if (!validateStep()) return;
+
+        document
+          .getElementById(`step${currentStep}`)
+          .classList.remove("active");
+        console.log(currentStep);
+        currentStep++;
+
+        if (currentStep > 4) {
+          // Wait for the token to be fetched first
+          await gettoken(formData.agentId);
+
+          console.log("Token received:", formData.token); // Ensure token is logged before opening the PDF
+
+          // Now open the PDF
+          await openpdf();
+
+          // Reset to first step
+          currentStep = 1;
         }
 
-        function previousStep() {
-            if (currentStep > 1) {
-                document
-                    .getElementById(`step${currentStep}`)
-                    .classList.remove("active");
-                currentStep--;
-                document.getElementById(`step${currentStep}`).classList.add("active");
-                updateProgress();
-                updateNavigationButtons();
-            }
+        document.getElementById(`step${currentStep}`).classList.add("active");
+        updateProgress();
+        updateNavigationButtons();
+
+        // if (currentStep === 2) {
+        //   pagenum = 1;
+        //   allPackages = [];
+        //   fetchPackages(pagenum);
+        // }
+      }
+
+      function previousStep() {
+        if (currentStep > 1) {
+          document
+            .getElementById(`step${currentStep}`)
+            .classList.remove("active");
+          currentStep--;
+          document.getElementById(`step${currentStep}`).classList.add("active");
+          updateProgress();
+          updateNavigationButtons();
         }
+      }
+
+        document.getElementById("destination").addEventListener("change", function () {
+          pagenum = 1;
+          allPackages = [];
+          const countryCode = this.value;
+          formData.countryCode = countryCode;
+          if (countryCode) {
+            fetchPackages(pagenum);
+          }
+        });
     </script>
-</body>
-
+  </body>
 </html>
