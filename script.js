@@ -542,7 +542,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       document.getElementById(submitId).addEventListener("click", () => {
-          let agentID = document.getElementById(agentInputId).value;
+          let agentID = 'CHAGT0001000024390';
           let selectedDate = document.getElementById(datePickerId).value;
           let amount = document.getElementById(amountInputId).value;
           let includeRateTable = document.getElementById(checkboxId).checked;
